@@ -7,7 +7,7 @@
 package com.khubla.telnet.shell.basic.command;
 
 import com.khubla.telnet.TelnetException;
-import com.khubla.telnet.command.AbstractCommand;
+import com.khubla.telnet.shell.command.AbstractCommand;
 
 public class QuitCommand extends AbstractCommand {
    private final static String names[] = { "quit" };

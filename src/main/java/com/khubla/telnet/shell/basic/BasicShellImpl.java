@@ -11,9 +11,9 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.command.TelnetCommandRegistry;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.shell.CommandOrientedShellImpl;
+import com.khubla.telnet.shell.command.CommandOrientedShellImpl;
+import com.khubla.telnet.shell.command.TelnetCommandRegistry;
 
 public class BasicShellImpl extends CommandOrientedShellImpl {
    /**

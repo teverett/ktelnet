@@ -4,7 +4,7 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.command;
+package com.khubla.telnet.shell.command;
 
 import com.khubla.telnet.TelnetException;
 

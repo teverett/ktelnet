@@ -4,7 +4,7 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.shell;
+package com.khubla.telnet.shell.command;
 
 import java.io.IOException;
 
@@ -12,9 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.TelnetException;
-import com.khubla.telnet.command.TelnetCommand;
-import com.khubla.telnet.command.TelnetCommandRegistry;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.shell.AbstractShellImpl;
 
 public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
