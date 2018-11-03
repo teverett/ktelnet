@@ -51,6 +51,15 @@ public class NVT implements Flushable, Closeable {
    public static final int IAC_CODE_ENVVAR = 36;
    public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
+    * keys
+    */
+   public static final int KEY_BS = 0x08;
+   public static final int KEY_DEL = 0x7f;
+   public static final int KEY_ESC = 0x1b;
+   public static final int KEY_CR = 0x0d;
+   public static final int KEY_LF = 0x0a;
+   public static final int KEY_TAB = 0x09;
+   /**
     * subneg
     */
    /**
@@ -157,14 +166,18 @@ public class NVT implements Flushable, Closeable {
       while (cont) {
          prevbyte = b;
          b = readByte();
-         if ((b == 0x0a) && (prevbyte == 0x0d)) {
+         if ((b == KEY_LF) && (prevbyte == KEY_CR)) {
             cont = false;
-         } else if (b == 0x08) {
+         } else if ((b == KEY_BS) || (b == KEY_DEL)) {
             // backspace
             String str = baos.toString(charset.name());
             baos = new ByteArrayOutputStream();
             str = str.substring(0, str.length() - 1);
             baos.write(str.getBytes(), 0, str.length());
+         } else if (b == KEY_ESC) {
+            logger.info("ESC pressed");
+         } else if (b == KEY_TAB) {
+            logger.info("TAB pressed");
          } else {
             baos.write(b);
          }
