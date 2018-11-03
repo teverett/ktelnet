@@ -160,6 +160,27 @@ public class NVT implements Flushable, Closeable {
       dataOutputStream.flush();
    }
 
+   void IAC_echo(int cmd) {
+      switch (cmd) {
+         case IAC_COMMAND_DO:
+            logger.info("Received IAC DO echo");
+            setEcho(true);
+            break;
+         case IAC_COMMAND_DONT:
+            logger.info("Received IAC DONT echo");
+            setEcho(false);
+            break;
+         case IAC_COMMAND_WILL:
+            logger.info("Received IAC WILL echo");
+            break;
+         case IAC_COMMAND_WONT:
+            logger.info("Received IAC WONT echo");
+            break;
+         default:
+            logger.info("Received Unknown IAC Command :" + cmd);
+      }
+   }
+
    public boolean isAutoflush() {
       return autoflush;
    }
@@ -170,25 +191,21 @@ public class NVT implements Flushable, Closeable {
 
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
-      switch (cmd) {
-         case IAC_COMMAND_DO:
-            int option = dataInputStream.read();
-            logger.info("Received IAC DO:" + option);
-            break;
-         case IAC_COMMAND_DONT:
-            option = dataInputStream.read();
-            logger.info("Received IAC DONT:" + option);
-            break;
-         case IAC_COMMAND_WILL:
-            option = dataInputStream.read();
-            logger.info("Received IAC WILL:" + option);
-            break;
-         case IAC_COMMAND_WONT:
-            option = dataInputStream.read();
-            logger.info("Received IAC WONT:" + option);
+      final int option = dataInputStream.read();
+      if ((cmd == IAC_COMMAND_DO) || (cmd == IAC_COMMAND_DONT) || (cmd == IAC_COMMAND_WILL) || (cmd == IAC_COMMAND_WONT)) {
+         processIACCommand(cmd, option);
+      } else {
+         logger.info("No handler for AIC command :" + cmd);
+      }
+   }
+
+   private void processIACCommand(int cmd, int option) throws IOException {
+      switch (option) {
+         case IAC_CODE_ECHO:
+            IAC_echo(cmd);
             break;
          default:
-            logger.info("Received Unknown IAC Command :" + cmd);
+            logger.info("No handler for AIC option :" + option);
       }
    }
 
