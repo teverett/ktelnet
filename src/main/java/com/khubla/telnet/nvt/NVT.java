@@ -78,7 +78,7 @@ public class NVT implements Flushable, Closeable {
    /**
     * charset
     */
-   private final Charset charset = Charset.forName("UTF-8");
+   private final Charset charsetUTF8 = Charset.forName("UTF-8");
    /**
     * socket
     */
@@ -171,7 +171,7 @@ public class NVT implements Flushable, Closeable {
             cont = false;
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
             // backspace
-            String str = baos.toString(charset.name());
+            String str = baos.toString(charsetUTF8.name());
             baos = new ByteArrayOutputStream();
             str = str.substring(0, str.length() - 1);
             baos.write(str.getBytes(), 0, str.length());
@@ -183,7 +183,7 @@ public class NVT implements Flushable, Closeable {
             baos.write(b);
          }
       }
-      return baos.toString(charset.name()).trim();
+      return baos.toString(charsetUTF8.name()).trim();
    }
 
    public void setAutoflush(boolean autoflush) {
@@ -191,7 +191,7 @@ public class NVT implements Flushable, Closeable {
    }
 
    public void write(String str) throws IOException {
-      dataOutputStream.write(str.getBytes(charset), 0, str.length());
+      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
       if (isAutoflush()) {
          flush();
       }
@@ -207,8 +207,8 @@ public class NVT implements Flushable, Closeable {
    }
 
    public void writeln(String str) throws IOException {
-      dataOutputStream.write(str.getBytes(charset), 0, str.length());
-      dataOutputStream.write(EOL.getBytes(charset), 0, EOL.length());
+      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
+      dataOutputStream.write(EOL.getBytes(charsetUTF8), 0, EOL.length());
       if (isAutoflush()) {
          flush();
       }
