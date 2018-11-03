@@ -14,9 +14,14 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.khubla.telnet.nvt.iac.EchoIAICCommandImpl;
+import com.khubla.telnet.nvt.iac.SGIACCommandImpl;
+import com.khubla.telnet.nvt.iac.TermtypeIACCommandImpl;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -98,9 +103,6 @@ public class NVT implements Flushable, Closeable {
    public static final int KEY_ESC = 27;
    public static final int KEY_DEL = 127;
    /**
-    * subneg
-    */
-   /**
     * EOL
     */
    public final static String EOL = new String("\r\n");
@@ -128,12 +130,25 @@ public class NVT implements Flushable, Closeable {
     * echo
     */
    private boolean echo = true;
+   /**
+    * IAC Command Handlers
+    */
+   private final HashMap<Integer, IACCommand> iacCommandHandlers = new HashMap<Integer, IACCommand>();
 
    public NVT(Socket socket) throws IOException {
       super();
       this.socket = socket;
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
+      /*
+       * IAC commands
+       */
+      iacCommandHandlers.put(IAC_CODE_ECHO, new EchoIAICCommandImpl());
+      iacCommandHandlers.put(IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandImpl());
+      iacCommandHandlers.put(IAC_CODE_TERMTYPE, new TermtypeIACCommandImpl());
+      /*
+       * send config
+       */
       sendConfigParameters();
    }
 
@@ -161,70 +176,6 @@ public class NVT implements Flushable, Closeable {
       dataOutputStream.flush();
    }
 
-   void IAC_Echo(int cmd) throws IOException {
-      switch (cmd) {
-         case IAC_COMMAND_DO:
-            logger.info("Received IAC DO echo");
-            setEcho(true);
-            sendIACCommand(IAC_COMMAND_WILL, IAC_CODE_ECHO);
-            break;
-         case IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT echo");
-            setEcho(false);
-            sendIACCommand(IAC_COMMAND_WONT, IAC_CODE_ECHO);
-            break;
-         case IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL echo");
-            break;
-         case IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT echo");
-            break;
-         default:
-            logger.info("Received Unknown IAC Command :" + cmd);
-      }
-   }
-
-   void IAC_SuppressGoahead(int cmd) throws IOException {
-      switch (cmd) {
-         case IAC_COMMAND_DO:
-            logger.info("Received IAC DO SG");
-            sendIACCommand(IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
-            break;
-         case IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT SG");
-            // we always supress goahead!
-            sendIACCommand(IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
-            break;
-         case IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL SG");
-            break;
-         case IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT SG");
-            break;
-         default:
-            logger.info("Received Unknown IAC Command :" + cmd);
-      }
-   }
-
-   void IAC_Termtype(int cmd) {
-      switch (cmd) {
-         case IAC_COMMAND_DO:
-            logger.info("Received IAC DO Termtype");
-            break;
-         case IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT Termtype");
-            break;
-         case IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL Termtype");
-            break;
-         case IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT Termtype");
-            break;
-         default:
-            logger.info("Received Unknown IAC Command :" + cmd);
-      }
-   }
-
    public boolean isAutoflush() {
       return autoflush;
    }
@@ -244,18 +195,11 @@ public class NVT implements Flushable, Closeable {
    }
 
    private void processIACCommand(int cmd, int option) throws IOException {
-      switch (option) {
-         case IAC_CODE_ECHO:
-            IAC_Echo(cmd);
-            break;
-         case IAC_CODE_SUPPRESS_GOAHEAD:
-            IAC_SuppressGoahead(cmd);
-            break;
-         case IAC_CODE_TERMTYPE:
-            IAC_Termtype(cmd);
-            break;
-         default:
-            logger.info("No handler for AIC option :" + option);
+      final IACCommand iacCommand = iacCommandHandlers.get(option);
+      if (null != iacCommand) {
+         iacCommand.process(this, cmd);
+      } else {
+         logger.info("No handler for AIC option :" + option);
       }
    }
 
@@ -311,7 +255,7 @@ public class NVT implements Flushable, Closeable {
       }
    }
 
-   private void sendIACCommand(int command, int option) throws IOException {
+   public void sendIACCommand(int command, int option) throws IOException {
       writeBytes(NVT.IAC_IAC, command, option);
    }
 
