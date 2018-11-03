@@ -1,0 +1,10 @@
+/**/*.log
+/**/.DS_Store
+/**/.project
+/**/.classpath
+/**/.settings/
+/**/target
+/**/test-output
+/dependency-reduced-pom.xml
+/weedwars.db.mv.db
+*.db
