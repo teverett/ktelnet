@@ -118,22 +118,22 @@ public class NVT implements Flushable, Closeable {
       switch (cmd) {
          case IAC_COMMAND_DO:
             int option = dataInputStream.read();
-            logger.info("IAC DO:" + option);
+            logger.info("Received IAC DO:" + option);
             break;
          case IAC_COMMAND_DONT:
             option = dataInputStream.read();
-            logger.info("IAC DONT:" + option);
+            logger.info("Received IAC DONT:" + option);
             break;
          case IAC_COMMAND_WILL:
             option = dataInputStream.read();
-            logger.info("IAC WILL:" + option);
+            logger.info("Received IAC WILL:" + option);
             break;
          case IAC_COMMAND_WONT:
             option = dataInputStream.read();
-            logger.info("IAC WONT:" + option);
+            logger.info("Received IAC WONT:" + option);
             break;
          default:
-            logger.info("Unknown IAC Command :" + cmd);
+            logger.info("Received Unknown IAC Command :" + cmd);
       }
    }
 
