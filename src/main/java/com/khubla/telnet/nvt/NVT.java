@@ -44,6 +44,7 @@ public class NVT implements Flushable, Closeable {
    public static final int IAC_CODE_STATUS = 5;
    public static final int IAC_CODE_MARK = 6;
    public static final int IAC_CODE_TERMTYPE = 24;
+   public static final int IAC_CODE_EOR = 25;
    public static final int IAC_CODE_WINSIZE = 31;
    public static final int IAC_CODE_TERMSPEED = 32;
    public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
