@@ -23,10 +23,14 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
    /**
     * hello message
     */
-   private final String helloMessge = "khubla.com Telnet server";
+   private String helloMessge = "khubla.com Telnet server";
 
    public BasicShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry) {
       super(nvt, telnetCommandRegistry);
+   }
+
+   public String getHelloMessge() {
+      return helloMessge;
    }
 
    @Override
@@ -37,5 +41,9 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
 
    private void sendConfigParameters() throws IOException {
       getNvt().writeBytes(NVT.IAC, NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_ECHO);
+   }
+
+   public void setHelloMessge(String helloMessge) {
+      this.helloMessge = helloMessge;
    }
 }

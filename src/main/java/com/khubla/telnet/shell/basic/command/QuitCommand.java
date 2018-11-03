@@ -6,14 +6,17 @@
  */
 package com.khubla.telnet.shell.basic.command;
 
+import java.util.HashMap;
+
 import com.khubla.telnet.TelnetException;
+import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.AbstractCommand;
 
 public class QuitCommand extends AbstractCommand {
    private final static String names[] = { "quit" };
 
    @Override
-   public boolean execute(String line) throws TelnetException {
+   public boolean execute(NVT nvt, String line, HashMap<String, Object> sessionParameters) throws TelnetException {
       /*
        * don't continue
        */

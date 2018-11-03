@@ -6,10 +6,13 @@
  */
 package com.khubla.telnet.shell.command;
 
+import java.util.HashMap;
+
 import com.khubla.telnet.TelnetException;
+import com.khubla.telnet.nvt.NVT;
 
 public interface TelnetCommand {
-   boolean execute(String line) throws TelnetException;
+   boolean execute(NVT nvt, String line, HashMap<String, Object> sessionParameters) throws TelnetException;
 
    String[] getNames();
 }

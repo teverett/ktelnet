@@ -7,6 +7,7 @@
 package com.khubla.telnet.shell.command;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,10 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
     * commands
     */
    private final TelnetCommandRegistry telnetCommandRegistry;
+   /**
+    * session parameters
+    */
+   private final HashMap<String, Object> parameters = new HashMap<String, Object>();
 
    public CommandOrientedShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry) {
       super(nvt);
@@ -49,7 +54,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                   /*
                    * process
                    */
-                  go = telnetCommand.execute(inputLine);
+                  go = telnetCommand.execute(getNvt(), inputLine, parameters);
                } else {
                   getNvt().writeln("Unknown :" + inputLine);
                }
