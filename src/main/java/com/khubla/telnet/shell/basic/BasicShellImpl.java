@@ -35,12 +35,7 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
 
    @Override
    protected void onConnect() throws IOException {
-      sendConfigParameters();
       getNvt().writeln(helloMessge);
-   }
-
-   private void sendConfigParameters() throws IOException {
-      getNvt().writeBytes(NVT.IAC, NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_ECHO);
    }
 
    public void setHelloMessge(String helloMessge) {

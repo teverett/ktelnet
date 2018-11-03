@@ -24,25 +24,49 @@ public class NVT implements Flushable, Closeable {
     */
    static final Logger logger = LoggerFactory.getLogger(NVT.class);
    /**
-    * IAC
+    * IAC Commands (RFC 854)
     */
-   public static final int IAC = 255;
-   /**
-    * Commands
-    */
-   public static final int IAC_COMMAND_WILL = 251;
-   public static final int IAC_COMMAND_WONT = 252;
-   public static final int IAC_COMMAND_DO = 253;
-   public static final int IAC_COMMAND_DONT = 254;
-   public static final int IAC_COMMAND_SB = 250;
+   // End of subnegotiation parameters.
    public static final int IAC_COMMAND_SE = 240;
+   // No operation.
+   public static final int IAC_COMMAND_NOP = 241;
+   // The data stream portion of a Synch
+   public static final int IAC_COMMAND_DATAMARK = 242;
+   // NVT character BRK.
+   public static final int IAC_COMMAND_BREAK = 243;
+   // interrupt process
+   public static final int IAC_COMMAND_IP = 244;
+   // abort output
+   public static final int IAC_COMMAND_AO = 245;
+   // are you there
+   public static final int IAC_COMMAND_AYT = 246;
+   // erase character
+   public static final int IAC_COMMAND_EC = 247;
+   // erase line
+   public static final int IAC_COMMAND_EL = 248;
+   // go ahead
+   public static final int IAC_COMMAND_GA = 249;
+   // Indicates that what follows is subnegotiation of the indicated option.
+   public static final int IAC_COMMAND_SB = 250;
+   // Indicates the desire to begin performing, or confirmation that you are now performing, the indicated option.
+   public static final int IAC_COMMAND_WILL = 251;
+   // Indicates the refusal to perform, or continue performing, the indicated option.
+   public static final int IAC_COMMAND_WONT = 252;
+   // Indicates the request that the other party perform, o confirmation that you are expecting the other party to perform, the indicated option.
+   public static final int IAC_COMMAND_DO = 253;
+   // Indicates the demand that the other party stop performing or confirmation that you are no longer expecting the other party to perform, the indicated option.
+   public static final int IAC_COMMAND_DONT = 254;
+   // IAC
+   public static final int IAC_IAC = 255;
    /**
     * Codes
     */
+   // RFC 857
    public static final int IAC_CODE_ECHO = 1;
    public static final int IAC_CODE_SUPPRESS_GOAHEAD = 3;
    public static final int IAC_CODE_STATUS = 5;
    public static final int IAC_CODE_MARK = 6;
+   // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
    public static final int IAC_CODE_EOR = 25;
    public static final int IAC_CODE_WINSIZE = 31;
@@ -52,14 +76,26 @@ public class NVT implements Flushable, Closeable {
    public static final int IAC_CODE_ENVVAR = 36;
    public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
-    * keys
+    * keys (RFC 854)
     */
-   public static final int KEY_BS = 0x08;
-   public static final int KEY_DEL = 0x7f;
-   public static final int KEY_ESC = 0x1b;
-   public static final int KEY_CR = 0x0d;
-   public static final int KEY_LF = 0x0a;
-   public static final int KEY_TAB = 0x09;
+   // No Operation
+   public static final int KEY_NULL = 0;
+   // Produces an audible or visible signal (which does NOT move the print head).
+   public static final int KEY_BEL = 7;
+   // Moves the print head one character position towards the left margin.
+   public static final int KEY_BS = 8;
+   // Moves the printer to the next horizontal tab stop. It remains unspecified how either party determines or establishes where such tab stops are located.
+   public static final int KEY_HT = 9;
+   // Moves the printer to the next print line, keeping the same horizontal position.
+   public static final int KEY_LF = 10;
+   // Moves the printer to the next vertical tab stop. It remains unspecified how either party determines or establishes where such tab stops are located.
+   public static final int KEY_VT = 11;
+   // Moves the printer to the top of the next page, keeping the same horizontal position.
+   public static final int KEY_FF = 12;
+   // Moves the printer to the left margin of the current line.
+   public static final int KEY_CR = 13;
+   public static final int KEY_ESC = 27;
+   public static final int KEY_DEL = 127;
    /**
     * subneg
     */
@@ -87,12 +123,17 @@ public class NVT implements Flushable, Closeable {
     * autoflush
     */
    private boolean autoflush = true;
+   /**
+    * echo
+    */
+   private boolean echo = true;
 
    public NVT(Socket socket) throws IOException {
       super();
       this.socket = socket;
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
+      sendConfigParameters();
    }
 
    @Override
@@ -123,6 +164,10 @@ public class NVT implements Flushable, Closeable {
       return autoflush;
    }
 
+   public boolean isEcho() {
+      return echo;
+   }
+
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
       switch (cmd) {
@@ -149,11 +194,13 @@ public class NVT implements Flushable, Closeable {
 
    public int readByte() throws IOException {
       final int c = dataInputStream.read();
-      if (c == IAC) {
+      if (c == IAC_IAC) {
          processIAC();
          return readByte();
       } else {
-         dataOutputStream.write(c);
+         if (isEcho()) {
+            dataOutputStream.write(c);
+         }
          return c;
       }
    }
@@ -177,7 +224,7 @@ public class NVT implements Flushable, Closeable {
             baos.write(str.getBytes(), 0, str.length());
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
-         } else if (b == KEY_TAB) {
+         } else if (b == KEY_HT) {
             logger.info("TAB pressed");
          } else {
             baos.write(b);
@@ -186,8 +233,20 @@ public class NVT implements Flushable, Closeable {
       return baos.toString(charsetUTF8.name()).trim();
    }
 
+   private void sendConfigParameters() throws IOException {
+      if (isEcho()) {
+         writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_ECHO);
+      } else {
+         writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_WONT, NVT.IAC_CODE_ECHO);
+      }
+   }
+
    public void setAutoflush(boolean autoflush) {
       this.autoflush = autoflush;
+   }
+
+   public void setEcho(boolean echo) {
+      this.echo = echo;
    }
 
    public void write(String str) throws IOException {
