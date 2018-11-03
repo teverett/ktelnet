@@ -49,6 +49,7 @@ public class NVT implements Flushable, Closeable {
    public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
    public static final int IAC_CODE_LINEMODE = 34;
    public static final int IAC_CODE_ENVVAR = 36;
+   public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
     * subneg
     */
@@ -116,19 +117,23 @@ public class NVT implements Flushable, Closeable {
       final int cmd = dataInputStream.read();
       switch (cmd) {
          case IAC_COMMAND_DO:
-            dataInputStream.read();
+            int option = dataInputStream.read();
+            logger.info("IAC DO:" + option);
             break;
          case IAC_COMMAND_DONT:
-            dataInputStream.read();
+            option = dataInputStream.read();
+            logger.info("IAC DONT:" + option);
             break;
          case IAC_COMMAND_WILL:
-            dataInputStream.read();
+            option = dataInputStream.read();
+            logger.info("IAC WILL:" + option);
             break;
          case IAC_COMMAND_WONT:
-            dataInputStream.read();
+            option = dataInputStream.read();
+            logger.info("IAC WONT:" + option);
             break;
          default:
-            System.out.println("Unknown IAC Command :" + cmd);
+            logger.info("Unknown IAC Command :" + cmd);
       }
    }
 
