@@ -1,14 +1,22 @@
-/*
- * Copyright (C) khubla.com - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Tom Everett <tom@khubla.com>, 2018
- */
-package com.khubla.telnet;
 
-import com.khubla.telnet.shell.basic.BasicShellFactoryImpl;
 
-public class Main {
+# kTelnet
+
+A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports extending the Telnet command set via a "shell" abstraction. Support for alternative terminal types such a vt200 and tn3270 is planned.
+
+# Maven Coordinates
+
+```
+<groupId>com.khubla.ktelnet</groupId>
+<artifactId>ktelnet</artifactId>
+<packaging>jar</packaging>
+```
+
+# Using kTelnet
+
+A simple example using the default Telnet implementation:
+
+<pre>
    private final static int THREADS = 20;
    private final static int PORT = 2121;
 
@@ -33,6 +41,6 @@ public class Main {
          e.printStackTrace();
          System.exit(0);
       }
-      System.exit(1);
-   }
-}
+</pre>
+
+
