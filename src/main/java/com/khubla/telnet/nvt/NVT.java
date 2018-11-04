@@ -303,6 +303,10 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ECHO);
       /*
+       * ask to linemode
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
+      /*
        * tell other end not to echo
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_ECHO);
@@ -318,7 +322,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * i accept environment variables
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

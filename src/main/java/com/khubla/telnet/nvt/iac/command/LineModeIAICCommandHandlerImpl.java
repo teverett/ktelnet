@@ -93,14 +93,14 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO linemode");
+            // we don't do linemode
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_LINEMODE);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT linemode");
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL linemode");
-            // we don't do linemode
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_LINEMODE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT linemode");
