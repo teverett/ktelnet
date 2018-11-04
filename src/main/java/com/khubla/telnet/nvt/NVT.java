@@ -265,6 +265,10 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
       /**
+       * i dont provide status
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_STATUS);
+      /**
        * echo
        */
       if (isEcho()) {
@@ -279,7 +283,7 @@ public class NVT implements Flushable, Closeable {
          /*
           * this is not a game of who-the-fuck-are-you! - Eddie Izzard
           */
-         sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_AUTHENTICATION);
+         // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_AUTHENTICATION);
       }
    }
 

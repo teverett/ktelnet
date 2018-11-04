@@ -18,6 +18,7 @@ public interface IACHandler {
    public static final int IAC_CODE_ECHO = 1;
    // RFC 858
    public static final int IAC_CODE_SUPPRESS_GOAHEAD = 3;
+   // RFC 859
    public static final int IAC_CODE_STATUS = 5;
    public static final int IAC_CODE_MARK = 6;
    // RFC 1091
