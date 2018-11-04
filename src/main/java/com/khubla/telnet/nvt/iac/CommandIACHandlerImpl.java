@@ -19,6 +19,7 @@ import com.khubla.telnet.nvt.iac.command.AuthenticationIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EORIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.EnvvarIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.LineModeIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.MarkIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.RemoteFlowControlIAICCommandHandlerImpl;
@@ -56,6 +57,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(IACHandler.IAC_CODE_BINARY, new BinaryIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_EOR, new EORIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_3270_REGIME, new TN3270RegimeIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_ENVVAR, new EnvvarIAICCommandHandlerImpl());
    }
 
    @Override

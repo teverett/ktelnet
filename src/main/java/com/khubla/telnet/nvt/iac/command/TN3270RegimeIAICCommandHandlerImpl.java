@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -31,6 +32,8 @@ public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandle
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL 3270-regime");
+            // we don't do 3270 Regime
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_3270_REGIME);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270-regime");

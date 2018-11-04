@@ -25,7 +25,7 @@ public interface IACHandler {
    public static final int IAC_CODE_TERMTYPE = 24;
    // RFC 885
    public static final int IAC_CODE_EOR = 25;
-   //
+   // RFC 1041
    public static final int IAC_CODE_3270_REGIME = 29;
    // RFC 1073
    public static final int IAC_CODE_WINSIZE = 31;
@@ -35,6 +35,7 @@ public interface IACHandler {
    public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
    // RFC 1184
    public static final int IAC_CODE_LINEMODE = 34;
+   // RFC 1408
    public static final int IAC_CODE_ENVVAR = 36;
    // RFC 1416, RFC 2941
    public static final int IAC_CODE_AUTHENTICATION = 37;

@@ -260,15 +260,15 @@ public class NVT implements Flushable, Closeable {
    }
 
    private void sendConfigParameters() throws IOException {
-      /**
+      /*
        * i can talk binary
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
-      /**
+      /*
        * i dont provide status
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_STATUS);
-      /**
+      /*
        * echo
        */
       if (isEcho()) {
@@ -276,7 +276,7 @@ public class NVT implements Flushable, Closeable {
       } else {
          sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_ECHO);
       }
-      /**
+      /*
        * auth
        */
       if (null != getAuthenticationHandler()) {
@@ -285,6 +285,10 @@ public class NVT implements Flushable, Closeable {
           */
          // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_AUTHENTICATION);
       }
+      /*
+       * i accept environment variables
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
