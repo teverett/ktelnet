@@ -23,6 +23,7 @@ public interface IACHandler {
    public static final int IAC_CODE_MARK = 6;
    // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
+   // RFC 885
    public static final int IAC_CODE_EOR = 25;
    // RFC 1073
    public static final int IAC_CODE_WINSIZE = 31;
