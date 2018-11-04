@@ -205,6 +205,9 @@ public class NVT implements Flushable, Closeable {
       }
    }
 
+   /**
+    * read a byte. process IAC if found. echo if appropriate
+    */
    public int readByte() throws IOException {
       final int c = dataInputStream.read();
       if (c == IACCommandHandler.IAC_IAC) {
@@ -213,22 +216,32 @@ public class NVT implements Flushable, Closeable {
       } else {
          if (isEcho()) {
             if (isPrintable(c)) {
-               dataOutputStream.write(c);
+               write(c);
             }
          }
          return c;
       }
    }
 
+   /**
+    * read a line
+    */
    public String readln() throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;
       while (cont) {
          final int b = readByte();
          if (b == KEY_LF) {
-            // cont = false;
+            /*
+             * echo back the LF
+             */
+            if (isEcho()) {
+               // write(b);
+            }
          } else if (b == KEY_CR) {
-            // see RFC 854
+            /*
+             * it's a CR
+             */
             cont = false;
             writeEOL();
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
@@ -243,7 +256,7 @@ public class NVT implements Flushable, Closeable {
             }
             // echo the BS/DEL back
             if (isEcho()) {
-               dataOutputStream.write(b);
+               write(b);
             }
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
@@ -280,19 +293,19 @@ public class NVT implements Flushable, Closeable {
       /*
        * i can talk binary
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
       /*
        * i dont provide status
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_STATUS);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_STATUS);
       /*
        * echo
        */
-      if (isEcho()) {
-         sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ECHO);
-      } else {
-         sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_ECHO);
-      }
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ECHO);
+      /*
+       * tell other end not to echo
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_ECHO);
       /*
        * auth
        */
@@ -339,6 +352,13 @@ public class NVT implements Flushable, Closeable {
 
    public void setTermY(short termY) {
       this.termY = termY;
+   }
+
+   public void write(int c) throws IOException {
+      dataOutputStream.write(c);
+      if (isAutoflush()) {
+         flush();
+      }
    }
 
    public void write(String str) throws IOException {
