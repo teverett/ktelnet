@@ -30,8 +30,8 @@ public class RemoteFlowControlIAICCommandHandlerImpl extends AbstractIACCommandH
             break;
          case NVT.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL remoteflowcontrol");
-            // great, please do send it along
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_REMOTE_FLOW_CONTROL);
+            // we dont do flow control
+            nvt.sendIACCommand(NVT.IAC_COMMAND_DONT, NVT.IAC_CODE_REMOTE_FLOW_CONTROL);
             break;
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT remoteflowcontrol");

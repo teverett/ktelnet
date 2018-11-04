@@ -30,8 +30,8 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case NVT.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL linemode");
-            // great, please do send it along
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_LINEMODE);
+            // we dont do linemode
+            nvt.sendIACCommand(NVT.IAC_COMMAND_DONT, NVT.IAC_CODE_LINEMODE);
             break;
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT linemode");
