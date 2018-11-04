@@ -1,4 +1,4 @@
-
+[![Travis](https://travis-ci.org/teverett/ktelnet.svg?branch=master)](https://travis-ci.org/teverett/ktelnet)
 
 # kTelnet
 
