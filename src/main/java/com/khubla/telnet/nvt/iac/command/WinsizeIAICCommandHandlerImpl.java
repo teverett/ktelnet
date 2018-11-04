@@ -39,6 +39,19 @@ public class WinsizeIAICCommandHandlerImpl implements IACCommandHandler {
             break;
          case NVT.IAC_COMMAND_SB:
             logger.info("Received IAC SB winsize");
+            final short x = nvt.readShort();
+            final short y = nvt.readShort();
+            nvt.setTermX(x);
+            nvt.setTermY(y);
+            final int nextIACIAC = nvt.readRawByte();
+            if (nextIACIAC == NVT.IAC_IAC) {
+               final int nextIAC = nvt.readRawByte();
+               if (nextIAC != NVT.IAC_COMMAND_SE) {
+                  logger.info("Expected IAC:" + NVT.IAC_COMMAND_SE);
+               }
+            } else {
+               logger.info("Expected: " + NVT.IAC_IAC);
+            }
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

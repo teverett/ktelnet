@@ -73,6 +73,7 @@ public class NVT implements Flushable, Closeable {
    // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
    public static final int IAC_CODE_EOR = 25;
+   // RFC 1073
    public static final int IAC_CODE_WINSIZE = 31;
    public static final int IAC_CODE_TERMSPEED = 32;
    public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
@@ -132,6 +133,14 @@ public class NVT implements Flushable, Closeable {
     * IAC handlers
     */
    private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
+   /**
+    * term x
+    */
+   private short termX;
+   /**
+    * term y
+    */
+   private short termY;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -174,6 +183,14 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
+   }
+
+   public short getTermX() {
+      return termX;
+   }
+
+   public short getTermY() {
+      return termY;
    }
 
    public boolean isAutoflush() {
@@ -241,6 +258,14 @@ public class NVT implements Flushable, Closeable {
       return baos.toString(charsetUTF8.name()).trim();
    }
 
+   public int readRawByte() throws IOException {
+      return dataInputStream.read();
+   }
+
+   public short readShort() throws IOException {
+      return dataInputStream.readShort();
+   }
+
    private void sendConfigParameters() throws IOException {
       /**
        * echo
@@ -263,6 +288,14 @@ public class NVT implements Flushable, Closeable {
 
    public void setEcho(boolean echo) {
       this.echo = echo;
+   }
+
+   public void setTermX(short termX) {
+      this.termX = termX;
+   }
+
+   public void setTermY(short termY) {
+      this.termY = termY;
    }
 
    public void write(String str) throws IOException {
