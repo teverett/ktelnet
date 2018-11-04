@@ -219,11 +219,15 @@ public class NVT implements Flushable, Closeable {
          if ((b == KEY_LF) && (prevbyte == KEY_CR)) {
             cont = false;
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
-            // backspace
+            /*
+             * backspace and delete keys
+             */
             String str = baos.toString(charsetUTF8.name());
             baos = new ByteArrayOutputStream();
             str = str.substring(0, str.length() - 1);
-            baos.write(str.getBytes(), 0, str.length());
+            if (str.length() > 0) {
+               baos.write(str.getBytes(), 0, str.length());
+            }
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
          } else if (b == KEY_HT) {
