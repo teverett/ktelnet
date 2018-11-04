@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.iac.command.AuthenticationIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.LineModeIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.MarkIAICCommandHandlerImpl;
@@ -48,6 +49,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(NVT.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_LINEMODE, new LineModeIAICCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_AUTHENTICATION, new AuthenticationIAICCommandHandlerImpl());
    }
 
    @Override

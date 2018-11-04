@@ -82,6 +82,7 @@ public class NVT implements Flushable, Closeable {
    // RFC 1184
    public static final int IAC_CODE_LINEMODE = 34;
    public static final int IAC_CODE_ENVVAR = 36;
+   // RFC 1416
    public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
     * keys (RFC 854)
@@ -152,9 +153,18 @@ public class NVT implements Flushable, Closeable {
     * term speed
     */
    private String termSpeed;
+   /**
+    * auth handler
+    */
+   private final AuthenticationHandler authenticationHandler;
 
    public NVT(Socket socket) throws IOException {
+      this(socket, null);
+   }
+
+   public NVT(Socket socket, AuthenticationHandler authenticationHandler) throws IOException {
       super();
+      this.authenticationHandler = authenticationHandler;
       this.socket = socket;
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -194,6 +204,10 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
+   }
+
+   public AuthenticationHandler getAuthenticationHandler() {
+      return authenticationHandler;
    }
 
    public String getTermSpeed() {
@@ -303,6 +317,15 @@ public class NVT implements Flushable, Closeable {
          sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_ECHO);
       } else {
          sendIACCommand(NVT.IAC_COMMAND_WONT, NVT.IAC_CODE_ECHO);
+      }
+      /**
+       * auth
+       */
+      if (null != getAuthenticationHandler()) {
+         /*
+          * this is not a game of who-the-fuck-are-you! - Eddie Izzard
+          */
+         sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_AUTHENTICATION);
       }
    }
 
