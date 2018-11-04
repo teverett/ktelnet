@@ -40,16 +40,12 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case NVT.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termtype");
-            final int zero = nvt.readRawByte();
-            if (0 == zero) {
-               final String termtype = nvt.readRawString(NVT.IAC_IAC);
-               nvt.setTermtype(termtype);
-               final int nextIAC = nvt.readRawByte();
-               if (nextIAC != NVT.IAC_COMMAND_SE) {
-                  logger.info("Expected IAC:" + NVT.IAC_COMMAND_SE);
-               }
+            final byte[] sn = readSubnegotiation(nvt);
+            if (sn[0] == 0) {
+               final String termType = readString(sn, 1, sn.length);
+               nvt.setTermtype(termType);
             } else {
-               logger.info("Expected 0");
+               // send the termtype
             }
             break;
          default:
