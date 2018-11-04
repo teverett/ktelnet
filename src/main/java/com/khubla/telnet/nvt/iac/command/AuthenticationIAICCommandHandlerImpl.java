@@ -11,6 +11,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -29,20 +31,20 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case NVT.IAC_COMMAND_DO:
+         case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO auth");
-            nvt.sendIACCommand(NVT.IAC_COMMAND_WONT, NVT.IAC_CODE_AUTHENTICATION);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_AUTHENTICATION);
             break;
-         case NVT.IAC_COMMAND_DONT:
+         case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT auth");
             break;
-         case NVT.IAC_COMMAND_WILL:
+         case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL auth");
             break;
-         case NVT.IAC_COMMAND_WONT:
+         case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT auth");
             break;
-         case NVT.IAC_COMMAND_SB:
+         case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB auth");
             break;
          default:

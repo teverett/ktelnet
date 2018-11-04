@@ -12,39 +12,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+public class BinaryIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
+   static final Logger logger = LoggerFactory.getLogger(BinaryIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
-            logger.info("Received IAC DO winsize");
+            logger.info("Received IAC DO binary");
+            nvt.setBinaryMode(true);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT winsize");
+            logger.info("Received IAC DONT binary");
+            nvt.setBinaryMode(false);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            // great, please do send it along
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
-            logger.info("Received IAC WILL winsize");
+            logger.info("Received IAC WILL binary");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT winsize");
+            logger.info("Received IAC WONT binary");
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
-            logger.info("Received IAC SB winsize");
-            final byte[] sn = readSubnegotiation(nvt);
-            final short x = readShort(sn, 0);
-            final short y = readShort(sn, 2);
-            nvt.setTermX(x);
-            nvt.setTermY(y);
+            logger.info("Received IAC SB binary");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

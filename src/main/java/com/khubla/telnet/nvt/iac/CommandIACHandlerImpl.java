@@ -16,6 +16,7 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.command.AuthenticationIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.LineModeIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.MarkIAICCommandHandlerImpl;
@@ -40,16 +41,17 @@ public class CommandIACHandlerImpl implements IACHandler {
       /*
        * IAC commands
        */
-      iacCommandHandlers.put(NVT.IAC_CODE_ECHO, new EchoIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_STATUS, new StatusIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_LINEMODE, new LineModeIAICCommandHandlerImpl());
-      iacCommandHandlers.put(NVT.IAC_CODE_AUTHENTICATION, new AuthenticationIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_ECHO, new EchoIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_STATUS, new StatusIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_LINEMODE, new LineModeIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_AUTHENTICATION, new AuthenticationIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_BINARY, new BinaryIAICCommandHandlerImpl());
    }
 
    @Override
@@ -62,7 +64,7 @@ public class CommandIACHandlerImpl implements IACHandler {
          /*
           * send a "nope"
           */
-         nvt.sendIACCommand(NVT.IAC_COMMAND_WONT, option);
+         nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, option);
       }
    }
 }

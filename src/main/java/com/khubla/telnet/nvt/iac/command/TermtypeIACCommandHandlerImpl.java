@@ -11,6 +11,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -27,23 +29,23 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case NVT.IAC_COMMAND_DO:
+         case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO Termtype");
             break;
-         case NVT.IAC_COMMAND_DONT:
+         case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT Termtype");
             break;
-         case NVT.IAC_COMMAND_WILL:
+         case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termtype");
             // great, we like it
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
             // request it
-            nvt.writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_SB, NVT.IAC_CODE_TERMTYPE, SEND, NVT.IAC_IAC, NVT.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TERMTYPE, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
-         case NVT.IAC_COMMAND_WONT:
+         case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termtype");
             break;
-         case NVT.IAC_COMMAND_SB:
+         case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termtype");
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == IS) {

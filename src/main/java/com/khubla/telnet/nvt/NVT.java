@@ -27,66 +27,6 @@ public class NVT implements Flushable, Closeable {
     */
    static final Logger logger = LoggerFactory.getLogger(NVT.class);
    /**
-    * IAC Commands (RFC 854)
-    */
-   // End of subnegotiation parameters.
-   public static final int IAC_COMMAND_SE = 240;
-   // No operation.
-   public static final int IAC_COMMAND_NOP = 241;
-   // The data stream portion of a Synch
-   public static final int IAC_COMMAND_DATAMARK = 242;
-   // NVT character BRK.
-   public static final int IAC_COMMAND_BREAK = 243;
-   // interrupt process
-   public static final int IAC_COMMAND_IP = 244;
-   // abort output
-   public static final int IAC_COMMAND_AO = 245;
-   // are you there
-   public static final int IAC_COMMAND_AYT = 246;
-   // erase character
-   public static final int IAC_COMMAND_EC = 247;
-   // erase line
-   public static final int IAC_COMMAND_EL = 248;
-   // go ahead
-   public static final int IAC_COMMAND_GA = 249;
-   // Indicates that what follows is subnegotiation of the indicated option.
-   public static final int IAC_COMMAND_SB = 250;
-   // Indicates the desire to begin performing, or confirmation that you are now performing, the indicated option.
-   public static final int IAC_COMMAND_WILL = 251;
-   // Indicates the refusal to perform, or continue performing, the indicated option.
-   public static final int IAC_COMMAND_WONT = 252;
-   // Indicates the request that the other party perform, o confirmation that you are expecting the other party to perform, the indicated option.
-   public static final int IAC_COMMAND_DO = 253;
-   // Indicates the demand that the other party stop performing or confirmation that you are no longer expecting the other party to perform, the indicated option.
-   public static final int IAC_COMMAND_DONT = 254;
-   // IAC
-   public static final int IAC_IAC = 255;
-   /**
-    * Codes
-    */
-   // RFC 856
-   public static final int IAC_CODE_BINARY = 0;
-   // RFC 857
-   public static final int IAC_CODE_ECHO = 1;
-   // RFC 858
-   public static final int IAC_CODE_SUPPRESS_GOAHEAD = 3;
-   public static final int IAC_CODE_STATUS = 5;
-   public static final int IAC_CODE_MARK = 6;
-   // RFC 1091
-   public static final int IAC_CODE_TERMTYPE = 24;
-   public static final int IAC_CODE_EOR = 25;
-   // RFC 1073
-   public static final int IAC_CODE_WINSIZE = 31;
-   // RFC 1079
-   public static final int IAC_CODE_TERMSPEED = 32;
-   // RFC 1372
-   public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
-   // RFC 1184
-   public static final int IAC_CODE_LINEMODE = 34;
-   public static final int IAC_CODE_ENVVAR = 36;
-   // RFC 1416, RFC 2941
-   public static final int IAC_CODE_AUTHENTICATION = 37;
-   /**
     * keys (RFC 854)
     */
    // No Operation
@@ -159,6 +99,10 @@ public class NVT implements Flushable, Closeable {
     * auth handler
     */
    private final AuthenticationHandler authenticationHandler;
+   /**
+    * binary
+    */
+   private boolean binaryMode = false;
 
    public NVT(Socket socket) throws IOException {
       this(socket, null);
@@ -173,11 +117,11 @@ public class NVT implements Flushable, Closeable {
       /*
        * IACs
        */
-      iacHandlers.put(IAC_COMMAND_WILL, new CommandIACHandlerImpl());
-      iacHandlers.put(IAC_COMMAND_WONT, new CommandIACHandlerImpl());
-      iacHandlers.put(IAC_COMMAND_DO, new CommandIACHandlerImpl());
-      iacHandlers.put(IAC_COMMAND_DONT, new CommandIACHandlerImpl());
-      iacHandlers.put(IAC_COMMAND_SB, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_WILL, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_WONT, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_DO, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_DONT, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_SB, new CommandIACHandlerImpl());
       /*
        * send config
        */
@@ -232,6 +176,10 @@ public class NVT implements Flushable, Closeable {
       return autoflush;
    }
 
+   public boolean isBinaryMode() {
+      return binaryMode;
+   }
+
    public boolean isEcho() {
       return echo;
    }
@@ -250,7 +198,7 @@ public class NVT implements Flushable, Closeable {
 
    public int readByte() throws IOException {
       final int c = dataInputStream.read();
-      if (c == IAC_IAC) {
+      if (c == IACCommandHandler.IAC_IAC) {
          processIAC();
          return readByte();
       } else {
@@ -313,12 +261,16 @@ public class NVT implements Flushable, Closeable {
 
    private void sendConfigParameters() throws IOException {
       /**
+       * i can talk binary
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
+      /**
        * echo
        */
       if (isEcho()) {
-         sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_ECHO);
+         sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ECHO);
       } else {
-         sendIACCommand(NVT.IAC_COMMAND_WONT, NVT.IAC_CODE_ECHO);
+         sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_ECHO);
       }
       /**
        * auth
@@ -327,17 +279,21 @@ public class NVT implements Flushable, Closeable {
          /*
           * this is not a game of who-the-fuck-are-you! - Eddie Izzard
           */
-         sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_AUTHENTICATION);
+         sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_AUTHENTICATION);
       }
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
-      writeBytes(NVT.IAC_IAC, command, option);
+      writeBytes(IACCommandHandler.IAC_IAC, command, option);
       flush();
    }
 
    public void setAutoflush(boolean autoflush) {
       this.autoflush = autoflush;
+   }
+
+   public void setBinaryMode(boolean binaryMode) {
+      this.binaryMode = binaryMode;
    }
 
    public void setEcho(boolean echo) {

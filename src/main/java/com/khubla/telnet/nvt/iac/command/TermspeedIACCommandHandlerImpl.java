@@ -11,6 +11,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -27,23 +29,23 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case NVT.IAC_COMMAND_DO:
+         case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO Termspeed");
             break;
-         case NVT.IAC_COMMAND_DONT:
+         case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT Termspeed");
             break;
-         case NVT.IAC_COMMAND_WILL:
+         case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termspeed");
             // great, we like it
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMSPEED);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
             // request it
-            nvt.writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_SB, NVT.IAC_CODE_TERMSPEED, SEND, NVT.IAC_IAC, NVT.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
-         case NVT.IAC_COMMAND_WONT:
+         case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termspeed");
             break;
-         case NVT.IAC_COMMAND_SB:
+         case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termspeed");
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == IS) {

@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -22,19 +23,19 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case NVT.IAC_COMMAND_DO:
+         case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO mark");
             break;
-         case NVT.IAC_COMMAND_DONT:
+         case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT mark");
             break;
-         case NVT.IAC_COMMAND_WILL:
+         case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL mark");
             break;
-         case NVT.IAC_COMMAND_WONT:
+         case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT mark");
             break;
-         case NVT.IAC_COMMAND_SB:
+         case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB mark");
             break;
          default:
