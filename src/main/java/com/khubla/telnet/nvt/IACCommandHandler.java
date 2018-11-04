@@ -38,7 +38,7 @@ public interface IACCommandHandler {
    public static final int IAC_COMMAND_WILL = 251;
    // Indicates the refusal to perform, or continue performing, the indicated option.
    public static final int IAC_COMMAND_WONT = 252;
-   // Indicates the request that the other party perform, o confirmation that you are expecting the other party to perform, the indicated option.
+   // Indicates the request that the other party perform, or confirmation that you are expecting the other party to perform, the indicated option.
    public static final int IAC_COMMAND_DO = 253;
    // Indicates the demand that the other party stop performing or confirmation that you are no longer expecting the other party to perform, the indicated option.
    public static final int IAC_COMMAND_DONT = 254;
