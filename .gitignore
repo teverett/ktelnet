@@ -6,5 +6,4 @@
 /**/target
 /**/test-output
 /dependency-reduced-pom.xml
-/weedwars.db.mv.db
-*.db
+
