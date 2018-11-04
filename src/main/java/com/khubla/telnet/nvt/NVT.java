@@ -293,7 +293,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * i can talk binary
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
       /*
        * i dont provide status
        */
@@ -306,10 +306,6 @@ public class NVT implements Flushable, Closeable {
        * ask to linemode
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
-      /*
-       * tell other end not to echo
-       */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_ECHO);
       /*
        * auth
        */

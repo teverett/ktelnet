@@ -7,6 +7,8 @@
 package com.khubla.telnet.nvt.iac.command;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,12 @@ import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   public class SLCOption {
+      public int function;
+      public int modifiers;
+      public int asciichar;
+   }
+
    /**
     * logger
     */
@@ -50,8 +58,8 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int SLC_EL = 11;
    public static final int SLC_EW = 12;
    public static final int SLC_RP = 13;
-   public static final int SLC_LNEXT = 14;
-   public static final int SLC_XON = 15;;
+   public static final int SLC_LNEXT = 14;;
+   public static final int SLC_XON = 15;
    public static final int SLC_XOFF = 16;
    public static final int SLC_FORW1 = 17;
    public static final int SLC_FORW2 = 18;
@@ -88,6 +96,9 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     */
    public static final int ABORT = 238;
 
+   private void procesABORT(NVT nvt, byte[] sn) throws IOException {
+   }
+
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
@@ -108,7 +119,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB linemode");
             final byte[] sn = readSubnegotiation(nvt);
-            int s = sn[0];
+            final int s = sn[0];
             switch (s) {
                case MODE_MODE:
                   processMODE(nvt, sn);
@@ -135,33 +146,32 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       }
    }
 
-   private void processMODE(NVT nvt, byte[] sn) throws IOException {
+   private void processEOF(NVT nvt, byte[] sn) throws IOException {
    }
 
    private void processFORWARDMASK(NVT nvt, byte[] sn) throws IOException {
    }
 
-   private void processSLC(NVT nvt, byte[] sn) throws IOException {
-      int slc = sn[1];
+   private void processMODE(NVT nvt, byte[] sn) throws IOException {
+   }
+
+   private Set<SLCOption> processSLC(NVT nvt, byte[] sn) throws IOException {
+      // int slc = sn[1];
+      final Set<SLCOption> ret = new HashSet<SLCOption>();
       /*
        * number triplets
        */
-      int c = (sn.length - 2) / 3;
+      final int c = (sn.length - 2) / 3;
       for (int i = 0; i < c; i++) {
-         int[] triplet = new int[3];
-         triplet[0] = sn[2 + (i * 3)];
-         triplet[1] = sn[2 + (i * 3) + 1];
-         triplet[2] = sn[2 + (i * 3) + 2];
-         System.out.println(i);
+         final SLCOption slcOption = new SLCOption();
+         slcOption.function = sn[2 + (i * 3)];
+         slcOption.modifiers = sn[2 + (i * 3) + 1];
+         slcOption.asciichar = sn[2 + (i * 3) + 2];
+         ret.add(slcOption);
       }
-   }
-
-   private void processEOF(NVT nvt, byte[] sn) throws IOException {
+      return ret;
    }
 
    private void procesSUSP(NVT nvt, byte[] sn) throws IOException {
-   }
-
-   private void procesABORT(NVT nvt, byte[] sn) throws IOException {
    }
 }

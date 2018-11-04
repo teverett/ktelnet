@@ -38,15 +38,20 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
 
    protected byte[] readSubnegotiation(NVT nvt) throws IOException {
       final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      int b = nvt.readRawByte();
-      while (b != IACCommandHandler.IAC_IAC) {
-         baos.write(b);
-         b = nvt.readRawByte();
-      }
-      b = nvt.readRawByte();
-      if (b != IACCommandHandler.IAC_COMMAND_SE) {
-         logger.info("Expected IAC:" + IACCommandHandler.IAC_COMMAND_SE);
-         b = nvt.readRawByte();
+      boolean cont = true;
+      while (cont) {
+         final int b = nvt.readRawByte();
+         if (b == IACCommandHandler.IAC_IAC) {
+            final int b2 = nvt.readRawByte();
+            if (b2 == IACCommandHandler.IAC_COMMAND_SE) {
+               cont = false;
+            } else {
+               baos.write(b);
+               baos.write(b2);
+            }
+         } else {
+            baos.write(b);
+         }
       }
       return baos.toByteArray();
    }
