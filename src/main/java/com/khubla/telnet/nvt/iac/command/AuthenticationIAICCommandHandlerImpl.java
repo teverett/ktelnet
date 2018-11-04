@@ -76,6 +76,7 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
+            break;
       }
    }
 }

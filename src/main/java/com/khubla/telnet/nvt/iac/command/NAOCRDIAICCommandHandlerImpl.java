@@ -44,6 +44,7 @@ public class NAOCRDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
+            break;
       }
    }
 }

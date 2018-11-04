@@ -43,6 +43,7 @@ public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandle
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
+            break;
       }
    }
 }
