@@ -32,10 +32,13 @@ public class TermspeedIACCommandHandlerImpl implements IACCommandHandler {
          case NVT.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termspeed");
             // great, please do send it along
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
+            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMSPEED);
             break;
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termspeed");
+            break;
+         case NVT.IAC_COMMAND_SB:
+            logger.info("Received IAC SB Termspeed");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

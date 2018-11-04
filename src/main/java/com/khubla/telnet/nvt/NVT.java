@@ -145,6 +145,7 @@ public class NVT implements Flushable, Closeable {
       iacHandlers.put(IAC_COMMAND_WONT, new CommandIACHandlerImpl());
       iacHandlers.put(IAC_COMMAND_DO, new CommandIACHandlerImpl());
       iacHandlers.put(IAC_COMMAND_DONT, new CommandIACHandlerImpl());
+      iacHandlers.put(IAC_COMMAND_SB, new CommandIACHandlerImpl());
       /*
        * send config
        */
@@ -186,6 +187,7 @@ public class NVT implements Flushable, Closeable {
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
       final int option = dataInputStream.read();
+      logger.info("IAC: " + cmd + " option: " + option);
       final IACHandler iacHandler = iacHandlers.get(cmd);
       if (null != iacHandler) {
          iacHandler.process(this, cmd, option);
@@ -252,6 +254,7 @@ public class NVT implements Flushable, Closeable {
 
    public void sendIACCommand(int command, int option) throws IOException {
       writeBytes(NVT.IAC_IAC, command, option);
+      flush();
    }
 
    public void setAutoflush(boolean autoflush) {

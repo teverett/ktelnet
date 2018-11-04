@@ -39,6 +39,9 @@ public class EchoIAICCommandHandlerImpl implements IACCommandHandler {
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT echo");
             break;
+         case NVT.IAC_COMMAND_SB:
+            logger.info("Received IAC SB echo");
+            break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
       }

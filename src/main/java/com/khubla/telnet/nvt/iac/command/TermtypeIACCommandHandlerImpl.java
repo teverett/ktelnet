@@ -37,6 +37,9 @@ public class TermtypeIACCommandHandlerImpl implements IACCommandHandler {
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termtype");
             break;
+         case NVT.IAC_COMMAND_SB:
+            logger.info("Received IAC SB Termtype");
+            break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
       }

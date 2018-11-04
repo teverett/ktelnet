@@ -14,32 +14,31 @@ import org.slf4j.LoggerFactory;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class SGIACCommandHandlerImpl implements IACCommandHandler {
+public class LineModeIAICCommandHandlerImpl implements IACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
+   static final Logger logger = LoggerFactory.getLogger(LineModeIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case NVT.IAC_COMMAND_DO:
-            logger.info("Received IAC DO SG");
-            nvt.sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_SUPPRESS_GOAHEAD);
+            logger.info("Received IAC DO linemode");
             break;
          case NVT.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT SG");
-            // we always supress goahead!
-            nvt.sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_SUPPRESS_GOAHEAD);
+            logger.info("Received IAC DONT linemode");
             break;
          case NVT.IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL SG");
+            logger.info("Received IAC WILL linemode");
+            // great, please do send it along
+            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_LINEMODE);
             break;
          case NVT.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT SG");
+            logger.info("Received IAC WONT linemode");
             break;
          case NVT.IAC_COMMAND_SB:
-            logger.info("Received IAC SB SG");
+            logger.info("Received IAC SB linemode");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

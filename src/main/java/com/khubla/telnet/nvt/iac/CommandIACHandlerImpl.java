@@ -16,9 +16,14 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.LineModeIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.MarkIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.RemoteFlowControlIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.StatusIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.TermspeedIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.TermtypeIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.WinsizeIAICCommandHandlerImpl;
 
 public class CommandIACHandlerImpl implements IACHandler {
    /**
@@ -38,6 +43,11 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(NVT.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_STATUS, new StatusIAICCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_LINEMODE, new LineModeIAICCommandHandlerImpl());
    }
 
    @Override
