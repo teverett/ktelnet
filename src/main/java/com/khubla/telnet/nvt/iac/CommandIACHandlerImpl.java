@@ -17,6 +17,7 @@ import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.TermspeedIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.TermtypeIACCommandHandlerImpl;
 
 public class CommandIACHandlerImpl implements IACHandler {
@@ -36,6 +37,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(NVT.IAC_CODE_ECHO, new EchoIAICCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
       iacCommandHandlers.put(NVT.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
+      iacCommandHandlers.put(NVT.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
    }
 
    @Override
@@ -45,6 +47,10 @@ public class CommandIACHandlerImpl implements IACHandler {
          iacCommandHandler.process(nvt, cmd);
       } else {
          logger.info("No handler for AIC Command:" + option);
+         /*
+          * send a "nope"
+          */
+         nvt.sendIACCommand(NVT.IAC_COMMAND_WONT, option);
       }
    }
 }

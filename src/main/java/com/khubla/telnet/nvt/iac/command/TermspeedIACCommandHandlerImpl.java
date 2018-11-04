@@ -14,28 +14,28 @@ import org.slf4j.LoggerFactory;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class TermtypeIACCommandHandlerImpl implements IACCommandHandler {
+public class TermspeedIACCommandHandlerImpl implements IACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
+   static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case NVT.IAC_COMMAND_DO:
-            logger.info("Received IAC DO Termtype");
+            logger.info("Received IAC DO Termspeed");
             break;
          case NVT.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT Termtype");
+            logger.info("Received IAC DONT Termspeed");
             break;
          case NVT.IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL Termtype");
+            logger.info("Received IAC WILL Termspeed");
             // great, please do send it along
             nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
             break;
          case NVT.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT Termtype");
+            logger.info("Received IAC WONT Termspeed");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
