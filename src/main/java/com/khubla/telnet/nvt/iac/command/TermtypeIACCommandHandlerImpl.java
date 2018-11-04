@@ -18,6 +18,11 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
+   /**
+    * constants...
+    */
+   private static final int IS = 0;
+   private static final int SEND = 1;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -33,7 +38,7 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
             // great, we like it
             nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
             // request it
-            nvt.writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_SB, NVT.IAC_CODE_TERMTYPE, 1, NVT.IAC_IAC, NVT.IAC_COMMAND_SE);
+            nvt.writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_SB, NVT.IAC_CODE_TERMTYPE, SEND, NVT.IAC_IAC, NVT.IAC_COMMAND_SE);
             break;
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termtype");
@@ -41,10 +46,10 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
          case NVT.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termtype");
             final byte[] sn = readSubnegotiation(nvt);
-            if (sn[0] == 0) {
+            if (sn[0] == IS) {
                final String termType = readString(sn, 1, sn.length);
                nvt.setTermtype(termType);
-            } else {
+            } else if (sn[0] == SEND) {
                // send the termtype
             }
             break;

@@ -75,6 +75,7 @@ public class NVT implements Flushable, Closeable {
    public static final int IAC_CODE_EOR = 25;
    // RFC 1073
    public static final int IAC_CODE_WINSIZE = 31;
+   // RFC 1079
    public static final int IAC_CODE_TERMSPEED = 32;
    public static final int IAC_CODE_REMOTE_FLOW_CONTROL = 33;
    public static final int IAC_CODE_LINEMODE = 34;
@@ -145,6 +146,10 @@ public class NVT implements Flushable, Closeable {
     * term type
     */
    private String termtype;
+   /**
+    * term speed
+    */
+   private String termSpeed;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -187,6 +192,10 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
+   }
+
+   public String getTermSpeed() {
+      return termSpeed;
    }
 
    public String getTermtype() {
@@ -306,6 +315,10 @@ public class NVT implements Flushable, Closeable {
 
    public void setEcho(boolean echo) {
       this.echo = echo;
+   }
+
+   public void setTermSpeed(String termSpeed) {
+      this.termSpeed = termSpeed;
    }
 
    public void setTermtype(String termtype) {
