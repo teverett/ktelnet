@@ -46,6 +46,7 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
       b = nvt.readRawByte();
       if (b != IACCommandHandler.IAC_COMMAND_SE) {
          logger.info("Expected IAC:" + IACCommandHandler.IAC_COMMAND_SE);
+         b = nvt.readRawByte();
       }
       return baos.toByteArray();
    }

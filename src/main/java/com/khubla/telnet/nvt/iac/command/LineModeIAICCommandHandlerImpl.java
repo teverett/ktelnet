@@ -78,7 +78,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * EOF
     */
-   public static final int EOF = 236;
+   public static final int _EOF = 236;
    /**
     * SUSP
     */
@@ -107,9 +107,61 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB linemode");
+            final byte[] sn = readSubnegotiation(nvt);
+            int s = sn[0];
+            switch (s) {
+               case MODE_MODE:
+                  processMODE(nvt, sn);
+                  break;
+               case FORWARDMASK:
+                  processFORWARDMASK(nvt, sn);
+                  break;
+               case SLC:
+                  processSLC(nvt, sn);
+                  break;
+               case _EOF:
+                  processEOF(nvt, sn);
+                  break;
+               case SUSP:
+                  procesSUSP(nvt, sn);
+                  break;
+               case ABORT:
+                  procesABORT(nvt, sn);
+                  break;
+            }
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
       }
+   }
+
+   private void processMODE(NVT nvt, byte[] sn) throws IOException {
+   }
+
+   private void processFORWARDMASK(NVT nvt, byte[] sn) throws IOException {
+   }
+
+   private void processSLC(NVT nvt, byte[] sn) throws IOException {
+      int slc = sn[1];
+      /*
+       * number triplets
+       */
+      int c = (sn.length - 2) / 3;
+      for (int i = 0; i < c; i++) {
+         int[] triplet = new int[3];
+         triplet[0] = sn[2 + (i * 3)];
+         triplet[1] = sn[2 + (i * 3) + 1];
+         triplet[2] = sn[2 + (i * 3) + 2];
+         System.out.println(i);
+      }
+   }
+
+   private void processEOF(NVT nvt, byte[] sn) throws IOException {
+   }
+
+   private void procesSUSP(NVT nvt, byte[] sn) throws IOException {
+   }
+
+   private void procesABORT(NVT nvt, byte[] sn) throws IOException {
    }
 }
