@@ -4,38 +4,39 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt.iac;
+package com.khubla.telnet.nvt.iac.command;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommand;
+import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class TermtypeIACCommandImpl implements IACCommand {
+public class SGIACCommandHandlerImpl implements IACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandImpl.class);
+   static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case NVT.IAC_COMMAND_DO:
-            logger.info("Received IAC DO Termtype");
+            logger.info("Received IAC DO SG");
+            nvt.sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case NVT.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT Termtype");
+            logger.info("Received IAC DONT SG");
+            // we always supress goahead!
+            nvt.sendIACCommand(NVT.IAC_COMMAND_WILL, NVT.IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case NVT.IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL Termtype");
-            // great, please do
-            nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
+            logger.info("Received IAC WILL SG");
             break;
          case NVT.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT Termtype");
+            logger.info("Received IAC WONT SG");
             break;
          default:
             logger.info("Received Unknown IAC Command :" + cmd);

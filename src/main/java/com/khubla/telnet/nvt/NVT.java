@@ -19,9 +19,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.iac.EchoIAICCommandImpl;
-import com.khubla.telnet.nvt.iac.SGIACCommandImpl;
-import com.khubla.telnet.nvt.iac.TermtypeIACCommandImpl;
+import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -131,9 +129,9 @@ public class NVT implements Flushable, Closeable {
     */
    private boolean echo = true;
    /**
-    * IAC Command Handlers
+    * IAC handlers
     */
-   private final HashMap<Integer, IACCommand> iacCommandHandlers = new HashMap<Integer, IACCommand>();
+   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -141,11 +139,12 @@ public class NVT implements Flushable, Closeable {
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
       /*
-       * IAC commands
+       * IACs
        */
-      iacCommandHandlers.put(IAC_CODE_ECHO, new EchoIAICCommandImpl());
-      iacCommandHandlers.put(IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandImpl());
-      iacCommandHandlers.put(IAC_CODE_TERMTYPE, new TermtypeIACCommandImpl());
+      iacHandlers.put(IAC_COMMAND_WILL, new CommandIACHandlerImpl());
+      iacHandlers.put(IAC_COMMAND_WONT, new CommandIACHandlerImpl());
+      iacHandlers.put(IAC_COMMAND_DO, new CommandIACHandlerImpl());
+      iacHandlers.put(IAC_COMMAND_DONT, new CommandIACHandlerImpl());
       /*
        * send config
        */
@@ -187,19 +186,11 @@ public class NVT implements Flushable, Closeable {
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
       final int option = dataInputStream.read();
-      if ((cmd == IAC_COMMAND_DO) || (cmd == IAC_COMMAND_DONT) || (cmd == IAC_COMMAND_WILL) || (cmd == IAC_COMMAND_WONT)) {
-         processIACCommand(cmd, option);
+      final IACHandler iacHandler = iacHandlers.get(cmd);
+      if (null != iacHandler) {
+         iacHandler.process(this, cmd, option);
       } else {
          logger.info("No handler for AIC command :" + cmd);
-      }
-   }
-
-   private void processIACCommand(int cmd, int option) throws IOException {
-      final IACCommand iacCommand = iacCommandHandlers.get(option);
-      if (null != iacCommand) {
-         iacCommand.process(this, cmd);
-      } else {
-         logger.info("No handler for AIC option :" + option);
       }
    }
 

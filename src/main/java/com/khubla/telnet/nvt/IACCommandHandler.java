@@ -8,6 +8,6 @@ package com.khubla.telnet.nvt;
 
 import java.io.IOException;
 
-public interface IACCommand {
+public interface IACCommandHandler {
    void process(NVT nvt, int cmd) throws IOException;
 }

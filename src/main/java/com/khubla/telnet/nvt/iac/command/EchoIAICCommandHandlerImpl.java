@@ -4,21 +4,21 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt.iac;
+package com.khubla.telnet.nvt.iac.command;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommand;
+import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class EchoIAICCommandImpl implements IACCommand {
+public class EchoIAICCommandHandlerImpl implements IACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(EchoIAICCommandImpl.class);
+   static final Logger logger = LoggerFactory.getLogger(EchoIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
