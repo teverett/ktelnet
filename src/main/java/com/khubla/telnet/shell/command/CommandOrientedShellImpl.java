@@ -21,7 +21,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(CommandOrientedShellImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(CommandOrientedShellImpl.class);
    /**
     * prompt
     */

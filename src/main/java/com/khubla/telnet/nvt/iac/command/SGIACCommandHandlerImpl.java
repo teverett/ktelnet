@@ -19,7 +19,7 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

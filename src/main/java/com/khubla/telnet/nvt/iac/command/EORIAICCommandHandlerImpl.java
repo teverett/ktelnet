@@ -19,7 +19,7 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(EORIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(EORIAICCommandHandlerImpl.class);
    /**
     * EOR
     */

@@ -19,7 +19,7 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

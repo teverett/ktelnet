@@ -19,7 +19,7 @@ public class RemoteFlowControlIAICCommandHandlerImpl extends AbstractIACCommandH
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(RemoteFlowControlIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(RemoteFlowControlIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

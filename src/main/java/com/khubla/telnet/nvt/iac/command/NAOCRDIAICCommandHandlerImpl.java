@@ -18,7 +18,7 @@ public class NAOCRDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(NAOCRDIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(NAOCRDIAICCommandHandlerImpl.class);
    /**
     * EOR
     */

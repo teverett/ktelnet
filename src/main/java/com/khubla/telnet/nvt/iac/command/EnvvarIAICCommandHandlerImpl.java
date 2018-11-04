@@ -19,7 +19,7 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(EnvvarIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(EnvvarIAICCommandHandlerImpl.class);
    /**
     * constants
     */

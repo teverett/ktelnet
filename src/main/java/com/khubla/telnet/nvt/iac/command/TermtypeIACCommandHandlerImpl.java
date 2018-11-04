@@ -19,7 +19,7 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
    /**
     * constants...
     */

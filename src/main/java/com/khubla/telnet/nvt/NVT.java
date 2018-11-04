@@ -26,7 +26,7 @@ public class NVT implements Flushable, Closeable {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(NVT.class);
+   private static final Logger logger = LoggerFactory.getLogger(NVT.class);
    /**
     * keys (RFC 854)
     */

@@ -19,7 +19,7 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(BasicShellImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(BasicShellImpl.class);
    /**
     * hello message
     */

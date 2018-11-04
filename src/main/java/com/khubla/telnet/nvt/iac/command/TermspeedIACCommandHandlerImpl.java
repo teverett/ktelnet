@@ -19,7 +19,7 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
    /**
     * constants...
     */

@@ -18,7 +18,7 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(MarkIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(MarkIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

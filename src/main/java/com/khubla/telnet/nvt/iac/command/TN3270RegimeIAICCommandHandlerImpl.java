@@ -19,7 +19,7 @@ public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandle
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TN3270RegimeIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(TN3270RegimeIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

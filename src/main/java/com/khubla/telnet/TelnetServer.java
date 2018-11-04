@@ -44,10 +44,6 @@ public class TelnetServer implements Runnable {
     */
    private final AtomicBoolean running = new AtomicBoolean(true);
    /**
-    * thread
-    */
-   private Thread thread;
-   /**
     * auth handler
     */
    private final AuthenticationHandler authenticationHandler;
@@ -116,7 +112,7 @@ public class TelnetServer implements Runnable {
    }
 
    public void start() {
-      thread = new Thread(this);
+      Thread thread = new Thread(this);
       thread.start();
    }
 }

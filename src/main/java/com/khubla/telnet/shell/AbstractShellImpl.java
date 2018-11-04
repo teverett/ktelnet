@@ -15,7 +15,7 @@ public abstract class AbstractShellImpl implements Shell {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(AbstractShellImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(AbstractShellImpl.class);
    /**
     * nvt
     */

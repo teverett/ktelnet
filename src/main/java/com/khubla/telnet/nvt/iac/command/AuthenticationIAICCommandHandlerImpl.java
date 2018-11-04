@@ -19,7 +19,7 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(AuthenticationIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(AuthenticationIAICCommandHandlerImpl.class);
    /**
     * constants...
     */

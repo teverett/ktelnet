@@ -35,7 +35,7 @@ public class CommandIACHandlerImpl implements IACHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(CommandIACHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(CommandIACHandlerImpl.class);
    /**
     * IAC Command Handlers
     */

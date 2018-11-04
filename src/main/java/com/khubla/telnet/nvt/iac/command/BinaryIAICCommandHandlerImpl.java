@@ -18,7 +18,7 @@ public class BinaryIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(BinaryIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(BinaryIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

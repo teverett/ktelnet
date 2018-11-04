@@ -27,7 +27,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(LineModeIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(LineModeIAICCommandHandlerImpl.class);
    /**
     * mode
     */

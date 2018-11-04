@@ -18,7 +18,7 @@ public class NOPIACHandlerImpl implements IACHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(NOPIACHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(NOPIACHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd, int option) throws IOException {
