@@ -21,6 +21,8 @@ public interface IACHandler {
    // RFC 859
    public static final int IAC_CODE_STATUS = 5;
    public static final int IAC_CODE_MARK = 6;
+   // RFC 652
+   public static final int IAC_CODE_NAOCRD = 10;
    // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
    // RFC 885
