@@ -26,7 +26,7 @@ public class TelnetServer implements Runnable {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(TelnetServer.class);
+   private static final Logger logger = LoggerFactory.getLogger(TelnetServer.class);
    /**
     * thread pool size
     */
@@ -112,7 +112,7 @@ public class TelnetServer implements Runnable {
    }
 
    public void start() {
-      Thread thread = new Thread(this);
+      final Thread thread = new Thread(this);
       thread.start();
    }
 }

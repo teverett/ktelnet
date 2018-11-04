@@ -22,7 +22,7 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
    /**
     * logger
     */
-   static final Logger logger = LoggerFactory.getLogger(AbstractIACCommandHandler.class);
+   private static final Logger logger = LoggerFactory.getLogger(AbstractIACCommandHandler.class);
 
    protected short readShort(byte[] array, int idx) {
       final ByteBuffer bb = ByteBuffer.allocate(2);
