@@ -11,10 +11,9 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-public class StatusIAICCommandHandlerImpl implements IACCommandHandler {
+public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
