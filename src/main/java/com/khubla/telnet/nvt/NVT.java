@@ -263,7 +263,7 @@ public class NVT implements Flushable, Closeable {
       /**
        * i can talk binary
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
       /**
        * echo
        */
