@@ -5,10 +5,10 @@
 
 A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports extending the Telnet command set via a "shell" abstraction. Support for alternative terminal types such a vt200 and tn3270 is planned.
 
-# License
+## License
 kTelnet is licensed under the BSD terms
 
-# Maven Coordinates
+## Maven Coordinates
 
 ```
 <groupId>com.khubla.ktelnet</groupId>
@@ -16,7 +16,7 @@ kTelnet is licensed under the BSD terms
 <packaging>jar</packaging>
 ```
 
-# Using kTelnet
+## Using kTelnet
 
 A simple example using the default Telnet implementation:
 
