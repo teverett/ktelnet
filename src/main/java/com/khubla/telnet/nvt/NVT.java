@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
+import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -122,6 +123,7 @@ public class NVT implements Flushable, Closeable {
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_DO, new CommandIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_DONT, new CommandIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_SB, new CommandIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_NOP, new NOPIACHandlerImpl());
       /*
        * send config
        */
