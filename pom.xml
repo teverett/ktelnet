@@ -7,13 +7,8 @@
 	<name>khubla.com Telnet Server</name>
 	<properties>
 		<commons-cli.version>1.4</commons-cli.version>
-		<commons-io.version>2.6</commons-io.version>
-		<commons-net.version>3.6</commons-net.version>
-		<h2.version>1.4.197</h2.version>
-		<ebean.version>11.23.1</ebean.version>
 		<testng.version>6.14.2</testng.version>
 		<logback.version>1.1.5</logback.version>
-		<luaj.version>3.0.1</luaj.version>
 		<target.jvm>1.7</target.jvm>
 	</properties>
 	<dependencies>
@@ -36,17 +31,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>io.repaint.maven</groupId>
-				<artifactId>tiles-maven-plugin</artifactId>
-				<version>2.11</version>
-				<extensions>true</extensions>
-				<configuration>
-					<tiles>
-						<tile>io.ebean.tile:enhancement:5.6</tile>
-					</tiles>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.1.0</version>
@@ -59,7 +43,7 @@
 						<configuration>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.khubla.weedwars.Weedwars</mainClass>
+									<mainClass>com.khubla.weedwars.Main</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
