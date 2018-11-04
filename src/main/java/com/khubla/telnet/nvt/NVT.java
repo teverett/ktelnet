@@ -141,6 +141,10 @@ public class NVT implements Flushable, Closeable {
     * term y
     */
    private short termY;
+   /**
+    * term type
+    */
+   private String termtype;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -183,6 +187,10 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
+   }
+
+   public String getTermtype() {
+      return termtype;
    }
 
    public short getTermX() {
@@ -262,6 +270,16 @@ public class NVT implements Flushable, Closeable {
       return dataInputStream.read();
    }
 
+   public String readRawString(int marker) throws IOException {
+      final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      int b = readRawByte();
+      while (b != marker) {
+         baos.write(b);
+         b = readRawByte();
+      }
+      return baos.toString(charsetUTF8.name()).trim();
+   }
+
    public short readShort() throws IOException {
       return dataInputStream.readShort();
    }
@@ -288,6 +306,10 @@ public class NVT implements Flushable, Closeable {
 
    public void setEcho(boolean echo) {
       this.echo = echo;
+   }
+
+   public void setTermtype(String termtype) {
+      this.termtype = termtype;
    }
 
    public void setTermX(short termX) {

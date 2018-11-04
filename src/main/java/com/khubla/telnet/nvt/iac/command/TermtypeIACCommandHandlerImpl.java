@@ -31,14 +31,27 @@ public class TermtypeIACCommandHandlerImpl implements IACCommandHandler {
             break;
          case NVT.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termtype");
-            // great, please do send it along
+            // great, we like it
             nvt.sendIACCommand(NVT.IAC_COMMAND_DO, NVT.IAC_CODE_TERMTYPE);
+            // request it
+            nvt.writeBytes(NVT.IAC_IAC, NVT.IAC_COMMAND_SB, NVT.IAC_CODE_TERMTYPE, 1, NVT.IAC_IAC, NVT.IAC_COMMAND_SE);
             break;
          case NVT.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termtype");
             break;
          case NVT.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termtype");
+            final int zero = nvt.readRawByte();
+            if (0 == zero) {
+               final String termtype = nvt.readRawString(NVT.IAC_IAC);
+               nvt.setTermtype(termtype);
+               final int nextIAC = nvt.readRawByte();
+               if (nextIAC != NVT.IAC_COMMAND_SE) {
+                  logger.info("Expected IAC:" + NVT.IAC_COMMAND_SE);
+               }
+            } else {
+               logger.info("Expected 0");
+            }
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
