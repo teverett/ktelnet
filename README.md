@@ -4,6 +4,9 @@
 
 A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports extending the Telnet command set via a "shell" abstraction. Support for alternative terminal types such a vt200 and tn3270 is planned.
 
+# License
+kTelnet is licensed under the BSD terms
+
 # Maven Coordinates
 
 ```
