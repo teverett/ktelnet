@@ -64,6 +64,8 @@ public class NVT implements Flushable, Closeable {
    /**
     * Codes
     */
+   // RFC 856
+   public static final int IAC_CODE_BINARY = 0;
    // RFC 857
    public static final int IAC_CODE_ECHO = 1;
    // RFC 858
@@ -82,7 +84,7 @@ public class NVT implements Flushable, Closeable {
    // RFC 1184
    public static final int IAC_CODE_LINEMODE = 34;
    public static final int IAC_CODE_ENVVAR = 36;
-   // RFC 1416
+   // RFC 1416, RFC 2941
    public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
     * keys (RFC 854)

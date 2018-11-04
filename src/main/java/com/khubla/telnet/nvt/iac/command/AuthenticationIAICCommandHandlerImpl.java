@@ -18,6 +18,13 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
     * logger
     */
    static final Logger logger = LoggerFactory.getLogger(AuthenticationIAICCommandHandlerImpl.class);
+   /**
+    * constants...
+    */
+   public static final int IS = 0;
+   public static final int SEND = 1;
+   public static final int REPLY = 2;
+   public static final int NAME = 3;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

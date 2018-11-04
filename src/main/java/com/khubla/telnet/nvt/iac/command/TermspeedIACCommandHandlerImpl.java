@@ -21,8 +21,8 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * constants...
     */
-   private static final int IS = 0;
-   private static final int SEND = 1;
+   public static final int IS = 0;
+   public static final int SEND = 1;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
