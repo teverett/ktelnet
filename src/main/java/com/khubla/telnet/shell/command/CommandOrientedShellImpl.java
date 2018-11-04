@@ -57,7 +57,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                    */
                   go = telnetCommand.execute(getNvt(), inputLine, parameters);
                } else {
-                  getNvt().writeln("Unknown :" + inputLine);
+                  getNvt().writeln("Unknown: " + inputLine);
                }
             }
          }

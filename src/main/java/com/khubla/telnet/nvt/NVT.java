@@ -186,6 +186,13 @@ public class NVT implements Flushable, Closeable {
       return echo;
    }
 
+   private boolean isPrintable(int c) {
+      if ((c >= 0x20) && (c <= 0xfd)) {
+         return true;
+      }
+      return false;
+   }
+
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
       final int option = dataInputStream.read();
@@ -205,7 +212,9 @@ public class NVT implements Flushable, Closeable {
          return readByte();
       } else {
          if (isEcho()) {
-            dataOutputStream.write(c);
+            if (isPrintable(c)) {
+               dataOutputStream.write(c);
+            }
          }
          return c;
       }
@@ -214,14 +223,14 @@ public class NVT implements Flushable, Closeable {
    public String readln() throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;
-      int prevbyte = 0;
-      int b = readByte();
-      baos.write(b);
       while (cont) {
-         prevbyte = b;
-         b = readByte();
-         if ((b == KEY_LF) && (prevbyte == KEY_CR)) {
+         final int b = readByte();
+         if (b == KEY_LF) {
+            // cont = false;
+         } else if (b == KEY_CR) {
+            // see RFC 854
             cont = false;
+            writeEOL();
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
             /*
              * backspace and delete keys
@@ -232,12 +241,18 @@ public class NVT implements Flushable, Closeable {
             if (str.length() > 0) {
                baos.write(str.getBytes(), 0, str.length());
             }
+            // echo the BS/DEL back
+            if (isEcho()) {
+               dataOutputStream.write(b);
+            }
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
          } else if (b == KEY_HT) {
             logger.info("TAB pressed");
          } else {
-            baos.write(b);
+            if (isPrintable(b)) {
+               baos.write(b);
+            }
          }
       }
       return baos.toString(charsetUTF8.name()).trim();
@@ -342,11 +357,18 @@ public class NVT implements Flushable, Closeable {
       }
    }
 
-   public void writeln(String str) throws IOException {
-      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
+   private void writeEOL() throws IOException {
       dataOutputStream.write(EOL.getBytes(charsetUTF8), 0, EOL.length());
       if (isAutoflush()) {
          flush();
       }
+   }
+
+   public void writeln(String str) throws IOException {
+      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
+      if (isAutoflush()) {
+         flush();
+      }
+      writeEOL();
    }
 }

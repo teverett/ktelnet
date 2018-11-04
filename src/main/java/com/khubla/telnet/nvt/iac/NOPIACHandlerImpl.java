@@ -22,5 +22,6 @@ public class NOPIACHandlerImpl implements IACHandler {
 
    @Override
    public void process(NVT nvt, int cmd, int option) throws IOException {
+      logger.info("Received NOP");
    }
 }
