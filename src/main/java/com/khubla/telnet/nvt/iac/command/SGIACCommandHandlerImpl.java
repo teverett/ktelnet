@@ -39,7 +39,7 @@ public class SGIACCommandHandlerImpl implements IACCommandHandler {
             logger.info("Received IAC WONT SG");
             break;
          default:
-            logger.info("Received Unknown IAC Command :" + cmd);
+            logger.info("Received Unknown IAC Command:" + cmd);
       }
    }
 }

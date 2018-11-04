@@ -190,7 +190,7 @@ public class NVT implements Flushable, Closeable {
       if (null != iacHandler) {
          iacHandler.process(this, cmd, option);
       } else {
-         logger.info("No handler for AIC command :" + cmd);
+         logger.info("No handler for AIC command:" + cmd);
       }
    }
 

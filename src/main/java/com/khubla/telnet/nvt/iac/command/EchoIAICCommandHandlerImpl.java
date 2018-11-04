@@ -40,7 +40,7 @@ public class EchoIAICCommandHandlerImpl implements IACCommandHandler {
             logger.info("Received IAC WONT echo");
             break;
          default:
-            logger.info("Received Unknown IAC Command :" + cmd);
+            logger.info("Received Unknown IAC Command:" + cmd);
       }
    }
 }

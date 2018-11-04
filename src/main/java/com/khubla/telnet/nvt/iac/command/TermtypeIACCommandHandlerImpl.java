@@ -38,7 +38,7 @@ public class TermtypeIACCommandHandlerImpl implements IACCommandHandler {
             logger.info("Received IAC WONT Termtype");
             break;
          default:
-            logger.info("Received Unknown IAC Command :" + cmd);
+            logger.info("Received Unknown IAC Command:" + cmd);
       }
    }
 }

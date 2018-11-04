@@ -44,7 +44,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       if (null != iacCommandHandler) {
          iacCommandHandler.process(nvt, cmd);
       } else {
-         logger.info("No handler for AIC option :" + option);
+         logger.info("No handler for AIC Command:" + option);
       }
    }
 }
