@@ -7,6 +7,7 @@
 package com.khubla.telnet.shell.command;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -60,8 +61,12 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                }
             }
          }
+      } catch (final SocketException e) {
+         // we're good
       } catch (final Exception e) {
          throw new TelnetException("Exception in commandLoop", e);
+      } finally {
+         onDisconnect();
       }
    }
 
@@ -70,6 +75,8 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    }
 
    protected abstract void onConnect() throws IOException;
+
+   protected abstract void onDisconnect();
 
    @Override
    public void runShell() {

@@ -38,6 +38,11 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
       getNvt().writeln(helloMessge);
    }
 
+   @Override
+   protected void onDisconnect() {
+      //
+   }
+
    public void setHelloMessge(String helloMessge) {
       this.helloMessge = helloMessge;
    }
