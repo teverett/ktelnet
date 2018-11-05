@@ -23,6 +23,18 @@ public interface IACHandler {
    public static final int IAC_CODE_MARK = 6;
    // RFC 652
    public static final int IAC_CODE_NAOCRD = 10;
+   // RFC 653
+   public static final int IAC_CODE_NAOHTS = 11;
+   // RFC 654
+   public static final int IAC_CODE_NAOHTD = 12;
+   // RFC 655
+   public static final int IAC_CODE_NAOFFD = 13;
+   // RFC 656
+   public static final int IAC_CODE_NAOVTS = 14;
+   // RFC 657
+   public static final int IAC_CODE_NAOVTD = 15;
+   // RFC 658
+   public static final int IAC_CODE_NAOLFD = 16;
    // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
    // RFC 885

@@ -15,33 +15,33 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 /**
- * Telnet Output Carriage-Return Disposition Option
+ * Negotiate About Output Horizontal Tab Disposition
  *
  * @author tom
  */
-public class NAOCRDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+public class NAOHTDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NAOCRDIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(NAOHTDIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
-            logger.info("Received IAC DO NAOCRD");
+            logger.info("Received IAC DO NAOHTD");
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT NAOCRD");
+            logger.info("Received IAC DONT NAOHTD");
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            logger.info("Received IAC DO NAOCRD");
+            logger.info("Received IAC DO NAOHTD");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT NAOCRD");
+            logger.info("Received IAC WONT NAOHTD");
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
-            logger.info("Received IAC SB NAOCRD");
+            logger.info("Received IAC SB NAOHTD");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
