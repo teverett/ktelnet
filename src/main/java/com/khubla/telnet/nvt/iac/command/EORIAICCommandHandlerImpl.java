@@ -42,13 +42,12 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received IAC DONT EOR");
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            logger.info("Received IAC DO EOR");
-            // we don't do EOR
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_EOR);
             logger.info("Received IAC WILL EOR");
+            nvt.setEor(true);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT EOR");
+            nvt.setEor(false);
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB EOR");

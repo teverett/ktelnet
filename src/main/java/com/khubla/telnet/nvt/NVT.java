@@ -104,6 +104,10 @@ public class NVT implements Flushable, Closeable {
     * tn3270
     */
    private boolean tn3270 = false;
+   /**
+    * eor
+    */
+   private boolean eor = false;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -175,6 +179,10 @@ public class NVT implements Flushable, Closeable {
 
    public boolean isEcho() {
       return echo;
+   }
+
+   public boolean isEor() {
+      return eor;
    }
 
    private boolean isPrintable(int c) {
@@ -309,7 +317,11 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
       /*
-       * query 3270
+       * EOR
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
+      /*
+       * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
       /*
@@ -337,6 +349,10 @@ public class NVT implements Flushable, Closeable {
 
    public void setEcho(boolean echo) {
       this.echo = echo;
+   }
+
+   public void setEor(boolean eor) {
+      this.eor = eor;
    }
 
    public void setTermSpeed(String termSpeed) {
