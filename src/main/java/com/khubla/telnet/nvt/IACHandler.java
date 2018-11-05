@@ -53,6 +53,8 @@ public interface IACHandler {
    public static final int IAC_CODE_ENVVAR = 36;
    // RFC 1416, RFC 2941
    public static final int IAC_CODE_AUTHENTICATION = 37;
+   // RFC 2355
+   public static final int IAC_CODE_TN3270E = 40;
 
    void process(NVT nvt, int cmd, int option) throws IOException;
 }
