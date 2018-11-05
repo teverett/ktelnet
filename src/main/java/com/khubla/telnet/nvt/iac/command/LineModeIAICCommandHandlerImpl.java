@@ -97,6 +97,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int ABORT = 238;
 
    private void procesABORT(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 
    @Override
@@ -151,12 +152,15 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    }
 
    private void processEOF(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 
    private void processFORWARDMASK(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 
    private void processMODE(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 
    private Set<SLCOption> processSLC(NVT nvt, byte[] sn) throws IOException {
@@ -177,5 +181,6 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    }
 
    private void procesSUSP(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 }
