@@ -116,6 +116,14 @@ public class NVT implements Flushable, Closeable {
     * log bytes
     */
    private boolean logbytes = true;
+   /**
+    * extended ascii
+    */
+   private boolean clientcanextendedascii = false;
+   /**
+    * clientcancharset
+    */
+   private boolean clientcancharset = false;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -183,6 +191,14 @@ public class NVT implements Flushable, Closeable {
 
    public boolean isBinaryMode() {
       return binaryMode;
+   }
+
+   public boolean isClientcancharset() {
+      return clientcancharset;
+   }
+
+   public boolean isClientcanextendedascii() {
+      return clientcanextendedascii;
    }
 
    public boolean isEcho() {
@@ -371,6 +387,10 @@ public class NVT implements Flushable, Closeable {
        * i would like to talk about charaets
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
+      /*
+       * i like to talk in extended ASCII
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
@@ -384,6 +404,14 @@ public class NVT implements Flushable, Closeable {
 
    public void setBinaryMode(boolean binaryMode) {
       this.binaryMode = binaryMode;
+   }
+
+   public void setClientcancharset(boolean clientcancharset) {
+      this.clientcancharset = clientcancharset;
+   }
+
+   public void setClientcanextendedascii(boolean clientcanextendedascii) {
+      this.clientcanextendedascii = clientcanextendedascii;
    }
 
    public void setEcho(boolean echo) {

@@ -35,6 +35,8 @@ public interface IACHandler {
    public static final int IAC_CODE_NAOVTD = 15;
    // RFC 658
    public static final int IAC_CODE_NAOLFD = 16;
+   // RFC 698
+   public static final int IAC_CODE_EXTENDED_ASCII = 17;
    // RFC 1091
    public static final int IAC_CODE_TERMTYPE = 24;
    // RFC 885

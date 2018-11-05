@@ -14,47 +14,31 @@ import org.slf4j.LoggerFactory;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
-/**
- * TELNET CHARSET Option - RFC 2066
- *
- * @author tom
- */
-public class CharsetIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(CharsetIAICCommandHandlerImpl.class);
-   /**
-    * constants...
-    */
-   public static final int CHARSET = 42;
-   public static final int REQUEST = 1;
-   public static final int ACCEPTED = 2;
-   public static final int REJECTED = 3;
-   public static final int TTABLE_IS = 4;
-   public static final int TTABLE_REJECTED = 5;
-   public static final int TTABLE_ACK = 6;
-   public static final int TTABLE_NAK = 7;
+   private static final Logger logger = LoggerFactory.getLogger(ExtendedASCIIIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
-            logger.info("Received IAC DO charset");
-            nvt.setClientcancharset(true);
+            logger.info("Received IAC DO extended ascii");
+            nvt.setClientcanextendedascii(true);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT charset");
-            nvt.setClientcancharset(false);
+            logger.info("Received IAC DONT extended ascii");
+            nvt.setClientcanextendedascii(false);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL charset");
+            logger.info("Received IAC WILL extended ascii");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT charset");
+            logger.info("Received IAC WONT extended ascii");
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
-            logger.info("Received IAC SB charset");
+            logger.info("Received IAC SB extended ascii");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
