@@ -363,6 +363,10 @@ public class NVT implements Flushable, Closeable {
        * tell me your winsize
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
+      /*
+       * i am able to receive 3270E information
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

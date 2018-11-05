@@ -36,7 +36,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int REJECT = 6;
    public static final int REQUEST = 7;
    public static final int SEND = 8;
-   /*
+   /**
     * Reason-codes
     */
    public static final int CONN_PARTNER = 0;
@@ -47,7 +47,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int TYPE_NAME_ERROR = 5;
    public static final int UNKNOWN_ERROR = 6;
    public static final int UNSUPPORTED_REQ = 7;
-   /*
+   /**
     * Function Names
     */
    public static final int BIND_IMAGE = 0;
