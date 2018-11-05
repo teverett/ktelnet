@@ -54,7 +54,3 @@ Login is implemented by passing an implementation of `AuthenticationHandler` to 
 ## Custom shells
 
 Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`
-
- 
-
-

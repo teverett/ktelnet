@@ -139,6 +139,9 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
                case ABORT:
                   procesABORT(nvt, sn);
                   break;
+               default:
+                  logger.info("Received Unknown Lindmode Command:" + s);
+                  break;
             }
             break;
          default:
