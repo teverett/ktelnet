@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
 /**
@@ -67,9 +68,15 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL 3270E");
+            nvt.setTn3270(true);
+            /*
+             * ask for devicetype
+             */
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270E");
+            nvt.setTn3270(false);
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB 3270E");
