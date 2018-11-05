@@ -100,6 +100,10 @@ public class NVT implements Flushable, Closeable {
     * binary
     */
    private boolean binaryMode = false;
+   /**
+    * tn3270
+    */
+   private boolean tn3270 = false;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -178,6 +182,10 @@ public class NVT implements Flushable, Closeable {
          return true;
       }
       return false;
+   }
+
+   public boolean isTn3270() {
+      return tn3270;
    }
 
    private void processIAC() throws IOException {
@@ -345,6 +353,10 @@ public class NVT implements Flushable, Closeable {
 
    public void setTermY(short termY) {
       this.termY = termY;
+   }
+
+   public void setTn3270(boolean tn3270) {
+      this.tn3270 = tn3270;
    }
 
    public void write(int c) throws IOException {

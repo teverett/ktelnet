@@ -52,6 +52,10 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
                final String termType = readString(sn, 1, sn.length);
                nvt.setTermtype(termType);
                logger.info("Remote terminal termtype is: " + termType);
+               if (termType.startsWith("IBM-327")) {
+                  nvt.setTn3270(true);
+                  logger.info("Remote terminal termtype is a tn3270");
+               }
             } else if (sn[0] == SEND) {
                // send the termtype
             }
