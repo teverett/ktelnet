@@ -14,6 +14,7 @@ kTelnet is licensed under the BSD terms
 <groupId>com.khubla.ktelnet</groupId>
 <artifactId>ktelnet</artifactId>
 <packaging>jar</packaging>
+<version>1.0</version>
 ```
 
 ## Using kTelnet
