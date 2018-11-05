@@ -48,6 +48,9 @@ A simple example using the default Telnet implementation:
       }
 </pre>
 
+## Login
+Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor
+
 ## Custom shells
 
 Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`
