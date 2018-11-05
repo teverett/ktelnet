@@ -48,4 +48,10 @@ A simple example using the default Telnet implementation:
       }
 </pre>
 
+## Custom shells
+
+Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractWeedwarsCommand`
+
+ 
+
 
