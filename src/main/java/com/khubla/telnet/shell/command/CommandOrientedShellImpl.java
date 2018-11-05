@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.TelnetException;
-import com.khubla.telnet.nvt.AuthenticationHandler;
+import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.AbstractShellImpl;
 

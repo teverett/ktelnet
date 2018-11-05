@@ -8,7 +8,7 @@ package com.khubla.telnet.shell.basic;
 
 import java.io.IOException;
 
-import com.khubla.telnet.nvt.AuthenticationHandler;
+import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.CommandOrientedShellImpl;
 import com.khubla.telnet.shell.command.TelnetCommandRegistry;
