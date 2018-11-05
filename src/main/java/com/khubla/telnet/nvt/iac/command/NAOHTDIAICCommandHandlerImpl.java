@@ -15,8 +15,8 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 /**
- * Negotiate About Output Horizontal Tab Disposition
- *
+ * Negotiate About Output Horizontal Tab Disposition - RFC 654
+ * 
  * @author tom
  */
 public class NAOHTDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
