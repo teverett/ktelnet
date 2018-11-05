@@ -196,12 +196,11 @@ public class NVT implements Flushable, Closeable {
    private void processIAC() throws IOException {
       final int cmd = dataInputStream.read();
       final int option = dataInputStream.read();
-      logger.info("IAC: " + cmd + " option: " + option);
       final IACHandler iacHandler = iacHandlers.get(cmd);
       if (null != iacHandler) {
          iacHandler.process(this, cmd, option);
       } else {
-         logger.info("No handler for AIC command:" + cmd);
+         logger.info("No handler for AIC command:" + cmd + " option: " + option);
       }
    }
 
