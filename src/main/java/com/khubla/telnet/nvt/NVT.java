@@ -304,6 +304,10 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
       /*
+       * no go-aheads pls
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_SUPPRESS_GOAHEAD);
+      /*
        * i dont provide status
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_STATUS);
