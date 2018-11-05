@@ -51,6 +51,7 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
             if (sn[0] == IS) {
                final String termType = readString(sn, 1, sn.length);
                nvt.setTermtype(termType);
+               logger.info("Remote terminal termtype is: " + termType);
             } else if (sn[0] == SEND) {
                // send the termtype
             }

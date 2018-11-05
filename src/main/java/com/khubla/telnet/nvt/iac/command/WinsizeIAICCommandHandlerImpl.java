@@ -45,6 +45,7 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             final short y = readShort(sn, 2);
             nvt.setTermX(x);
             nvt.setTermY(y);
+            logger.info("Remote terminal winsize is: " + x + "x" + y);
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

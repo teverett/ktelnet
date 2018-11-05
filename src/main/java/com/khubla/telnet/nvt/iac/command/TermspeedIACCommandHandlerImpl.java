@@ -51,6 +51,7 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
             if (sn[0] == IS) {
                final String termSpeedString = readString(sn, 1, sn.length);
                nvt.setTermSpeed(termSpeedString);
+               logger.info("Remote terminal termspeed is: " + termSpeedString);
             } else if (sn[0] == SEND) {
                // send the termspeed
             }

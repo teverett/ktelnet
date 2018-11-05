@@ -296,6 +296,18 @@ public class NVT implements Flushable, Closeable {
        * i accept environment variables
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
+      /*
+       * tell me your terminal type
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
+      /*
+       * tell me your termspeed type
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
+      /*
+       * tell me your winsize
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

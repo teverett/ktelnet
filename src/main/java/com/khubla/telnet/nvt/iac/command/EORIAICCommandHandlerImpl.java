@@ -15,6 +15,11 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
 
+/**
+ * TELNET END OF RECORD OPTION - RFC 885
+ *
+ * @author tom
+ */
 public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
