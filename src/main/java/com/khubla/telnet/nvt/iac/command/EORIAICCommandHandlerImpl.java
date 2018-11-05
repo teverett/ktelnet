@@ -25,10 +25,6 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(EORIAICCommandHandlerImpl.class);
-   /**
-    * EOR
-    */
-   public static final int EOR = 239;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

@@ -49,6 +49,10 @@ public class NVT implements Flushable, Closeable {
    public static final int KEY_ESC = 27;
    public static final int KEY_DEL = 127;
    /**
+    * EOR (tn3270)
+    */
+   public static final int EOR = 239;
+   /**
     * EOL
     */
    public final static String EOL = new String("\r\n");
@@ -233,6 +237,9 @@ public class NVT implements Flushable, Closeable {
       boolean cont = true;
       while (cont) {
          final int b = readByte();
+         if (b == EOR) {
+            logger.info("EOR");
+         }
          if (b == KEY_LF) {
             /*
              * echo back the LF
