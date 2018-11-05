@@ -9,9 +9,6 @@ package com.khubla.telnet.nvt;
 import java.io.IOException;
 
 public interface IACHandler {
-   /**
-    * Codes
-    */
    // RFC 856
    public static final int IAC_CODE_BINARY = 0;
    // RFC 857
@@ -20,7 +17,10 @@ public interface IACHandler {
    public static final int IAC_CODE_SUPPRESS_GOAHEAD = 3;
    // RFC 859
    public static final int IAC_CODE_STATUS = 5;
+   // RFC 860
    public static final int IAC_CODE_MARK = 6;
+   // RFC 726
+   public static final int IAC_CODE_RCTE = 7;
    // RFC 652
    public static final int IAC_CODE_NAOCRD = 10;
    // RFC 653

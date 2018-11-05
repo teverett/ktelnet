@@ -29,6 +29,7 @@ import com.khubla.telnet.nvt.iac.command.NAOFLDIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.NAOHTDIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.NAOVTDIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.NAOVTSIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.RCTEIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.RemoteFlowControlIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.StatusIAICCommandHandlerImpl;
@@ -72,6 +73,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(IACHandler.IAC_CODE_NAOVTS, new NAOVTSIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_NAOVTD, new NAOVTDIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_NAOLFD, new NAOFLDIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_RCTE, new RCTEIAICCommandHandlerImpl());
    }
 
    @Override

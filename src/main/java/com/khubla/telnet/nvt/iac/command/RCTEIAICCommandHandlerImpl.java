@@ -15,33 +15,33 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 /**
- * Negotiate About Output Horizontal Tab Disposition - RFC 654
+ * Remote Controlled Transmssion and Echoing Telnet Option - RFC 726
  *
  * @author tom
  */
-public class NAOHTDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+public class RCTEIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NAOHTDIAICCommandHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(RCTEIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
-            logger.info("Received IAC DO NAOHTD");
+            logger.info("Received IAC DO RCTE");
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT NAOHTD");
+            logger.info("Received IAC DONT RCTE");
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            logger.info("Received IAC DO NAOHTD");
+            logger.info("Received IAC DO RCTE");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT NAOHTD");
+            logger.info("Received IAC WONT RCTE");
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
-            logger.info("Received IAC SB NAOHTD");
+            logger.info("Received IAC SB RCTE");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
