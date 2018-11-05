@@ -367,6 +367,10 @@ public class NVT implements Flushable, Closeable {
        * i am able to receive 3270E information
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
+      /*
+       * i would like to talk about charaets
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
