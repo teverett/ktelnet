@@ -8,18 +8,11 @@ package com.khubla.telnet.shell.basic;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.CommandOrientedShellImpl;
 import com.khubla.telnet.shell.command.TelnetCommandRegistry;
 
 public class BasicShellImpl extends CommandOrientedShellImpl {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(BasicShellImpl.class);
    /**
     * hello message
     */

@@ -12,18 +12,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 public abstract class AbstractIACCommandHandler implements IACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(AbstractIACCommandHandler.class);
-
    protected short readShort(byte[] array, int idx) {
       final ByteBuffer bb = ByteBuffer.allocate(2);
       bb.order(ByteOrder.BIG_ENDIAN);
