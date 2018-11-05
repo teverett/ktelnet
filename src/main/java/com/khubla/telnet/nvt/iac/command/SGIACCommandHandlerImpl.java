@@ -30,7 +30,7 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT SG");
-            // we always supress goahead!
+            // we always suppress go-ahead!
             nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
