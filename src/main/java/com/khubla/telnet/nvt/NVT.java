@@ -112,6 +112,10 @@ public class NVT implements Flushable, Closeable {
     * eor
     */
    private boolean eor = false;
+   /**
+    * log bytes
+    */
+   private boolean logbytes = true;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -189,6 +193,10 @@ public class NVT implements Flushable, Closeable {
       return eor;
    }
 
+   public boolean isLogbytes() {
+      return logbytes;
+   }
+
    private boolean isPrintable(int c) {
       if ((c >= 0x20) && (c <= 0xfd)) {
          return true;
@@ -215,7 +223,7 @@ public class NVT implements Flushable, Closeable {
     * read a byte. process IAC if found. echo if appropriate
     */
    public int readByte() throws IOException {
-      final int c = dataInputStream.read();
+      final int c = readRawByte();
       if (c == IACCommandHandler.IAC_IAC) {
          processIAC();
          return readByte();
@@ -247,6 +255,10 @@ public class NVT implements Flushable, Closeable {
             if (isEcho()) {
                // write(b);
             }
+         } else if (b == KEY_NULL) {
+            /*
+             * ignore
+             */
          } else if (b == KEY_CR) {
             /*
              * it's a CR
@@ -281,7 +293,11 @@ public class NVT implements Flushable, Closeable {
    }
 
    public int readRawByte() throws IOException {
-      return dataInputStream.read();
+      final int c = dataInputStream.read();
+      if (isLogbytes()) {
+         logger.info(String.format("0x%02x %02d %c", c, c, c));
+      }
+      return c;
    }
 
    public String readRawString(int marker) throws IOException {
@@ -295,7 +311,11 @@ public class NVT implements Flushable, Closeable {
    }
 
    public short readShort() throws IOException {
-      return dataInputStream.readShort();
+      final short c = dataInputStream.readShort();
+      if (isLogbytes()) {
+         logger.info(String.format("0x%02x %02d ", c, c));
+      }
+      return c;
    }
 
    private void sendConfigParameters() throws IOException {
@@ -364,6 +384,10 @@ public class NVT implements Flushable, Closeable {
 
    public void setEor(boolean eor) {
       this.eor = eor;
+   }
+
+   public void setLogbytes(boolean logbytes) {
+      this.logbytes = logbytes;
    }
 
    public void setTermSpeed(String termSpeed) {
