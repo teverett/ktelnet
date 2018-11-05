@@ -17,7 +17,7 @@ public class Main {
          /*
           * telnet
           */
-         final TelnetServer telnetServer = new TelnetServer(PORT, THREADS, new BasicShellFactoryImpl(), null);
+         final TelnetServer telnetServer = new TelnetServer(PORT, THREADS, new BasicShellFactoryImpl());
          telnetServer.start();
          /*
           * wait

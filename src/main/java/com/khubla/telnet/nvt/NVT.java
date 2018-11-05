@@ -97,21 +97,12 @@ public class NVT implements Flushable, Closeable {
     */
    private String termSpeed;
    /**
-    * auth handler
-    */
-   private final AuthenticationHandler authenticationHandler;
-   /**
     * binary
     */
    private boolean binaryMode = false;
 
    public NVT(Socket socket) throws IOException {
-      this(socket, null);
-   }
-
-   public NVT(Socket socket, AuthenticationHandler authenticationHandler) throws IOException {
       super();
-      this.authenticationHandler = authenticationHandler;
       this.socket = socket;
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -152,10 +143,6 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
-   }
-
-   public AuthenticationHandler getAuthenticationHandler() {
-      return authenticationHandler;
    }
 
    public String getTermSpeed() {
@@ -305,15 +292,6 @@ public class NVT implements Flushable, Closeable {
        * ask to linemode
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
-      /*
-       * auth
-       */
-      if (null != getAuthenticationHandler()) {
-         /*
-          * this is not a game of who-the-fuck-are-you! - Eddie Izzard
-          */
-         // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_AUTHENTICATION);
-      }
       /*
        * i accept environment variables
        */

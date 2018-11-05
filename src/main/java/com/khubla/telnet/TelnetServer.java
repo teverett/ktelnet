@@ -17,7 +17,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.Shell;
 import com.khubla.telnet.shell.ShellFactory;
@@ -43,13 +42,8 @@ public class TelnetServer implements Runnable {
     * run flag
     */
    private final AtomicBoolean running = new AtomicBoolean(true);
-   /**
-    * auth handler
-    */
-   private final AuthenticationHandler authenticationHandler;
 
-   public TelnetServer(int port, int threads, ShellFactory shellFactory, AuthenticationHandler authenticationHandler) {
-      this.authenticationHandler = authenticationHandler;
+   public TelnetServer(int port, int threads, ShellFactory shellFactory) {
       this.port = port;
       this.threads = threads;
       this.shellFactory = shellFactory;
@@ -83,7 +77,7 @@ public class TelnetServer implements Runnable {
                /*
                 * create shell
                 */
-               final Shell shell = shellFactory.createShell(new NVT(clientSocket, authenticationHandler));
+               final Shell shell = shellFactory.createShell(new NVT(clientSocket));
                /*
                 * submit to pool
                 */

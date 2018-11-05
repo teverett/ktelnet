@@ -8,6 +8,7 @@ package com.khubla.telnet.shell.basic;
 
 import java.io.IOException;
 
+import com.khubla.telnet.nvt.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.CommandOrientedShellImpl;
 import com.khubla.telnet.shell.command.TelnetCommandRegistry;
@@ -18,8 +19,8 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
     */
    private String helloMessge = "khubla.com Telnet server";
 
-   public BasicShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry) {
-      super(nvt, telnetCommandRegistry);
+   public BasicShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry, AuthenticationHandler authenticationHandler) {
+      super(nvt, telnetCommandRegistry, authenticationHandler);
    }
 
    public String getHelloMessge() {

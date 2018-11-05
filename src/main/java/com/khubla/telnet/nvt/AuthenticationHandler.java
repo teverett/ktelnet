@@ -6,6 +6,8 @@
  */
 package com.khubla.telnet.nvt;
 
+import java.util.HashMap;
+
 public interface AuthenticationHandler {
-   boolean login(String username, String password);
+   boolean login(String username, String password, HashMap<String, Object> sessionParameters);
 }

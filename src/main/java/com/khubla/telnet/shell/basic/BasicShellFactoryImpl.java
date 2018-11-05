@@ -13,6 +13,6 @@ import com.khubla.telnet.shell.ShellFactory;
 public class BasicShellFactoryImpl implements ShellFactory {
    @Override
    public Shell createShell(NVT nvt) {
-      return new BasicShellImpl(nvt, new BasicTelnetCommandRegistryImpl());
+      return new BasicShellImpl(nvt, new BasicTelnetCommandRegistryImpl(), null);
    }
 }

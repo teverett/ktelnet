@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.TelnetException;
+import com.khubla.telnet.nvt.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.AbstractShellImpl;
 
@@ -33,11 +34,16 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
     * session parameters
     */
-   private final HashMap<String, Object> parameters = new HashMap<String, Object>();
+   private final HashMap<String, Object> sesssionParameters = new HashMap<String, Object>();
+   /**
+    * authentication
+    */
+   private final AuthenticationHandler authenticationHandler;
 
-   public CommandOrientedShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry) {
+   public CommandOrientedShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry, AuthenticationHandler authenticationHandler) {
       super(nvt);
       this.telnetCommandRegistry = telnetCommandRegistry;
+      this.authenticationHandler = authenticationHandler;
    }
 
    private void commandLoop() throws TelnetException {
@@ -55,7 +61,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                   /*
                    * process
                    */
-                  go = telnetCommand.execute(getNvt(), inputLine, parameters);
+                  go = telnetCommand.execute(getNvt(), inputLine, sesssionParameters);
                } else {
                   getNvt().writeln("Unknown: " + inputLine);
                }
@@ -70,8 +76,26 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
       }
    }
 
+   public AuthenticationHandler getAuthenticationHandler() {
+      return authenticationHandler;
+   }
+
    public String getPrompt() {
       return prompt;
+   }
+
+   /**
+    * log the user in
+    */
+   private boolean login() throws IOException {
+      getNvt().write("login: ");
+      final String username = getNvt().readln();
+      getNvt().write("password: ");
+      final String password = getNvt().readln();
+      if ((null != username) && (null != password)) {
+         return authenticationHandler.login(username, password, sesssionParameters);
+      }
+      return false;
    }
 
    protected abstract void onConnect() throws IOException;
@@ -86,9 +110,23 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
           */
          onConnect();
          /*
-          * loop
+          * login
           */
-         commandLoop();
+         boolean loggedin = false;
+         if (null != authenticationHandler) {
+            loggedin = login();
+         } else {
+            loggedin = true;
+         }
+         /*
+          * ya?
+          */
+         if (loggedin) {
+            /*
+             * loop
+             */
+            commandLoop();
+         }
       } catch (final Exception e) {
          logger.error(e.getMessage(), e);
       }
