@@ -50,7 +50,7 @@ A simple example using the default Telnet implementation:
 
 ## Custom shells
 
-Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractWeedwarsCommand`
+Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`
 
  
 
