@@ -78,7 +78,7 @@ public class TelnetServer implements Runnable {
                /*
                 * NVT
                 */
-               NVT nvt = new NVT(clientSocket);
+               final NVT nvt = new NVT(clientSocket);
                nvt.setNvtSpy(shellFactory.getNVTSpy());
                /*
                 * create shell
