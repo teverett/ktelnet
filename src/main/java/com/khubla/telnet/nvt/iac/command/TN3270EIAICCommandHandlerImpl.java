@@ -114,6 +114,15 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             /*
              * ok!
              */
+            // SB
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.writeBytes(DEVICE_TYPE);
+            nvt.writeBytes(IS);
+            nvt.write(deviceTypeName);
+            nvt.writeBytes(CONNECT);
+            nvt.write(deviceTypeName);
+            // SE
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case REJECT:
             break;
