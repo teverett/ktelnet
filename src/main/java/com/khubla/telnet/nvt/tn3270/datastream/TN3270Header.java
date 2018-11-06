@@ -6,7 +6,7 @@
  */
 package com.khubla.telnet.nvt.tn3270.datastream;
 
-public class TN3270EHeader {
+public class TN3270Header {
    /**
     * datatypes
     */
@@ -32,7 +32,7 @@ public class TN3270EHeader {
    public static final int RESPONSEFLAG_POSITIVE_RESPONSE = 0x00;
    public static final int RESPONSEFLAG_NEGATIVE_RESPONSE = 0x01;
 
-   public static TN3270EHeader read(int[] bytes) {
+   public static TN3270Header read(int[] bytes) {
       return null;
    }
 
@@ -53,7 +53,7 @@ public class TN3270EHeader {
     */
    private int seqNumber;
 
-   public TN3270EHeader(int dataType, int requestFlag, int responseFlag, int seqNumber) {
+   public TN3270Header(int dataType, int requestFlag, int responseFlag, int seqNumber) {
       super();
       this.dataType = dataType;
       this.requestFlag = requestFlag;
@@ -93,7 +93,7 @@ public class TN3270EHeader {
       this.seqNumber = seqNumber;
    }
 
-   public int[] write(TN3270EHeader tb3270EHeader) {
+   public int[] write(TN3270Header tb3270EHeader) {
       return null;
    }
 }
