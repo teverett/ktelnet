@@ -49,12 +49,12 @@ A simple example using the default Telnet implementation:
 </pre>
 
 ## Login
-Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor
+Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor.  A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
 
 ## Custom shells
 
-Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`
+Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`.  A very simple shell which implements the "quit" command is provided: `BasicShellImpl`
 
 ## Logging
 
-kTelnet supports logging at the byte level via `NVTSpy`
+kTelnet supports logging at the byte level via `NVTSpy`.  A console implementation `ConsoleNVTSpyImpl` and a log file implementation `LoggingNVTSpyImpl` are provided.
