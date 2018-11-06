@@ -6,6 +6,7 @@
  */
 package com.khubla.telnet.nvt;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.DataInputStream;
@@ -139,7 +140,7 @@ public class NVT implements Flushable, Closeable {
    public NVT(Socket socket) throws IOException {
       super();
       this.socket = socket;
-      dataInputStream = new DataInputStream(socket.getInputStream());
+      dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
       /*
        * IACs
@@ -285,21 +286,54 @@ public class NVT implements Flushable, Closeable {
          }
          if (b == KEY_LF) {
             /*
-             * echo back the LF
+             * bare LF is a LF
              */
             if (isEcho()) {
-               // write(b);
+               write(b);
             }
          } else if (b == KEY_NULL) {
             /*
              * ignore
              */
+            logger.info("Unexpected NULL");
          } else if (b == KEY_CR) {
             /*
-             * it's a CR
+             * if it's followed by LF, then it means CRLF. Eat the LF
              */
-            cont = false;
-            write(EOL);
+            if (dataInputStream.available() > 0) {
+               dataInputStream.mark(1);
+               final int potentialLF = readByte();
+               if (potentialLF != KEY_LF) {
+                  dataInputStream.reset();
+                  /*
+                   * if it's followed by a NULL it means just a CR, Eat the NUL
+                   */
+                  dataInputStream.mark(1);
+                  final int potentialNUL = readByte();
+                  if (potentialNUL != KEY_NULL) {
+                     dataInputStream.reset();
+                     /*
+                      * its a bare CR treat it like CRLF
+                      */
+                     cont = false;
+                     write(EOL);
+                  } else {
+                     // its just a CR
+                     cont = false;
+                     write(EOL);
+                  }
+               } else {
+                  /*
+                   * its a CRLF
+                   */
+                  cont = false;
+                  write(EOL);
+               }
+            } else {
+               // just a bare CR, nothing after it
+               cont = false;
+               write(EOL);
+            }
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
             /*
              * backspace and delete keys
