@@ -3,7 +3,7 @@
 
 # kTelnet
 
-A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports many of the Telnet RFC's.
+A Java library which implements an embeddable Telnet server. The server is fully multithreaded and supports numerous Telnet RFC's.
 
 ## License
 kTelnet is licensed under the BSD terms
