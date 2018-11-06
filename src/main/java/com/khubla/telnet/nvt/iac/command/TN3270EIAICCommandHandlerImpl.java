@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.IACHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.iac.IACHandler;
 
 /**
  * TN3270 Enhancements - RFC 2355

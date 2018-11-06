@@ -4,9 +4,11 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt;
+package com.khubla.telnet.nvt.iac;
 
 import java.io.IOException;
+
+import com.khubla.telnet.nvt.NVT;
 
 public interface IACHandler {
    // RFC 856

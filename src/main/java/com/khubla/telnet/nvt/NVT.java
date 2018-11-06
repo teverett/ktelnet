@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
+import com.khubla.telnet.nvt.iac.IACHandler;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 
