@@ -437,7 +437,7 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
       /*
-       * i would like to talk about charaets
+       * i would like to talk about charsets
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
       /*
@@ -447,8 +447,12 @@ public class NVT implements Flushable, Closeable {
       /*
        * lets talk about the environment
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_NEW_ENVIRON);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_NEW_ENVIRON);
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      /*
+       * i can encrypt
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ENCRYPT);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

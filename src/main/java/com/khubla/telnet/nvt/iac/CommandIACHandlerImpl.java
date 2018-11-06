@@ -19,6 +19,7 @@ import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.CharsetIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EORIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.EncryptIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EnvvarIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.ExtendedASCIIIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.LineModeIAICCommandHandlerImpl;
@@ -81,6 +82,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(IACHandler.IAC_CODE_CHARSET, new CharsetIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_ASCII, new ExtendedASCIIIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_NEW_ENVIRON, new NewEnvironIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_ENCRYPT, new EncryptIAICCommandHandlerImpl());
    }
 
    @Override
