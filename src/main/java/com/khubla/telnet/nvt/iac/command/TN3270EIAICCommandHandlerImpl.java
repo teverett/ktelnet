@@ -110,7 +110,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * client requests a certain device type
              */
             final String deviceTypeName = readString(sn, 2, sn.length);
-            logger.info("Client has requested device type:" + deviceTypeName);
+            logger.info("Client has requested device type: " + deviceTypeName);
             /*
              * ok!
              */
