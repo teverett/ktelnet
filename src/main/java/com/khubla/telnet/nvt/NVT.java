@@ -391,7 +391,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * i can talk binary
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_BINARY);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_BINARY);
       /*
        * no go-aheads pls
        */
@@ -447,12 +447,11 @@ public class NVT implements Flushable, Closeable {
       /*
        * lets talk about the environment
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_NEW_ENVIRON);
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
       /*
        * i can encrypt
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ENCRYPT);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENCRYPT);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

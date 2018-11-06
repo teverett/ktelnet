@@ -13,13 +13,19 @@ import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.iac.IACHandler;
 
+/**
+ * Telnet Data Encryption Option - RFC 2946
+ * 
+ * @author tom
+ */
 public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(EncryptIAICCommandHandlerImpl.class);
-   /*
+   /**
     * Encryption Commands
     */
    public static final int IS = 0;
@@ -31,7 +37,7 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int REQUEST_END = 6;
    public static final int ENC_KEYID = 7;
    public static final int DEC_KEYID = 8;
-   /*
+   /**
     * Encryption Types
     */
    public static final int NULL = 0;
@@ -55,6 +61,11 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL encrypt");
+            /*
+             * great, here is what I support
+             */
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, REQUEST_START, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, SUPPORT, DES_CFB64, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT encrypt");
