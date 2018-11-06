@@ -80,10 +80,50 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB 3270E");
+            final byte[] sn = readSubnegotiation(nvt);
+            final int s = sn[0];
+            switch (s) {
+               case DEVICE_TYPE:
+                  processDEVICETYPE(nvt, sn);
+                  break;
+               case FUNCTIONS:
+                  processFUNCTIONS(nvt, sn);
+                  break;
+               default:
+                  logger.info("Received Unknown 3270E Command:" + s);
+                  break;
+            }
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   private void processDEVICETYPE(NVT nvt, byte[] sn) throws IOException {
+      final int dtoption = sn[1];
+      switch (dtoption) {
+         case IS:
+            break;
+         case REQUEST:
+            /*
+             * client requests a certain device type
+             */
+            final String deviceTypeName = readString(sn, 2, sn.length);
+            logger.info("Client has requested device type:" + deviceTypeName);
+            /*
+             * ok!
+             */
+            break;
+         case REJECT:
+            break;
+         default:
+            logger.info("Received Unknown 3270E DEVICETYPE Command:" + dtoption);
+            break;
+      }
+   }
+
+   private void processFUNCTIONS(NVT nvt, byte[] sn) throws IOException {
+      // TODO
    }
 }
