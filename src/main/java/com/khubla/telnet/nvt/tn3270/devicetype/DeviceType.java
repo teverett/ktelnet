@@ -4,7 +4,7 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt.tn3270;
+package com.khubla.telnet.nvt.tn3270.devicetype;
 
 public class DeviceType {
    private final String name;

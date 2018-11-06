@@ -9,8 +9,8 @@ package com.khubla.telnet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.khubla.telnet.nvt.tn3270.DeviceType;
-import com.khubla.telnet.nvt.tn3270.DeviceTypeRegistry;
+import com.khubla.telnet.nvt.tn3270.devicetype.DeviceType;
+import com.khubla.telnet.nvt.tn3270.devicetype.DeviceTypeRegistry;
 
 public class TestDeviceRegistry {
    @Test
