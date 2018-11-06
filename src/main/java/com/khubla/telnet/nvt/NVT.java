@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,14 @@ public class NVT implements Flushable, Closeable {
     */
    private boolean tn3270 = false;
    /**
+    * tn3270 device
+    */
+   private String tn3270Device = null;
+   /**
+    * tn3270 functions
+    */
+   private Set<Integer> tn3270Functions = null;
+   /**
     * eor
     */
    private boolean eor = false;
@@ -188,6 +197,14 @@ public class NVT implements Flushable, Closeable {
 
    public short getTermY() {
       return termY;
+   }
+
+   public String getTn3270Device() {
+      return tn3270Device;
+   }
+
+   public Set<Integer> getTn3270Functions() {
+      return tn3270Functions;
    }
 
    public boolean isAutoflush() {
@@ -445,6 +462,14 @@ public class NVT implements Flushable, Closeable {
 
    public void setTn3270(boolean tn3270) {
       this.tn3270 = tn3270;
+   }
+
+   public void setTn3270Device(String tn3270Device) {
+      this.tn3270Device = tn3270Device;
+   }
+
+   public void setTn3270Functions(Set<Integer> tn3270Functions) {
+      this.tn3270Functions = tn3270Functions;
    }
 
    public void write(int c) throws IOException {

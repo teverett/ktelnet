@@ -7,6 +7,8 @@
 package com.khubla.telnet.nvt.iac.command;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +106,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       final int dtoption = sn[1];
       switch (dtoption) {
          case IS:
+            logger.info("Client has send DEVICETYPE IS.  This was not expected.");
             break;
          case REQUEST:
             /*
@@ -111,6 +114,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              */
             final String deviceTypeName = readString(sn, 2, sn.length);
             logger.info("Client has requested device type: " + deviceTypeName);
+            nvt.setTn3270Device(deviceTypeName);
             /*
              * ok!
              */
@@ -125,6 +129,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case REJECT:
+            logger.info("Client has send DEVICETYPE REJECT.  This was not expected.");
             break;
          default:
             logger.info("Received Unknown 3270E DEVICETYPE Command:" + dtoption);
@@ -133,6 +138,36 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    }
 
    private void processFUNCTIONS(NVT nvt, byte[] sn) throws IOException {
-      // TODO
+      final int funcoption = sn[1];
+      switch (funcoption) {
+         case IS:
+            break;
+         case REQUEST:
+            /*
+             * client suggests a list of functions
+             */
+            final Set<Integer> tn3270Functions = new HashSet<Integer>();
+            for (int i = 2; i < sn.length; i++) {
+               logger.info("Client has suggested function: " + sn[i]);
+               tn3270Functions.add(new Integer(sn[i]));
+            }
+            nvt.setTn3270Functions(tn3270Functions);
+            /*
+             * ok!
+             */
+            // SB
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.writeBytes(FUNCTIONS);
+            nvt.writeBytes(IS);
+            for (final Integer i : tn3270Functions) {
+               nvt.writeBytes(i.intValue());
+            }
+            // SE
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            break;
+         default:
+            logger.info("Received Unknown 3270E FUNCTIONS Command:" + funcoption);
+            break;
+      }
    }
 }
