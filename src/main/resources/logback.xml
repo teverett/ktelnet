@@ -18,7 +18,7 @@
 			<MaxIndex>5</MaxIndex>
 		</rollingPolicy>
 		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-			<MaxFileSize>10KB</MaxFileSize>
+			<MaxFileSize>100KB</MaxFileSize>
 		</triggeringPolicy>
 	</appender>
 	<logger name="com.khubla.telnet" level="INFO">
