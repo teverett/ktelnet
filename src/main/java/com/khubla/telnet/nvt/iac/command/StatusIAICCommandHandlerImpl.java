@@ -14,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
+/**
+ * TELNET STATUS OPTION - RFC 859
+ * 
+ * @author tom
+ */
 public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
