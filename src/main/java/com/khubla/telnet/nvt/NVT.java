@@ -409,6 +409,11 @@ public class NVT implements Flushable, Closeable {
        * i like to talk in extended ASCII
        */
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
+      /*
+       * lets talk about the environment
+       */
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_NEW_ENVIRON);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

@@ -48,6 +48,14 @@ A simple example using the default Telnet implementation:
       }
 </pre>
 
+## Implemented RFC's
+
+* RFC 856 - Binary
+* RFC 857 - Echo
+* RFC 1091 - Termtype
+* RFC 1073 - Winsize
+* RFC 1079 - Termspeed
+
 ## Login
 Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor.  A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
 
