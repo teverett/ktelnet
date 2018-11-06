@@ -10,7 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class BasicTest extends AbstractTelnetTest {
-   @Test
+   @Test(enabled = false)
    public void test1() {
       try {
          this.writer.write("quit\n");
