@@ -3,7 +3,7 @@
 
 # kTelnet
 
-A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports extending the Telnet command set via a "shell" abstraction. Support for alternative terminal types such a vt200 and tn3270 is planned.
+A Java library which inputs an RFC-compliant Telnet server.  The server is fully multithreaded and supports many of the Telnet RFC's.
 
 ## License
 kTelnet is licensed under the BSD terms
@@ -54,3 +54,7 @@ Login is implemented by passing an implementation of `AuthenticationHandler` to 
 ## Custom shells
 
 Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`
+
+## Logging
+
+kTelnet supports logging at the byte level via `NVTSpy`

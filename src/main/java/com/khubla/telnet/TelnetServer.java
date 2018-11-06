@@ -76,9 +76,14 @@ public class TelnetServer implements Runnable {
                 */
                logger.info("Accepted connection from: " + clientSocket.getInetAddress().toString());
                /*
+                * NVT
+                */
+               NVT nvt = new NVT(clientSocket);
+               nvt.setNvtSpy(shellFactory.getNVTSpy());
+               /*
                 * create shell
                 */
-               final Shell shell = shellFactory.createShell(new NVT(clientSocket));
+               final Shell shell = shellFactory.createShell(nvt);
                /*
                 * submit to pool
                 */

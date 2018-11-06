@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
+import com.khubla.telnet.nvt.spy.NVTSpy;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -113,9 +114,9 @@ public class NVT implements Flushable, Closeable {
     */
    private boolean eor = false;
    /**
-    * log bytes
+    * nvt spy
     */
-   private boolean logbytes = true;
+   private NVTSpy nvtSpy = null;
    /**
     * extended ascii
     */
@@ -169,6 +170,10 @@ public class NVT implements Flushable, Closeable {
       dataOutputStream.flush();
    }
 
+   public NVTSpy getNvtSpy() {
+      return nvtSpy;
+   }
+
    public String getTermSpeed() {
       return termSpeed;
    }
@@ -207,10 +212,6 @@ public class NVT implements Flushable, Closeable {
 
    public boolean isEor() {
       return eor;
-   }
-
-   public boolean isLogbytes() {
-      return logbytes;
    }
 
    private boolean isPrintable(int c) {
@@ -280,7 +281,7 @@ public class NVT implements Flushable, Closeable {
              * it's a CR
              */
             cont = false;
-            writeEOL();
+            write(EOL);
          } else if ((b == KEY_BS) || (b == KEY_DEL)) {
             /*
              * backspace and delete keys
@@ -310,8 +311,8 @@ public class NVT implements Flushable, Closeable {
 
    public int readRawByte() throws IOException {
       final int c = dataInputStream.read();
-      if (isLogbytes()) {
-         logger.info(String.format("0x%02x %02d %c", c, c, c));
+      if (null != nvtSpy) {
+         nvtSpy.readbyte(c);
       }
       return c;
    }
@@ -328,8 +329,8 @@ public class NVT implements Flushable, Closeable {
 
    public short readShort() throws IOException {
       final short c = dataInputStream.readShort();
-      if (isLogbytes()) {
-         logger.info(String.format("0x%02x %02d ", c, c));
+      if (null != nvtSpy) {
+         nvtSpy.readshort(c);
       }
       return c;
    }
@@ -422,8 +423,8 @@ public class NVT implements Flushable, Closeable {
       this.eor = eor;
    }
 
-   public void setLogbytes(boolean logbytes) {
-      this.logbytes = logbytes;
+   public void setNvtSpy(NVTSpy nvtSpy) {
+      this.nvtSpy = nvtSpy;
    }
 
    public void setTermSpeed(String termSpeed) {
@@ -448,13 +449,19 @@ public class NVT implements Flushable, Closeable {
 
    public void write(int c) throws IOException {
       dataOutputStream.write(c);
+      if (null != nvtSpy) {
+         nvtSpy.writebyte(c);
+      }
       if (isAutoflush()) {
          flush();
       }
    }
 
    public void write(String str) throws IOException {
-      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
+      final byte[] bs = str.getBytes(charsetUTF8);
+      for (int i = 0; i < bs.length; i++) {
+         this.write(bs[i]);
+      }
       if (isAutoflush()) {
          flush();
       }
@@ -463,24 +470,17 @@ public class NVT implements Flushable, Closeable {
    public void writeBytes(int... b) throws IOException {
       for (final int i : b) {
          dataOutputStream.write(i);
+         if (null != nvtSpy) {
+            nvtSpy.writebyte(i);
+         }
       }
-      if (isAutoflush()) {
-         flush();
-      }
-   }
-
-   private void writeEOL() throws IOException {
-      dataOutputStream.write(EOL.getBytes(charsetUTF8), 0, EOL.length());
       if (isAutoflush()) {
          flush();
       }
    }
 
    public void writeln(String str) throws IOException {
-      dataOutputStream.write(str.getBytes(charsetUTF8), 0, str.length());
-      if (isAutoflush()) {
-         flush();
-      }
-      writeEOL();
+      write(str);
+      write(EOL);
    }
 }
