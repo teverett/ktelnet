@@ -407,11 +407,11 @@ public class NVT implements Flushable, Closeable {
       /*
        * ask to linemode
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
       /*
        * i accept environment variables
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
       /*
        * tell me your terminal type
        */
@@ -419,11 +419,11 @@ public class NVT implements Flushable, Closeable {
       /*
        * EOR
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
       /*
        * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
       /*
        * tell me your termspeed type
        */
@@ -435,15 +435,15 @@ public class NVT implements Flushable, Closeable {
       /*
        * i am able to receive 3270E information
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
       /*
        * i would like to talk about charsets
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
       /*
        * i like to talk in extended ASCII
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
       /*
        * lets talk about the environment
        */
