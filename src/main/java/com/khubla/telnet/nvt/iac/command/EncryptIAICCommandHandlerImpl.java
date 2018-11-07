@@ -17,7 +17,7 @@ import com.khubla.telnet.nvt.iac.IACHandler;
 
 /**
  * Telnet Data Encryption Option - RFC 2946
- * 
+ *
  * @author tom
  */
 public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {

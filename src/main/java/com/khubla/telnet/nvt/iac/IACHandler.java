@@ -65,6 +65,8 @@ public interface IACHandler {
    public static final int IAC_CODE_TN3270E = 40;
    // RFC 2066
    public static final int IAC_CODE_CHARSET = 42;
+   // RFC 861
+   public static final int IAC_CODE_EXTENDED_OPTIONS_LIST = 255;
 
    void process(NVT nvt, int cmd, int option) throws IOException;
 }

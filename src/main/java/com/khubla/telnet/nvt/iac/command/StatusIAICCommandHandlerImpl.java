@@ -16,7 +16,7 @@ import com.khubla.telnet.nvt.NVT;
 
 /**
  * TELNET STATUS OPTION - RFC 859
- * 
+ *
  * @author tom
  */
 public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
@@ -24,6 +24,14 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(StatusIAICCommandHandlerImpl.class);
+   /**
+    * codes
+    */
+   public static final int DO = 253;
+   public static final int DONT = 254;
+   public static final int WILL = 251;
+   public static final int WONT = 252;
+   public static final int SB = 250;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -42,6 +50,7 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB status");
+            final byte[] sn = readSubnegotiation(nvt);
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

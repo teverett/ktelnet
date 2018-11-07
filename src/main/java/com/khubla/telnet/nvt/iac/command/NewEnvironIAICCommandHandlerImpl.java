@@ -57,8 +57,9 @@ public class NewEnvironIAICCommandHandlerImpl extends AbstractIACCommandHandler 
             /*
              * great, send it along
              */
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_NEW_ENVIRON, SEND, VAR, VALUE, ESC, USERVAR, IACCommandHandler.IAC_IAC,
-                  IACCommandHandler.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_NEW_ENVIRON, SEND, VAR, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_NEW_ENVIRON, SEND, VALUE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_NEW_ENVIRON, SEND, USERVAR, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT newenviron");
