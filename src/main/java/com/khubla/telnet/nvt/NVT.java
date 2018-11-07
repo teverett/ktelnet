@@ -457,6 +457,10 @@ public class NVT implements Flushable, Closeable {
        * i can encrypt
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENCRYPT);
+      /*
+       * logout
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_LOGOUT);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

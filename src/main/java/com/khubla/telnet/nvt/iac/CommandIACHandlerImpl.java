@@ -67,6 +67,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(IACHandler.IAC_CODE_NEW_ENVIRON, new NewEnvironIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_ENCRYPT, new EncryptIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST, new ExtendedOptionsListIAICCommandHandlerImpl());
+      // iacCommandHandlers.put(IACHandler.IAC_CODE_LOGOUT, new LogoutIAICCommandHandlerImpl());
    }
 
    @Override

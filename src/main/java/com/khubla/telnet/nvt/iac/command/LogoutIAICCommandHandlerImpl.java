@@ -15,42 +15,33 @@ import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 
 /**
- * TELNET STATUS OPTION - RFC 859
+ * TELNET Logout Option - RFC 727
  *
  * @author tom
  */
-public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(StatusIAICCommandHandlerImpl.class);
-   /**
-    * codes
-    */
-   public static final int DO = 253;
-   public static final int DONT = 254;
-   public static final int WILL = 251;
-   public static final int WONT = 252;
-   public static final int SB = 250;
+   private static final Logger logger = LoggerFactory.getLogger(LogoutIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
-            logger.info("Received IAC DO status");
+            logger.info("Received IAC DO logout");
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
-            logger.info("Received IAC DONT status");
+            logger.info("Received IAC DONT logout");
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
-            logger.info("Received IAC WILL status");
+            logger.info("Received IAC WILL logout");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
-            logger.info("Received IAC WONT status");
+            logger.info("Received IAC WONT logout");
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
-            logger.info("Received IAC SB status");
-            readSubnegotiation(nvt);
+            logger.info("Received IAC SB logout");
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
