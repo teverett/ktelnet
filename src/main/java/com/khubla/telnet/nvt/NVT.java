@@ -20,6 +20,9 @@ import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.IACHandler;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
+import com.khubla.telnet.nvt.stream.IACProcessor;
+import com.khubla.telnet.nvt.stream.NVTStream;
+import com.khubla.telnet.nvt.stream.NVTStreamImpl;
 
 public class NVT implements Flushable, Closeable, IACProcessor {
    /**
@@ -93,7 +96,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * stream
        */
-      nvtStream = new NVTStream(socket.getInputStream(), socket.getOutputStream(), this);
+      nvtStream = new NVTStreamImpl(socket.getInputStream(), socket.getOutputStream(), this);
       /*
        * IACs
        */
@@ -284,7 +287,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       nvtStream.setNvtSpy(nvtSpy);
    }
 
-   public void setNvtStream(NVTStream nvtStream) {
+   public void setNvtStream(NVTStreamImpl nvtStream) {
       this.nvtStream = nvtStream;
    }
 

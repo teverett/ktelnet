@@ -4,7 +4,7 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt;
+package com.khubla.telnet.nvt.stream;
 
 import java.io.IOException;
 

@@ -4,14 +4,12 @@
  * Proprietary and confidential
  * Written by Tom Everett <tom@khubla.com>, 2018
  */
-package com.khubla.telnet.nvt;
+package com.khubla.telnet.nvt.stream;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.Flushable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,9 +18,10 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 
-public class NVTStream implements Closeable, Flushable {
+public class NVTStreamImpl implements NVTStream {
    /**
     * keys (RFC 854)
     */
@@ -47,7 +46,7 @@ public class NVTStream implements Closeable, Flushable {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NVTStream.class);
+   private static final Logger logger = LoggerFactory.getLogger(NVTStreamImpl.class);
    /**
     * EOL
     */
@@ -81,7 +80,7 @@ public class NVTStream implements Closeable, Flushable {
     */
    private final Charset charsetUTF8 = Charset.forName("UTF-8");
 
-   public NVTStream(InputStream inputStream, OutputStream outputStream, IACProcessor iacProcessor) {
+   public NVTStreamImpl(InputStream inputStream, OutputStream outputStream, IACProcessor iacProcessor) {
       super();
       /*
        * iac
@@ -94,6 +93,10 @@ public class NVTStream implements Closeable, Flushable {
       dataOutputStream = new DataOutputStream(outputStream);
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#close()
+    */
    @Override
    public void close() throws IOException {
       try {
@@ -108,19 +111,38 @@ public class NVTStream implements Closeable, Flushable {
       }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#flush()
+    */
    @Override
    public void flush() throws IOException {
       dataOutputStream.flush();
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#getNvtSpy()
+    */
+   @Override
    public NVTSpy getNvtSpy() {
       return nvtSpy;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#isAutoflush()
+    */
+   @Override
    public boolean isAutoflush() {
       return autoflush;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#isEcho()
+    */
+   @Override
    public boolean isEcho() {
       return echo;
    }
@@ -132,9 +154,11 @@ public class NVTStream implements Closeable, Flushable {
       return false;
    }
 
-   /**
-    * read a byte. process IAC if found. echo if appropriate
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#readByte()
     */
+   @Override
    public int readByte() throws IOException {
       final int c = readRawByte();
       if (c == IACCommandHandler.IAC_IAC) {
@@ -150,9 +174,11 @@ public class NVTStream implements Closeable, Flushable {
       }
    }
 
-   /**
-    * read a line
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#readln()
     */
+   @Override
    public String readln() throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;
@@ -235,6 +261,11 @@ public class NVTStream implements Closeable, Flushable {
       return baos.toString(charsetUTF8.name()).trim();
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#readRawByte()
+    */
+   @Override
    public int readRawByte() throws IOException {
       final int c = dataInputStream.read();
       if (null != nvtSpy) {
@@ -243,6 +274,11 @@ public class NVTStream implements Closeable, Flushable {
       return c;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#readRawString(int)
+    */
+   @Override
    public String readRawString(int marker) throws IOException {
       final ByteArrayOutputStream baos = new ByteArrayOutputStream();
       int b = readRawByte();
@@ -253,6 +289,11 @@ public class NVTStream implements Closeable, Flushable {
       return baos.toString(charsetUTF8.name()).trim();
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#readShort()
+    */
+   @Override
    public short readShort() throws IOException {
       final short c = dataInputStream.readShort();
       if (null != nvtSpy) {
@@ -261,18 +302,38 @@ public class NVTStream implements Closeable, Flushable {
       return c;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#setAutoflush(boolean)
+    */
+   @Override
    public void setAutoflush(boolean autoflush) {
       this.autoflush = autoflush;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#setEcho(boolean)
+    */
+   @Override
    public void setEcho(boolean echo) {
       this.echo = echo;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#setNvtSpy(com.khubla.telnet.nvt.spy.NVTSpy)
+    */
+   @Override
    public void setNvtSpy(NVTSpy nvtSpy) {
       this.nvtSpy = nvtSpy;
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#write(int)
+    */
+   @Override
    public void write(int c) throws IOException {
       dataOutputStream.write(c);
       if (null != nvtSpy) {
@@ -283,6 +344,11 @@ public class NVTStream implements Closeable, Flushable {
       }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#write(java.lang.String)
+    */
+   @Override
    public void write(String str) throws IOException {
       final byte[] bs = str.getBytes(charsetUTF8);
       for (int i = 0; i < bs.length; i++) {
@@ -293,6 +359,11 @@ public class NVTStream implements Closeable, Flushable {
       }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#writeBytes(int)
+    */
+   @Override
    public void writeBytes(int... b) throws IOException {
       for (final int i : b) {
          dataOutputStream.write(i);
@@ -305,6 +376,11 @@ public class NVTStream implements Closeable, Flushable {
       }
    }
 
+   /*
+    * (non-Javadoc)
+    * @see com.khubla.telnet.nvt.stream.NVTStream#writeln(java.lang.String)
+    */
+   @Override
    public void writeln(String str) throws IOException {
       write(str);
       write(EOL);
