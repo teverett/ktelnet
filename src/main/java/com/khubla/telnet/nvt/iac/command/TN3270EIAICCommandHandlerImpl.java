@@ -74,7 +74,8 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             /*
              * ask for devicetype
              */
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC,
+                  IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270E");
@@ -119,14 +120,14 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
-            nvt.writeBytes(DEVICE_TYPE);
-            nvt.writeBytes(IS);
-            nvt.write(deviceTypeName);
-            nvt.writeBytes(CONNECT);
-            nvt.write(deviceTypeName);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(DEVICE_TYPE);
+            nvt.getNvtStream().writeBytes(IS);
+            nvt.getNvtStream().write(deviceTypeName);
+            nvt.getNvtStream().writeBytes(CONNECT);
+            nvt.getNvtStream().write(deviceTypeName);
             // SE
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case REJECT:
             logger.info("Client has send DEVICETYPE REJECT.  This was not expected.");
@@ -156,14 +157,14 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
-            nvt.writeBytes(FUNCTIONS);
-            nvt.writeBytes(IS);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(FUNCTIONS);
+            nvt.getNvtStream().writeBytes(IS);
             for (final Integer i : tn3270Functions) {
-               nvt.writeBytes(i.intValue());
+               nvt.getNvtStream().writeBytes(i.intValue());
             }
             // SE
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          default:
             logger.info("Received Unknown 3270E FUNCTIONS Command:" + funcoption);

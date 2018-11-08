@@ -50,8 +50,8 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
       try {
          boolean go = true;
          while (go) {
-            getNvt().write(prompt);
-            final String inputLine = getNvt().readln();
+            getNvt().getNvtStream().write(prompt);
+            final String inputLine = getNvt().getNvtStream().readln();
             if ((null != inputLine) && (inputLine.length() > 0)) {
                /*
                 * get command
@@ -63,7 +63,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                    */
                   go = telnetCommand.execute(getNvt(), inputLine, sesssionParameters);
                } else {
-                  getNvt().writeln("Unknown: " + inputLine);
+                  getNvt().getNvtStream().writeln("Unknown: " + inputLine);
                }
             }
          }
@@ -88,10 +88,10 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
     * log the user in
     */
    private boolean login() throws IOException {
-      getNvt().write("login: ");
-      final String username = getNvt().readln();
-      getNvt().write("password: ");
-      final String password = getNvt().readln();
+      getNvt().getNvtStream().write("login: ");
+      final String username = getNvt().getNvtStream().readln();
+      getNvt().getNvtStream().write("password: ");
+      final String password = getNvt().getNvtStream().readln();
       if ((null != username) && (null != password)) {
          return authenticationHandler.login(username, password, sesssionParameters);
       }

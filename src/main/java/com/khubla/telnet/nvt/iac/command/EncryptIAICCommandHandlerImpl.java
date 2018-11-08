@@ -64,8 +64,10 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             /*
              * great, here is what I support
              */
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, REQUEST_START, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, SUPPORT, DES_CFB64, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, REQUEST_START, IACCommandHandler.IAC_IAC,
+                  IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, SUPPORT, DES_CFB64, IACCommandHandler.IAC_IAC,
+                  IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT encrypt");

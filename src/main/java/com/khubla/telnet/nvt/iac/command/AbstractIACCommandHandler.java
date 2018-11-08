@@ -32,9 +32,9 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
       final ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;
       while (cont) {
-         final int b = nvt.readRawByte();
+         final int b = nvt.getNvtStream().readRawByte();
          if (b == IACCommandHandler.IAC_IAC) {
-            final int b2 = nvt.readRawByte();
+            final int b2 = nvt.getNvtStream().readRawByte();
             if (b2 == IACCommandHandler.IAC_COMMAND_SE) {
                cont = false;
             } else {

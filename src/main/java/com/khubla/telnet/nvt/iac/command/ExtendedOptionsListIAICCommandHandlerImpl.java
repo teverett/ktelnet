@@ -52,8 +52,8 @@ public class ExtendedOptionsListIAICCommandHandlerImpl extends AbstractIACComman
    }
 
    private void sendOption(NVT nvt, int option) throws IOException {
-      nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST, IACCommandHandler.IAC_IAC,
-            IACCommandHandler.IAC_COMMAND_SE);
+      nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST,
+            IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
    }
 
    private void sendOptions(NVT nvt) throws IOException {

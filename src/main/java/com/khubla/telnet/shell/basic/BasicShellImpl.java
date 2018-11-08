@@ -29,7 +29,7 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
 
    @Override
    protected void onConnect() throws IOException {
-      getNvt().writeln(helloMessge);
+      getNvt().getNvtStream().writeln(helloMessge);
    }
 
    @Override

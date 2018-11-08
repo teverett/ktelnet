@@ -59,7 +59,7 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL auth");
             // request auth
-            nvt.writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER,
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER,
                   IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:

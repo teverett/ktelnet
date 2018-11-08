@@ -6,15 +6,10 @@
  */
 package com.khubla.telnet.nvt;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.Flushable;
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -26,68 +21,19 @@ import com.khubla.telnet.nvt.iac.IACHandler;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 
-public class NVT implements Flushable, Closeable {
+public class NVT implements Flushable, Closeable, IACProcessor {
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(NVT.class);
    /**
-    * keys (RFC 854)
-    */
-   // No Operation
-   public static final int KEY_NULL = 0;
-   // Produces an audible or visible signal (which does NOT move the print head).
-   public static final int KEY_BEL = 7;
-   // Moves the print head one character position towards the left margin.
-   public static final int KEY_BS = 8;
-   // Moves the printer to the next horizontal tab stop. It remains unspecified how either party determines or establishes where such tab stops are located.
-   public static final int KEY_HT = 9;
-   // Moves the printer to the next print line, keeping the same horizontal position.
-   public static final int KEY_LF = 10;
-   // Moves the printer to the next vertical tab stop. It remains unspecified how either party determines or establishes where such tab stops are located.
-   public static final int KEY_VT = 11;
-   // Moves the printer to the top of the next page, keeping the same horizontal position.
-   public static final int KEY_FF = 12;
-   // Moves the printer to the left margin of the current line.
-   public static final int KEY_CR = 13;
-   public static final int KEY_ESC = 27;
-   public static final int KEY_DEL = 127;
-   /**
     * EOR (tn3270)
     */
    public static final int EOR = 239;
    /**
-    * EOL
-    */
-   public final static String EOL = new String("\r\n");
-   /**
-    * in stream
-    */
-   private final DataInputStream dataInputStream;
-   /**
-    * out stream
-    */
-   private final DataOutputStream dataOutputStream;
-   /**
-    * charset
-    */
-   private final Charset charsetUTF8 = Charset.forName("UTF-8");
-   /**
     * socket
     */
    private final Socket socket;
-   /**
-    * autoflush
-    */
-   private boolean autoflush = true;
-   /**
-    * echo
-    */
-   private boolean echo = true;
-   /**
-    * IAC handlers
-    */
-   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
    /**
     * term x
     */
@@ -125,10 +71,6 @@ public class NVT implements Flushable, Closeable {
     */
    private boolean eor = false;
    /**
-    * nvt spy
-    */
-   private NVTSpy nvtSpy = null;
-   /**
     * extended ascii
     */
    private boolean clientcanextendedascii = false;
@@ -136,12 +78,22 @@ public class NVT implements Flushable, Closeable {
     * clientcancharset
     */
    private boolean clientcancharset = false;
+   /**
+    * NVTStream
+    */
+   private NVTStream nvtStream;
+   /**
+    * IAC handlers
+    */
+   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
 
    public NVT(Socket socket) throws IOException {
       super();
       this.socket = socket;
-      dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-      dataOutputStream = new DataOutputStream(socket.getOutputStream());
+      /*
+       * stream
+       */
+      nvtStream = new NVTStream(socket.getInputStream(), socket.getOutputStream(), this);
       /*
        * IACs
        */
@@ -160,16 +112,6 @@ public class NVT implements Flushable, Closeable {
    @Override
    public void close() {
       try {
-         dataInputStream.close();
-      } catch (final Exception e) {
-         logger.error(e.getMessage(), e);
-      }
-      try {
-         dataOutputStream.close();
-      } catch (final Exception e) {
-         logger.error(e.getMessage(), e);
-      }
-      try {
          socket.close();
       } catch (final Exception e) {
          logger.error(e.getMessage(), e);
@@ -178,11 +120,11 @@ public class NVT implements Flushable, Closeable {
 
    @Override
    public void flush() throws IOException {
-      dataOutputStream.flush();
+      nvtStream.flush();
    }
 
-   public NVTSpy getNvtSpy() {
-      return nvtSpy;
+   public NVTStream getNvtStream() {
+      return nvtStream;
    }
 
    public String getTermSpeed() {
@@ -209,10 +151,6 @@ public class NVT implements Flushable, Closeable {
       return tn3270Functions;
    }
 
-   public boolean isAutoflush() {
-      return autoflush;
-   }
-
    public boolean isBinaryMode() {
       return binaryMode;
    }
@@ -225,166 +163,24 @@ public class NVT implements Flushable, Closeable {
       return clientcanextendedascii;
    }
 
-   public boolean isEcho() {
-      return echo;
-   }
-
    public boolean isEor() {
       return eor;
-   }
-
-   private boolean isPrintable(int c) {
-      if ((c >= 0x20) && (c <= 0xfd)) {
-         return true;
-      }
-      return false;
    }
 
    public boolean isTn3270() {
       return tn3270;
    }
 
-   private void processIAC() throws IOException {
-      final int cmd = readRawByte();
-      final int option = readRawByte();
+   @Override
+   public void processIAC() throws IOException {
+      final int cmd = nvtStream.readRawByte();
+      final int option = nvtStream.readRawByte();
       final IACHandler iacHandler = iacHandlers.get(cmd);
       if (null != iacHandler) {
          iacHandler.process(this, cmd, option);
       } else {
          logger.info("No handler for AIC command:" + cmd + " option:" + option);
       }
-   }
-
-   /**
-    * read a byte. process IAC if found. echo if appropriate
-    */
-   public int readByte() throws IOException {
-      final int c = readRawByte();
-      if (c == IACCommandHandler.IAC_IAC) {
-         processIAC();
-         return readByte();
-      } else {
-         if (isEcho()) {
-            if (isPrintable(c)) {
-               write(c);
-            }
-         }
-         return c;
-      }
-   }
-
-   /**
-    * read a line
-    */
-   public String readln() throws IOException {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      boolean cont = true;
-      while (cont) {
-         final int b = readByte();
-         if (b == EOR) {
-            logger.info("EOR");
-         }
-         if (b == KEY_LF) {
-            /*
-             * bare LF is a LF
-             */
-            if (isEcho()) {
-               write(b);
-            }
-         } else if (b == KEY_NULL) {
-            /*
-             * ignore
-             */
-            logger.info("Unexpected NULL");
-         } else if (b == KEY_CR) {
-            /*
-             * if it's followed by LF, then it means CRLF. Eat the LF
-             */
-            if (dataInputStream.available() > 0) {
-               dataInputStream.mark(1);
-               final int potentialLF = readByte();
-               if (potentialLF != KEY_LF) {
-                  dataInputStream.reset();
-                  /*
-                   * if it's followed by a NULL it means just a CR, Eat the NUL
-                   */
-                  dataInputStream.mark(1);
-                  final int potentialNUL = readByte();
-                  if (potentialNUL != KEY_NULL) {
-                     dataInputStream.reset();
-                     /*
-                      * its a bare CR treat it like CRLF
-                      */
-                     cont = false;
-                     write(EOL);
-                  } else {
-                     // its just a CR
-                     cont = false;
-                     write(EOL);
-                  }
-               } else {
-                  /*
-                   * its a CRLF
-                   */
-                  cont = false;
-                  write(EOL);
-               }
-            } else {
-               // just a bare CR, nothing after it
-               cont = false;
-               write(EOL);
-            }
-         } else if ((b == KEY_BS) || (b == KEY_DEL)) {
-            /*
-             * backspace and delete keys
-             */
-            String str = baos.toString(charsetUTF8.name());
-            baos = new ByteArrayOutputStream();
-            str = str.substring(0, str.length() - 1);
-            if (str.length() > 0) {
-               baos.write(str.getBytes(), 0, str.length());
-            }
-            // echo the BS/DEL back
-            if (isEcho()) {
-               write(b);
-            }
-         } else if (b == KEY_ESC) {
-            logger.info("ESC pressed");
-         } else if (b == KEY_HT) {
-            logger.info("TAB pressed");
-         } else {
-            if (isPrintable(b)) {
-               baos.write(b);
-            }
-         }
-      }
-      return baos.toString(charsetUTF8.name()).trim();
-   }
-
-   public int readRawByte() throws IOException {
-      final int c = dataInputStream.read();
-      if (null != nvtSpy) {
-         nvtSpy.readbyte(c);
-      }
-      return c;
-   }
-
-   public String readRawString(int marker) throws IOException {
-      final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      int b = readRawByte();
-      while (b != marker) {
-         baos.write(b);
-         b = readRawByte();
-      }
-      return baos.toString(charsetUTF8.name()).trim();
-   }
-
-   public short readShort() throws IOException {
-      final short c = dataInputStream.readShort();
-      if (null != nvtSpy) {
-         nvtSpy.readshort(c);
-      }
-      return c;
    }
 
    private void sendConfigParameters() throws IOException {
@@ -464,12 +260,8 @@ public class NVT implements Flushable, Closeable {
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
-      writeBytes(IACCommandHandler.IAC_IAC, command, option);
+      nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
       flush();
-   }
-
-   public void setAutoflush(boolean autoflush) {
-      this.autoflush = autoflush;
    }
 
    public void setBinaryMode(boolean binaryMode) {
@@ -484,16 +276,16 @@ public class NVT implements Flushable, Closeable {
       this.clientcanextendedascii = clientcanextendedascii;
    }
 
-   public void setEcho(boolean echo) {
-      this.echo = echo;
-   }
-
    public void setEor(boolean eor) {
       this.eor = eor;
    }
 
    public void setNvtSpy(NVTSpy nvtSpy) {
-      this.nvtSpy = nvtSpy;
+      nvtStream.setNvtSpy(nvtSpy);
+   }
+
+   public void setNvtStream(NVTStream nvtStream) {
+      this.nvtStream = nvtStream;
    }
 
    public void setTermSpeed(String termSpeed) {
@@ -522,42 +314,5 @@ public class NVT implements Flushable, Closeable {
 
    public void setTn3270Functions(Set<Integer> tn3270Functions) {
       this.tn3270Functions = tn3270Functions;
-   }
-
-   public void write(int c) throws IOException {
-      dataOutputStream.write(c);
-      if (null != nvtSpy) {
-         nvtSpy.writebyte(c);
-      }
-      if (isAutoflush()) {
-         flush();
-      }
-   }
-
-   public void write(String str) throws IOException {
-      final byte[] bs = str.getBytes(charsetUTF8);
-      for (int i = 0; i < bs.length; i++) {
-         this.write(bs[i]);
-      }
-      if (isAutoflush()) {
-         flush();
-      }
-   }
-
-   public void writeBytes(int... b) throws IOException {
-      for (final int i : b) {
-         dataOutputStream.write(i);
-         if (null != nvtSpy) {
-            nvtSpy.writebyte(i);
-         }
-      }
-      if (isAutoflush()) {
-         flush();
-      }
-   }
-
-   public void writeln(String str) throws IOException {
-      write(str);
-      write(EOL);
    }
 }

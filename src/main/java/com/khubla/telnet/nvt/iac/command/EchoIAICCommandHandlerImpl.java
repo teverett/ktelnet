@@ -25,11 +25,11 @@ public class EchoIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO echo");
-            nvt.setEcho(true);
+            nvt.getNvtStream().setEcho(true);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT echo");
-            nvt.setEcho(false);
+            nvt.getNvtStream().setEcho(false);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL echo");
