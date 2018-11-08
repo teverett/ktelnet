@@ -80,7 +80,13 @@ public class CommandIACHandlerImpl implements IACHandler {
          /*
           * send a "nope"
           */
-         nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, option);
+         if (cmd == IACCommandHandler.IAC_COMMAND_DO) {
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, option);
+         } else if (cmd == IACCommandHandler.IAC_COMMAND_WILL) {
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, option);
+         } else {
+            logger.info("Unexpected IAC command:" + cmd + " option: " + option);
+         }
       }
    }
 }
