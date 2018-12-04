@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.khubla.ktelnet</groupId>
 	<artifactId>ktelnet</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 	<name>khubla.com Telnet Server</name>
 	<description>A java TELNET server</description>
@@ -26,7 +26,8 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/teverett/paradoxReader.git</connection>
-	</scm>
+	  <tag>ktelnet-1.2</tag>
+  </scm>
 	<organization>
 		<name>khubla.com</name>
 		<url>http://www.khubla.com</url>
