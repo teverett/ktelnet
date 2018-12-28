@@ -6,9 +6,6 @@
 	<packaging>jar</packaging>
 	<name>khubla.com Telnet Server</name>
 	<description>A java TELNET server</description>
-	<prerequisites>
-		<maven>3.1.0</maven>
-	</prerequisites>
 	<developers>
 		<developer>
 			<id>teverett</id>
@@ -26,8 +23,8 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/teverett/ktelnet.git</connection>
-	  <tag>ktelnet-1.2</tag>
-  </scm>
+		<tag>ktelnet-1.2</tag>
+	</scm>
 	<organization>
 		<name>khubla.com</name>
 		<url>http://www.khubla.com</url>
@@ -37,6 +34,8 @@
 		<testng.version>6.14.2</testng.version>
 		<logback.version>1.2.3</logback.version>
 		<target.jvm>1.7</target.jvm>
+		<spotless.version>1.16.0</spotless.version>
+		<required-maven-version>3.3.1</required-maven-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -92,6 +91,45 @@
 					<source>${target.jvm}</source>
 					<target>${target.jvm}</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>${spotless.version}</version>
+				<configuration>
+					<lineEndings>UNIX</lineEndings>
+					<encoding>UTF-8</encoding>
+					<java>
+						<eclipse>
+							<file>${maven.multiModuleProjectDirectory}/format.eclipse.xml</file>
+							<version>4.7.1</version>
+						</eclipse>
+						<removeUnusedImports />
+						<importOrder>
+							<file>${maven.multiModuleProjectDirectory}/format.importorder</file>
+						</importOrder>
+					</java>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${required-maven-version}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
