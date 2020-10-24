@@ -6,17 +6,17 @@
  */
 package com.khubla.telnet;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.*;
+import org.testng.annotations.*;
 
 public class BasicTest extends AbstractTelnetTest {
-   @Test(enabled = false)
-   public void test1() {
-      try {
-         this.writer.write("quit\n");
-      } catch (Exception e) {
-         e.printStackTrace();
-         Assert.fail();
-      }
-   }
+	@Test(enabled = false)
+	public void test1() {
+		try {
+			writer.write("quit\n");
+		} catch (final Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

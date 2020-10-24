@@ -7,12 +7,12 @@
 package com.khubla.telnet;
 
 public class TelnetException extends Exception {
-   /**
-    *
-    */
-   private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-   public TelnetException(String message, Exception cause) {
-      super(message, cause);
-   }
+	public TelnetException(String message, Exception cause) {
+		super(message, cause);
+	}
 }
