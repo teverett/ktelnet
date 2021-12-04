@@ -239,14 +239,16 @@ public class NVTStreamImpl implements NVTStream {
              * backspace and delete keys
              */
             String str = baos.toString(charsetUTF8.name());
-            baos = new ByteArrayOutputStream();
-            str = str.substring(0, str.length() - 1);
-            if (str.length() > 0) {
-               baos.write(str.getBytes(), 0, str.length());
-            }
-            // echo the BS/DEL back
-            if (isEcho()) {
-               write(b);
+            if (str.length() > 0) { 
+	           baos = new ByteArrayOutputStream();
+	           str = str.substring(0, str.length() - 1);
+	           if (str.length() > 0) {
+	              baos.write(str.getBytes(), 0, str.length());
+	           }
+	           // echo the BS/DEL back
+	           if (isEcho()) {
+	              write(b);
+	           }
             }
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
