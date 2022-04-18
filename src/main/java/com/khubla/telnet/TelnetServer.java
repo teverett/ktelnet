@@ -83,8 +83,9 @@ public class TelnetServer implements Runnable {
 					 */
 					executorService.submit(shell);
 				} catch (final Exception e) {
-					clientSocket.close();
 					logger.error(e.getMessage(), e);
+				} finally {
+					clientSocket.close();
 				}
 			}
 		} catch (final Exception e) {
