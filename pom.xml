@@ -33,7 +33,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<commons-cli.version>1.5.0</commons-cli.version>
 		<testng.version>7.8.0</testng.version>
-		<logback.version>1.4.11</logback.version>
+		<logback.version>1.5.1</logback.version>
 		<target.jvm>1.7</target.jvm>
 		<required-maven-version>3.3.1</required-maven-version>
 	</properties>
