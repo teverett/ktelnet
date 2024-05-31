@@ -56,11 +56,13 @@ public class TelnetServer implements Runnable {
 			 * listener
 			 */
 			serverSocket = new ServerSocket(port);
+			serverSocket.setSoTimeout(1000);
 			Socket clientSocket = null;
 			System.out.println("Telnet server listening on port: " + port);
 			logger.info("Telnet server listening on port: " + port);
 			while (running.get()) {
-				try {
+				try
+				{
 					/*
 					 * accept connection
 					 */
@@ -82,6 +84,8 @@ public class TelnetServer implements Runnable {
 					 * submit to pool
 					 */
 					executorService.submit(shell);
+				} catch (final SocketTimeoutException t) {
+					// Do nothing...
 				} catch (final Exception e) {
 					logger.error(e.getMessage(), e);
 				} finally {
