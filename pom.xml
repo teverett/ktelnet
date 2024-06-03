@@ -34,7 +34,7 @@
 		<commons-cli.version>1.7.0</commons-cli.version>
 		<testng.version>7.8.0</testng.version>
 		<logback.version>1.4.11</logback.version>
-		<target.jvm>1.7</target.jvm>
+		<target.jvm>21</target.jvm>
 		<required-maven-version>3.3.1</required-maven-version>
 	</properties>
 	<dependencies>
