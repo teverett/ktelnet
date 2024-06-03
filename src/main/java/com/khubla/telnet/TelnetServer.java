@@ -61,8 +61,7 @@ public class TelnetServer implements Runnable {
 			System.out.println("Telnet server listening on port: " + port);
 			logger.info("Telnet server listening on port: " + port);
 			while (running.get()) {
-				try
-				{
+				try {
 					/*
 					 * accept connection
 					 */
@@ -88,10 +87,9 @@ public class TelnetServer implements Runnable {
 					// Do nothing...
 				} catch (final Exception e) {
 					logger.error(e.getMessage(), e);
-				} finally {
-					clientSocket.close();
 				}
 			}
+			executorService.shutdown();
 		} catch (final Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {
