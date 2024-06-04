@@ -34,7 +34,7 @@
 		<commons-cli.version>1.7.0</commons-cli.version>
 		<testng.version>7.8.0</testng.version>
 		<logback.version>1.4.11</logback.version>
-		<target.jvm>1.7</target.jvm>
+		<target.jvm>21</target.jvm>
 		<required-maven-version>3.3.1</required-maven-version>
 	</properties>
 	<dependencies>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
-			<version>3.9.0</version>
+			<version>3.11.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -95,7 +95,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.4.0</version>
+				<version>3.5.0</version>
 				<executions>
 					<execution>
 						<id>enforce-maven</id>
@@ -133,7 +133,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.3.0</version>
+						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -146,7 +146,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.6.3</version>
+						<version>3.7.0</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
