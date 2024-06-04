@@ -37,7 +37,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<commons-cli.version>1.7.0</commons-cli.version>
-		<testng.version>7.8.0</testng.version>
+		<testng.version>7.10.2</testng.version>
 		<logback.version>1.5.6</logback.version>
 		<target.jvm>21</target.jvm>
 		<required-maven-version>3.3.1</required-maven-version>
