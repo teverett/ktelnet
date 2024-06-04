@@ -33,8 +33,15 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - run: mvn clean package
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 21
 
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
