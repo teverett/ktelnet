@@ -52,6 +52,9 @@ A simple example using the default Telnet implementation:
 
 * [RFC 856](https://datatracker.ietf.org/doc/html/rfc856) - Binary
 * [RFC 857](https://datatracker.ietf.org/doc/html/rfc857) - Echo
+* [RFC 858](https://datatracker.ietf.org/doc/html/rfc858) - Suppress Go Ahead
+* [RFC 859](https://datatracker.ietf.org/doc/html/rfc858) - Status
+* [RFC 885](https://datatracker.ietf.org/doc/html/rfc885) - EOR
 * [RFC 1091](https://datatracker.ietf.org/doc/html/rfc1091) - Termtype
 * [RFC 1073](https://datatracker.ietf.org/doc/html/rfc1073) - Winsize
 * [RFC 1079](https://datatracker.ietf.org/doc/html/rfc1079) - Termspeed
