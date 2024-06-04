@@ -40,7 +40,11 @@ public abstract class AbstractTelnetTest {
 			 * done client
 			 */
 			if (telnetClient.isConnected()) {
-				telnetClient.disconnect();
+				try {
+					telnetClient.disconnect();
+				} catch (SocketException e) {
+					// do nothing
+				}
 			}
 			telnetClient = null;
 			/*
