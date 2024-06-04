@@ -1,4 +1,5 @@
 [![CI](https://github.com/teverett/ktelnet/actions/workflows/main.yml/badge.svg)](https://github.com/teverett/ktelnet/actions/workflows/main.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b7b3babc5b38465bad5c9d00a940e002)](https://app.codacy.com/gh/teverett/ktelnet/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 # kTelnet
 
