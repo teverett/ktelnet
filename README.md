@@ -50,11 +50,11 @@ A simple example using the default Telnet implementation:
 
 ## Implemented RFC's
 
-* RFC 856 - Binary
-* RFC 857 - Echo
-* RFC 1091 - Termtype
-* RFC 1073 - Winsize
-* RFC 1079 - Termspeed
+* [RFC 856](https://datatracker.ietf.org/doc/html/rfc856) - Binary
+* [RFC 857](https://datatracker.ietf.org/doc/html/rfc857) - Echo
+* [RFC 1091](https://datatracker.ietf.org/doc/html/rfc1091) - Termtype
+* [RFC 1073](https://datatracker.ietf.org/doc/html/rfc1073) - Winsize
+* [RFC 1079](https://datatracker.ietf.org/doc/html/rfc1079) - Termspeed
 
 ## Login
 Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor.  A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
