@@ -12,6 +12,11 @@
 			<name>Tom Everett</name>
 			<email>tom@khubla.com</email>
 		</developer>
+		<developer>
+			<id>dannykurniawan80</id>
+			<name>DannyKurniawan</name>
+			<email>danny.kurniawan@gmail.com</email>
+		</developer>
 	</developers>
 	<url>https://github.com/teverett/paradoxReader</url>
 	<licenses>
