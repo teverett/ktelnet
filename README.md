@@ -1,6 +1,4 @@
-![CI](https://github.com/teverett/ktelnet/workflows/CI/badge.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2ee879081835443fb2269a32dac0e795)](https://www.codacy.com/app/teverett/ktelnet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teverett/ktelnet&amp;utm_campaign=Badge_Grade)
-[![DepShield Badge](https://depshield.sonatype.org/badges/teverett/ktelnet/depshield.svg)](https://depshield.github.io)
+[![CI](https://github.com/teverett/ktelnet/actions/workflows/main.yml/badge.svg)](https://github.com/teverett/ktelnet/actions/workflows/main.yml)
 
 # kTelnet
 
@@ -15,7 +13,7 @@ kTelnet is licensed under the BSD terms
 <groupId>com.khubla.ktelnet</groupId>
 <artifactId>ktelnet</artifactId>
 <packaging>jar</packaging>
-<version>1.1</version>
+<version></version>
 ```
 
 ## Using kTelnet
