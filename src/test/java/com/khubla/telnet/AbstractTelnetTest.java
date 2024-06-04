@@ -7,6 +7,7 @@
 package com.khubla.telnet;
 
 import java.io.*;
+import java.net.SocketException;
 
 import org.apache.commons.net.telnet.*;
 import org.testng.*;
@@ -28,7 +29,11 @@ public abstract class AbstractTelnetTest {
 			/*
 			 * close streams
 			 */
-			writer.flush();
+			try {
+				writer.flush();
+			} catch (SocketException e) {
+				// do nothing
+			}
 			writer = null;
 			reader = null;
 			/*
