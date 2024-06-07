@@ -170,7 +170,7 @@ public class NVTStreamImpl implements NVTStream {
                write(c);
             }
          }
-         return c;
+            return c;
       }
    }
 

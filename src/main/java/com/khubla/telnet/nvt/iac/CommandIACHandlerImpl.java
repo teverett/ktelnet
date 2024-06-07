@@ -9,20 +9,12 @@ package com.khubla.telnet.nvt.iac;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.khubla.telnet.nvt.iac.command.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.EORIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.NewEnvironIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.StatusIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.TermspeedIACCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.TermtypeIACCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.WinsizeIAICCommandHandlerImpl;
 
 public class CommandIACHandlerImpl implements IACHandler {
    /**
@@ -43,7 +35,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       iacCommandHandlers.put(IACHandler.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
+      iacCommandHandlers.put(IACHandler.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_STATUS, new StatusIAICCommandHandlerImpl());
       iacCommandHandlers.put(IACHandler.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
