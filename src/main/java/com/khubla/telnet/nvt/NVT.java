@@ -119,7 +119,6 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * echo
        */
-      new EchoIAICCommandHandlerImpl();
       sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
        * ask to linemode
@@ -179,7 +178,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       CommandIACHandlerImpl cmdHandler = new CommandIACHandlerImpl();
       IACCommandHandler iacCommandHandler = cmdHandler.getIACCommandHandler(option);
       if (null != iacCommandHandler) {
-         logger.info("Sent IAC command:" + commandToString(command) + " option:" + iacCommandHandler.getDescription());
+         logger.info("Sent IAC command: " + commandToString(command) + " option: " + iacCommandHandler.getDescription());
          nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
          flush();
       } else {

@@ -58,6 +58,6 @@ public class BinaryIAICCommandHandlerImpl extends AbstractIACCommandHandler {
 
    @Override
    public String getDescription() {
-      return "Binary";
+      return "BINARY";
    }
 }

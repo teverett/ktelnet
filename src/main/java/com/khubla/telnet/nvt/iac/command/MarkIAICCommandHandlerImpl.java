@@ -26,9 +26,11 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO mark");
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_MARK);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT mark");
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IAC_CODE_MARK);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL mark");
