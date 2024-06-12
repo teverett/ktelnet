@@ -6,14 +6,13 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
@@ -43,8 +42,8 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             final byte[] sn = readSubnegotiation(nvt);
             final short x = readShort(sn, 0);
             final short y = readShort(sn, 2);
-            nvt.setTermX(x);
-            nvt.setTermY(y);
+            nvt.getNvtOptions().setTermX(x);
+            nvt.getNvtOptions().setTermY(y);
             logger.info("Remote terminal winsize is: " + x + "x" + y);
             break;
          default:

@@ -6,14 +6,13 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * TELNET END OF RECORD OPTION - RFC 885
@@ -39,11 +38,11 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL EOR");
-            nvt.setEor(true);
+            nvt.getNvtOptions().setEor(true);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT EOR");
-            nvt.setEor(false);
+            nvt.getNvtOptions().setEor(false);
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB EOR");

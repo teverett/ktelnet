@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
@@ -25,11 +24,11 @@ public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandl
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO extended ascii");
-            nvt.setClientcanextendedascii(true);
+            nvt.getNvtOptions().setClientcanextendedascii(true);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT extended ascii");
-            nvt.setClientcanextendedascii(false);
+            nvt.getNvtOptions().setClientcanextendedascii(false);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL extended ascii");

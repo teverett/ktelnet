@@ -6,25 +6,24 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
    /**
     * constants...
     */
    public static final int IS = 0;
    public static final int SEND = 1;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -40,8 +39,7 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
             // great, we like it
             nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
             // request it
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC,
-                  IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termspeed");
@@ -51,7 +49,7 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == IS) {
                final String termSpeedString = readString(sn, 1, sn.length);
-               nvt.setTermSpeed(termSpeedString);
+               nvt.getNvtOptions().setTermSpeed(termSpeedString);
                logger.info("Remote terminal termspeed is: " + termSpeedString);
             } else if (sn[0] == SEND) {
                // send the termspeed

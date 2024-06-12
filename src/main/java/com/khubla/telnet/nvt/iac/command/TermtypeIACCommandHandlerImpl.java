@@ -6,25 +6,24 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
    /**
     * constants...
     */
    public static final int IS = 0;
    public static final int SEND = 1;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(TermtypeIACCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -50,10 +49,10 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == IS) {
                final String termType = readString(sn, 1, sn.length);
-               nvt.setTermtype(termType);
+               nvt.getNvtOptions().setTermtype(termType);
                logger.info("Remote terminal termtype is: " + termType);
                if (termType.startsWith("IBM-327")) {
-                  nvt.setTn3270(true);
+                  nvt.getNvtOptions().setTn3270(true);
                   logger.info("Remote terminal termtype is a tn3270");
                }
             } else if (sn[0] == SEND) {

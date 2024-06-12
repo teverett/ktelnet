@@ -6,16 +6,15 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TN3270 Enhancements - RFC 2355
@@ -23,10 +22,6 @@ import com.khubla.telnet.nvt.iac.IACHandler;
  * @author tom
  */
 public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(TN3270EIAICCommandHandlerImpl.class);
    /**
     * constants...
     */
@@ -58,6 +53,10 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int RESPONSES = 2;
    public static final int SCS_CTL_CODES = 3;
    public static final int SYSREQ = 4;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(TN3270EIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -70,16 +69,15 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL 3270E");
-            nvt.setTn3270(true);
+            nvt.getNvtOptions().setTn3270(true);
             /*
              * ask for devicetype
              */
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC,
-                  IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270E");
-            nvt.setTn3270(false);
+            nvt.getNvtOptions().setTn3270(false);
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB 3270E");
@@ -115,7 +113,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              */
             final String deviceTypeName = readString(sn, 2, sn.length);
             logger.info("Client has requested device type: " + deviceTypeName);
-            nvt.setTn3270Device(deviceTypeName);
+            nvt.getNvtOptions().setTn3270Device(deviceTypeName);
             /*
              * ok!
              */
@@ -150,9 +148,9 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             final Set<Integer> tn3270Functions = new HashSet<Integer>();
             for (int i = 2; i < sn.length; i++) {
                logger.info("Client has suggested function: " + sn[i]);
-               tn3270Functions.add(new Integer(sn[i]));
+               tn3270Functions.add(Integer.valueOf(sn[i]));
             }
-            nvt.setTn3270Functions(tn3270Functions);
+            nvt.getNvtOptions().setTn3270Functions(tn3270Functions);
             /*
              * ok!
              */

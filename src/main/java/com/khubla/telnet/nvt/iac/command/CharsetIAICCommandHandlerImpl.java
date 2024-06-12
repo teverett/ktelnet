@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 /**
  * TELNET CHARSET Option - RFC 2066
@@ -20,10 +19,6 @@ import com.khubla.telnet.nvt.NVT;
  * @author tom
  */
 public class CharsetIAICCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(CharsetIAICCommandHandlerImpl.class);
    /**
     * constants...
     */
@@ -35,17 +30,21 @@ public class CharsetIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int TTABLE_REJECTED = 5;
    public static final int TTABLE_ACK = 6;
    public static final int TTABLE_NAK = 7;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(CharsetIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO charset");
-            nvt.setClientcancharset(true);
+            nvt.getNvtOptions().setClientcancharset(true);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT charset");
-            nvt.setClientcancharset(false);
+            nvt.getNvtOptions().setClientcancharset(false);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL charset");

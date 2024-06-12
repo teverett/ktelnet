@@ -6,16 +6,6 @@
  */
 package com.khubla.telnet.nvt;
 
-import java.io.Closeable;
-import java.io.Flushable;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.IACHandler;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
@@ -23,72 +13,40 @@ import com.khubla.telnet.nvt.spy.NVTSpy;
 import com.khubla.telnet.nvt.stream.IACProcessor;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Closeable;
+import java.io.Flushable;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.HashMap;
 
 public class NVT implements Flushable, Closeable, IACProcessor {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(NVT.class);
    /**
     * EOR (tn3270)
     */
    public static final int EOR = 239;
    /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(NVT.class);
+   /**
     * socket
     */
    private final Socket socket;
    /**
-    * term x
+    * IAC handlers
     */
-   private short termX;
+   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
    /**
-    * term y
+    * options
     */
-   private short termY;
-   /**
-    * term type
-    */
-   private String termtype;
-   /**
-    * term speed
-    */
-   private String termSpeed;
-   /**
-    * binary
-    */
-   private boolean binaryMode = false;
-   /**
-    * tn3270
-    */
-   private boolean tn3270 = false;
-   /**
-    * tn3270 device
-    */
-   private String tn3270Device = null;
-   /**
-    * tn3270 functions
-    */
-   private Set<Integer> tn3270Functions = null;
-   /**
-    * eor
-    */
-   private boolean eor = false;
-   /**
-    * extended ascii
-    */
-   private boolean clientcanextendedascii = false;
-   /**
-    * clientcancharset
-    */
-   private boolean clientcancharset = false;
+   private final NVTOptions nvtOptions = new NVTOptions();
    /**
     * NVTStream
     */
    private NVTStream nvtStream;
-   /**
-    * IAC handlers
-    */
-   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -112,6 +70,10 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       sendConfigParameters();
    }
 
+   public NVTOptions getNvtOptions() {
+      return nvtOptions;
+   }
+
    @Override
    public void close() {
       try {
@@ -130,48 +92,8 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       return nvtStream;
    }
 
-   public String getTermSpeed() {
-      return termSpeed;
-   }
-
-   public String getTermtype() {
-      return termtype;
-   }
-
-   public short getTermX() {
-      return termX;
-   }
-
-   public short getTermY() {
-      return termY;
-   }
-
-   public String getTn3270Device() {
-      return tn3270Device;
-   }
-
-   public Set<Integer> getTn3270Functions() {
-      return tn3270Functions;
-   }
-
-   public boolean isBinaryMode() {
-      return binaryMode;
-   }
-
-   public boolean isClientcancharset() {
-      return clientcancharset;
-   }
-
-   public boolean isClientcanextendedascii() {
-      return clientcanextendedascii;
-   }
-
-   public boolean isEor() {
-      return eor;
-   }
-
-   public boolean isTn3270() {
-      return tn3270;
+   public void setNvtStream(NVTStreamImpl nvtStream) {
+      this.nvtStream = nvtStream;
    }
 
    @Override
@@ -219,7 +141,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * tell me your terminal type
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
+      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
       /*
        * EOR
        */
@@ -231,11 +153,11 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * tell me your termspeed type
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
+      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
       /*
        * tell me your winsize
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
+      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
       /*
        * i am able to receive 3270E information
        */
@@ -251,7 +173,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * lets talk about the environment
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
       /*
        * i can encrypt
        */
@@ -263,59 +185,31 @@ public class NVT implements Flushable, Closeable, IACProcessor {
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
+      logger.info("Sent IAC command:" + commandToString(command) + " option:" + option);
       nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
       flush();
-   }
-
-   public void setBinaryMode(boolean binaryMode) {
-      this.binaryMode = binaryMode;
-   }
-
-   public void setClientcancharset(boolean clientcancharset) {
-      this.clientcancharset = clientcancharset;
-   }
-
-   public void setClientcanextendedascii(boolean clientcanextendedascii) {
-      this.clientcanextendedascii = clientcanextendedascii;
-   }
-
-   public void setEor(boolean eor) {
-      this.eor = eor;
    }
 
    public void setNvtSpy(NVTSpy nvtSpy) {
       nvtStream.setNvtSpy(nvtSpy);
    }
 
-   public void setNvtStream(NVTStreamImpl nvtStream) {
-      this.nvtStream = nvtStream;
-   }
-
-   public void setTermSpeed(String termSpeed) {
-      this.termSpeed = termSpeed;
-   }
-
-   public void setTermtype(String termtype) {
-      this.termtype = termtype;
-   }
-
-   public void setTermX(short termX) {
-      this.termX = termX;
-   }
-
-   public void setTermY(short termY) {
-      this.termY = termY;
-   }
-
-   public void setTn3270(boolean tn3270) {
-      this.tn3270 = tn3270;
-   }
-
-   public void setTn3270Device(String tn3270Device) {
-      this.tn3270Device = tn3270Device;
-   }
-
-   public void setTn3270Functions(Set<Integer> tn3270Functions) {
-      this.tn3270Functions = tn3270Functions;
+   private String commandToString(int command) {
+      switch (command) {
+         case IACCommandHandler.IAC_COMMAND_DO:
+            return "do";
+         case IACCommandHandler.IAC_COMMAND_DONT:
+            return "dont";
+         case IACCommandHandler.IAC_COMMAND_SB:
+            return "sb";
+         case IACCommandHandler.IAC_COMMAND_NOP:
+            return "nop";
+         case IACCommandHandler.IAC_COMMAND_WILL:
+            return "will";
+         case IACCommandHandler.IAC_COMMAND_WONT:
+            return "wont";
+         default:
+            return "<unknown>";
+      }
    }
 }
