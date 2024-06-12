@@ -13,6 +13,7 @@ import com.khubla.telnet.nvt.spy.NVTSpy;
 import com.khubla.telnet.nvt.stream.IACProcessor;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +24,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class NVT implements Flushable, Closeable, IACProcessor {
-   /**
-    * EOR (tn3270)
-    */
-   public static final int EOR = 239;
+
    /**
     * logger
     */
@@ -42,11 +40,13 @@ public class NVT implements Flushable, Closeable, IACProcessor {
    /**
     * options
     */
+   @Getter
    private final NVTOptions nvtOptions = new NVTOptions();
    /**
     * NVTStream
     */
-   private NVTStream nvtStream;
+   @Getter
+   private final NVTStream nvtStream;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -70,10 +70,6 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       sendConfigParameters();
    }
 
-   public NVTOptions getNvtOptions() {
-      return nvtOptions;
-   }
-
    @Override
    public void close() {
       try {
@@ -86,14 +82,6 @@ public class NVT implements Flushable, Closeable, IACProcessor {
    @Override
    public void flush() throws IOException {
       nvtStream.flush();
-   }
-
-   public NVTStream getNvtStream() {
-      return nvtStream;
-   }
-
-   public void setNvtStream(NVTStreamImpl nvtStream) {
-      this.nvtStream = nvtStream;
    }
 
    @Override

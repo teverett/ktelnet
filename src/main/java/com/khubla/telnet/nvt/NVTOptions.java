@@ -9,6 +9,10 @@ import java.util.Set;
 @Setter
 public class NVTOptions {
    /**
+    * EOR (tn3270)
+    */
+   public static final int EOR = 239;
+   /**
     * tn3270 functions
     */
    private Set<Integer> tn3270Functions = null;
