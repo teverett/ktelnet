@@ -60,6 +60,8 @@ A simple example using the default Telnet implementation:
 * [RFC 1073](https://datatracker.ietf.org/doc/html/rfc1073) - Winsize
 * [RFC 1079](https://datatracker.ietf.org/doc/html/rfc1079) - Termspeed
 
+Telnet options are enumerated [here](https://www.iana.org/assignments/telnet-options/telnet-options.xhtml)
+
 ## Login
 Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor.  A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
 
