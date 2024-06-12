@@ -6,20 +6,20 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
+import java.io.IOException;
 
 public class RemoteFlowControlIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(RemoteFlowControlIAICCommandHandlerImpl.class);
+   // RFC 1372
+   public static final int  IAC_CODE_REMOTE_FLOW_CONTROL = 33;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -33,7 +33,7 @@ public class RemoteFlowControlIAICCommandHandlerImpl extends AbstractIACCommandH
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL remoteflowcontrol");
             // we dont do flow control
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_REMOTE_FLOW_CONTROL);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IAC_CODE_REMOTE_FLOW_CONTROL);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT remoteflowcontrol");
@@ -45,5 +45,15 @@ public class RemoteFlowControlIAICCommandHandlerImpl extends AbstractIACCommandH
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_REMOTE_FLOW_CONTROL;
+   }
+
+   @Override
+   public String getDescription() {
+      return "REMOTEFLOWCONTROL";
    }
 }

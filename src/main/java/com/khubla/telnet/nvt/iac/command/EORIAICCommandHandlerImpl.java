@@ -8,7 +8,6 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +23,8 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(EORIAICCommandHandlerImpl.class);
+   // RFC 885
+   public static final int  IAC_CODE_EOR = 25;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -31,7 +32,7 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO EOR");
             // we don't do EOR
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_EOR);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IAC_CODE_EOR);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT EOR");
@@ -51,5 +52,15 @@ public class EORIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_EOR;
+   }
+
+   @Override
+   public String getDescription() {
+      return "EOR";
    }
 }

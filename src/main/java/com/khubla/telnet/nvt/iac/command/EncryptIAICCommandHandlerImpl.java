@@ -6,14 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
+import java.io.IOException;
 
 /**
  * Telnet Data Encryption Option - RFC 2946
@@ -21,10 +19,6 @@ import com.khubla.telnet.nvt.iac.IACHandler;
  * @author tom
  */
 public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(EncryptIAICCommandHandlerImpl.class);
    /**
     * Encryption Commands
     */
@@ -49,6 +43,12 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int CAST5_40_OFB64 = 9;
    public static final int CAST128_CFB64 = 10;
    public static final int CAST128_OFB64 = 11;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(EncryptIAICCommandHandlerImpl.class);
+   // RFC 2946
+   public static final int  IAC_CODE_ENCRYPT = 38;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -64,10 +64,8 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             /*
              * great, here is what I support
              */
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, REQUEST_START, IACCommandHandler.IAC_IAC,
-                  IACCommandHandler.IAC_COMMAND_SE);
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_ENCRYPT, SUPPORT, DES_CFB64, IACCommandHandler.IAC_IAC,
-                  IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_ENCRYPT, REQUEST_START, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_ENCRYPT, SUPPORT, DES_CFB64, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT encrypt");
@@ -79,5 +77,15 @@ public class EncryptIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_ENCRYPT;
+   }
+
+   @Override
+   public String getDescription() {
+      return "ENCRYPT";
    }
 }

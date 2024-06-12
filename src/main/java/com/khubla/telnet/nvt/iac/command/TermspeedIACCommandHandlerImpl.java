@@ -8,7 +8,6 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +23,8 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(TermspeedIACCommandHandlerImpl.class);
+   // RFC 1079
+   public static final int  IAC_CODE_TERMSPEED = 32;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -37,9 +38,9 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termspeed");
             // great, we like it
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IAC_CODE_TERMSPEED);
             // request it
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termspeed");
@@ -59,5 +60,15 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_TERMSPEED;
+   }
+
+   @Override
+   public String getDescription() {
+      return "TERMSPEED";
    }
 }

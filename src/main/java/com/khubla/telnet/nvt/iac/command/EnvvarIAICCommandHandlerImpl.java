@@ -6,20 +6,14 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
+import java.io.IOException;
 
 public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(EnvvarIAICCommandHandlerImpl.class);
    /**
     * constants
     */
@@ -30,6 +24,12 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int VALUE = 1;
    public static final int ESC = 2;
    public static final int USERVAR = 3;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(EnvvarIAICCommandHandlerImpl.class);
+   // RFC 1408
+   public static final int  IAC_CODE_ENVVAR = 36;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -43,7 +43,7 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL envvar");
             // we don't do envvars
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IACHandler.IAC_CODE_ENVVAR);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IAC_CODE_ENVVAR);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT envvar");
@@ -55,5 +55,15 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_ENVVAR;
+   }
+
+   @Override
+   public String getDescription() {
+      return "ENVVAR";
    }
 }

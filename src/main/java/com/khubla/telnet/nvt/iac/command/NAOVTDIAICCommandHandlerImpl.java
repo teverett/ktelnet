@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 /**
  * Negotiate About Output Vertcial Tab Disposition
@@ -24,6 +23,8 @@ public class NAOVTDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(NAOVTDIAICCommandHandlerImpl.class);
+   // RFC 656
+   public static final int  IAC_CODE_NAOVTS = 14;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -47,5 +48,15 @@ public class NAOVTDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_NAOVTS;
+   }
+
+   @Override
+   public String getDescription() {
+      return "NAOVTS";
    }
 }

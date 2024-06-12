@@ -9,6 +9,9 @@ package com.khubla.telnet.nvt;
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.IACHandler;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 import com.khubla.telnet.nvt.stream.IACProcessor;
 import com.khubla.telnet.nvt.stream.NVTStream;
@@ -24,7 +27,6 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class NVT implements Flushable, Closeable, IACProcessor {
-
    /**
     * logger
     */
@@ -105,11 +107,11 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * i can talk binary
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_BINARY);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
       /*
        * no go-aheads pls
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_SUPPRESS_GOAHEAD);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
       /*
        * tell me your status
        */
@@ -117,7 +119,8 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * echo
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_ECHO);
+      new EchoIAICCommandHandlerImpl();
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
        * ask to linemode
        */
@@ -173,9 +176,15 @@ public class NVT implements Flushable, Closeable, IACProcessor {
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
-      logger.info("Sent IAC command:" + commandToString(command) + " option:" + option);
-      nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
-      flush();
+      CommandIACHandlerImpl cmdHandler = new CommandIACHandlerImpl();
+      IACCommandHandler iacCommandHandler = cmdHandler.getIACCommandHandler(option);
+      if (null != iacCommandHandler) {
+         logger.info("Sent IAC command:" + commandToString(command) + " option:" + iacCommandHandler.getDescription());
+         nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
+         flush();
+      } else {
+         throw new IOException("Unknown option: " + option);
+      }
    }
 
    public void setNvtSpy(NVTSpy nvtSpy) {

@@ -6,28 +6,16 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
-
 public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
-   public class SLCOption {
-      public int function;
-      public int modifiers;
-      public int asciichar;
-   }
-
-   /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(LineModeIAICCommandHandlerImpl.class);
    /**
     * mode
     */
@@ -58,7 +46,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int SLC_EL = 11;
    public static final int SLC_EW = 12;
    public static final int SLC_RP = 13;
-   public static final int SLC_LNEXT = 14;;
+   public static final int SLC_LNEXT = 14;
    public static final int SLC_XON = 15;
    public static final int SLC_XOFF = 16;
    public static final int SLC_FORW1 = 17;
@@ -95,6 +83,12 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * ABORT
     */
    public static final int ABORT = 238;
+   // RFC 1184
+   public static final int IAC_CODE_LINEMODE = 34;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(LineModeIAICCommandHandlerImpl.class);
 
    private void procesABORT(NVT nvt, byte[] sn) throws IOException {
       // TODO
@@ -106,7 +100,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO linemode");
             // we don't do linemode
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IACHandler.IAC_CODE_LINEMODE);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IAC_CODE_LINEMODE);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT linemode");
@@ -151,6 +145,16 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       }
    }
 
+   @Override
+   public int getCommand() {
+      return IAC_CODE_LINEMODE;
+   }
+
+   @Override
+   public String getDescription() {
+      return "LINEMODE";
+   }
+
    private void processEOF(NVT nvt, byte[] sn) throws IOException {
       // TODO
    }
@@ -182,5 +186,11 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
 
    private void procesSUSP(NVT nvt, byte[] sn) throws IOException {
       // TODO
+   }
+
+   public class SLCOption {
+      public int function;
+      public int modifiers;
+      public int asciichar;
    }
 }

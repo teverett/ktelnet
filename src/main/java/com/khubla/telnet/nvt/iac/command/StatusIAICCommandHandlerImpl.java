@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 /**
  * TELNET STATUS OPTION - RFC 859
@@ -21,10 +20,6 @@ import com.khubla.telnet.nvt.NVT;
  */
 public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
-    * logger
-    */
-   private static final Logger logger = LoggerFactory.getLogger(StatusIAICCommandHandlerImpl.class);
-   /**
     * codes
     */
    public static final int DO = 253;
@@ -32,6 +27,12 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    public static final int WILL = 251;
    public static final int WONT = 252;
    public static final int SB = 250;
+   /**
+    * logger
+    */
+   private static final Logger logger = LoggerFactory.getLogger(StatusIAICCommandHandlerImpl.class);
+   // RFC 859
+   public static final int  IAC_CODE_STATUS = 5;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -56,5 +57,15 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_STATUS;
+   }
+
+   @Override
+   public String getDescription() {
+      return "STATUS";
    }
 }

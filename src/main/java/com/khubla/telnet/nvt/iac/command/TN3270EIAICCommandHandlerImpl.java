@@ -8,7 +8,6 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +56,8 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(TN3270EIAICCommandHandlerImpl.class);
+   // RFC 2355, RFC 1647
+   public static final int  IAC_CODE_TN3270E = 40;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -73,7 +74,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             /*
              * ask for devicetype
              */
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270E");
@@ -101,6 +102,16 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       }
    }
 
+   @Override
+   public int getCommand() {
+      return IAC_CODE_TN3270E;
+   }
+
+   @Override
+   public String getDescription() {
+      return "TN3270E0";
+   }
+
    private void processDEVICETYPE(NVT nvt, byte[] sn) throws IOException {
       final int dtoption = sn[1];
       switch (dtoption) {
@@ -118,7 +129,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_TN3270E);
             nvt.getNvtStream().writeBytes(DEVICE_TYPE);
             nvt.getNvtStream().writeBytes(IS);
             nvt.getNvtStream().write(deviceTypeName);
@@ -155,7 +166,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IACHandler.IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_TN3270E);
             nvt.getNvtStream().writeBytes(FUNCTIONS);
             nvt.getNvtStream().writeBytes(IS);
             for (final Integer i : tn3270Functions) {

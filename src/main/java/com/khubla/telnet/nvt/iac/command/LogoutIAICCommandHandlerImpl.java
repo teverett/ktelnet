@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 /**
  * TELNET Logout Option - RFC 727
@@ -24,6 +23,8 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(LogoutIAICCommandHandlerImpl.class);
+   // RFC 727
+   public static final int  IAC_CODE_LOGOUT = 18;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -47,5 +48,15 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_LOGOUT;
+   }
+
+   @Override
+   public String getDescription() {
+      return "LOGOUT";
    }
 }

@@ -6,15 +6,14 @@
  */
 package com.khubla.telnet.nvt.iac;
 
-import java.io.IOException;
-import java.util.HashMap;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.command.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class CommandIACHandlerImpl implements IACHandler {
    /**
@@ -31,18 +30,18 @@ public class CommandIACHandlerImpl implements IACHandler {
        * IAC commands
        */
       // commands which are not fully implemented are commented out
-      iacCommandHandlers.put(IACHandler.IAC_CODE_ECHO, new EchoIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_SUPPRESS_GOAHEAD, new SGIACCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_TERMTYPE, new TermtypeIACCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_TERMSPEED, new TermspeedIACCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_MARK, new MarkIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_STATUS, new StatusIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_WINSIZE, new WinsizeIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_REMOTE_FLOW_CONTROL, new RemoteFlowControlIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_LINEMODE, new LineModeIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_AUTHENTICATION, new AuthenticationIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_BINARY, new BinaryIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_EOR, new EORIAICCommandHandlerImpl());
+      addIACCommandHandler(new EchoIAICCommandHandlerImpl());
+      addIACCommandHandler(new SGIACCommandHandlerImpl());
+      addIACCommandHandler(new TermtypeIACCommandHandlerImpl());
+      addIACCommandHandler(new TermspeedIACCommandHandlerImpl());
+      addIACCommandHandler(new MarkIAICCommandHandlerImpl());
+      addIACCommandHandler(new StatusIAICCommandHandlerImpl());
+      addIACCommandHandler(new WinsizeIAICCommandHandlerImpl());
+      // addIACCommandHandler( new RemoteFlowControlIAICCommandHandlerImpl());
+      // addIACCommandHandler(new LineModeIAICCommandHandlerImpl());
+      // addIACCommandHandler( new AuthenticationIAICCommandHandlerImpl());
+      addIACCommandHandler(new BinaryIAICCommandHandlerImpl());
+      addIACCommandHandler(new EORIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_3270_REGIME, new TN3270RegimeIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_ENVVAR, new EnvvarIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_NAOCRD, new NAOCRDIAICCommandHandlerImpl());
@@ -56,10 +55,18 @@ public class CommandIACHandlerImpl implements IACHandler {
       // iacCommandHandlers.put(IACHandler.IAC_CODE_TN3270E, new TN3270EIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_CHARSET, new CharsetIAICCommandHandlerImpl());
       // acCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_ASCII, new ExtendedASCIIIAICCommandHandlerImpl());
-      iacCommandHandlers.put(IACHandler.IAC_CODE_NEW_ENVIRON, new NewEnvironIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_ENCRYPT, new EncryptIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST, new ExtendedOptionsListIAICCommandHandlerImpl());
+      addIACCommandHandler(new NewEnvironIAICCommandHandlerImpl());
+      // addIACCommandHandler(new EncryptIAICCommandHandlerImpl());
+      // addIACCommandHandler( new ExtendedOptionsListIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_LOGOUT, new LogoutIAICCommandHandlerImpl());
+   }
+
+   private void addIACCommandHandler(IACCommandHandler iacCommandHandler) {
+      iacCommandHandlers.put(iacCommandHandler.getCommand(), iacCommandHandler);
+   }
+
+   public IACCommandHandler getIACCommandHandler(int command) {
+      return iacCommandHandlers.get(command);
    }
 
    @Override

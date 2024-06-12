@@ -34,6 +34,8 @@ public class CharsetIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(CharsetIAICCommandHandlerImpl.class);
+   // RFC 2066
+   public static final int  IAC_CODE_CHARSET = 42;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -59,5 +61,15 @@ public class CharsetIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_CHARSET;
+   }
+
+   @Override
+   public String getDescription() {
+      return "CHARSET";
    }
 }

@@ -6,13 +6,12 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 /**
  * Negotiate About Output Linefeed Disposition
@@ -24,6 +23,8 @@ public class NAOFLDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(NAOFLDIAICCommandHandlerImpl.class);
+   // RFC 658
+   public static final int  IAC_CODE_NAOLFD = 16;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -47,5 +48,15 @@ public class NAOFLDIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_NAOLFD;
+   }
+
+   @Override
+   public String getDescription() {
+      return "NAOLFD";
    }
 }

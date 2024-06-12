@@ -6,15 +6,16 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
+import java.io.IOException;
 
 public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   // RFC 860
+   public static final int IAC_CODE_MARK = 6;
    /**
     * logger
     */
@@ -42,5 +43,15 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_MARK;
+   }
+
+   @Override
+   public String getDescription() {
+      return "MARK";
    }
 }

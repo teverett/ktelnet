@@ -8,7 +8,6 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +18,8 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
+   // RFC 1073
+   public static final int  IAC_CODE_WINSIZE = 31;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -31,7 +32,7 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             // great, please do send it along
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IAC_CODE_WINSIZE);
             logger.info("Received IAC WILL winsize");
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
@@ -50,5 +51,15 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_WINSIZE;
+   }
+
+   @Override
+   public String getDescription() {
+      return "WINSIZE";
    }
 }

@@ -18,6 +18,8 @@ public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandl
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(ExtendedASCIIIAICCommandHandlerImpl.class);
+   // RFC 698
+   public static final int  IAC_CODE_EXTENDED_ASCII = 17;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -43,5 +45,15 @@ public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandl
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_EXTENDED_ASCII;
+   }
+
+   @Override
+   public String getDescription() {
+      return "EXTENDEDASCII";
    }
 }

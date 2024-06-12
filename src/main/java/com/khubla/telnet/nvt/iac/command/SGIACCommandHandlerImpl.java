@@ -6,32 +6,32 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import java.io.IOException;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.IACHandler;
+import java.io.IOException;
 
 public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
+   // RFC 858
+   public static final int  IAC_CODE_SUPPRESS_GOAHEAD = 3;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
          case IACCommandHandler.IAC_COMMAND_DO:
             logger.info("Received IAC DO SG");
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_SUPPRESS_GOAHEAD);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case IACCommandHandler.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT SG");
             // we always suppress go-ahead!
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_SUPPRESS_GOAHEAD);
+            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL SG");
@@ -46,5 +46,15 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   @Override
+   public int getCommand() {
+      return IAC_CODE_SUPPRESS_GOAHEAD;
+   }
+
+   @Override
+   public String getDescription() {
+      return "SUPPRESSGOAHEAD";
    }
 }
