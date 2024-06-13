@@ -208,4 +208,8 @@ public class NVT implements Flushable, Closeable, IACProcessor {
             return "<unknown>";
       }
    }
+
+   public String getClientAddress() {
+      return socket.getInetAddress().toString();
+   }
 }
