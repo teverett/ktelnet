@@ -6,11 +6,11 @@
  */
 package com.khubla.telnet.nvt.stream;
 
+import com.khubla.telnet.nvt.spy.NVTSpy;
+
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
-
-import com.khubla.telnet.nvt.spy.NVTSpy;
 
 public interface NVTStream extends Closeable, Flushable {
    @Override
@@ -21,9 +21,15 @@ public interface NVTStream extends Closeable, Flushable {
 
    NVTSpy getNvtSpy();
 
+   void setNvtSpy(NVTSpy nvtSpy);
+
    boolean isAutoflush();
 
+   void setAutoflush(boolean autoflush);
+
    boolean isEcho();
+
+   void setEcho(boolean echo);
 
    /**
     * read a byte. process IAC if found. echo if appropriate
@@ -41,12 +47,6 @@ public interface NVTStream extends Closeable, Flushable {
 
    short readShort() throws IOException;
 
-   void setAutoflush(boolean autoflush);
-
-   void setEcho(boolean echo);
-
-   void setNvtSpy(NVTSpy nvtSpy);
-
    void write(int c) throws IOException;
 
    void write(String str) throws IOException;
@@ -54,4 +54,6 @@ public interface NVTStream extends Closeable, Flushable {
    void writeBytes(int... b) throws IOException;
 
    void writeln(String str) throws IOException;
+
+   void showOptions();
 }

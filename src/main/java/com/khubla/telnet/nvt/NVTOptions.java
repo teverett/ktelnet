@@ -56,4 +56,18 @@ public class NVTOptions {
     * term speed
     */
    private String termSpeed;
+
+   public void show() {
+      System.out.println("NVT Options:");
+      System.out.println("EOR: " + eor);
+      System.out.println("clientcanextendedascii: " + clientcanextendedascii);
+      System.out.println("clientcancharset: " + clientcancharset);
+      System.out.println("binaryMode: " + binaryMode);
+      System.out.println("tn3270: " + tn3270);
+      System.out.println("tn3270Device: " + tn3270Device);
+      System.out.println("termX: " + termX);
+      System.out.println("termY: " + termY);
+      System.out.println("termtype: " + termtype);
+      System.out.println("termSpeed: " + termSpeed);
+   }
 }

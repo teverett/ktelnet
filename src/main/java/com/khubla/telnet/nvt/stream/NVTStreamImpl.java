@@ -348,4 +348,11 @@ public class NVTStreamImpl implements NVTStream {
       write(str);
       write(EOL);
    }
+
+   @Override
+   public void showOptions() {
+      System.out.println("Stream Options:");
+      System.out.println("autoflush: " + autoflush);
+      System.out.println("echo: " + echo);
+   }
 }
