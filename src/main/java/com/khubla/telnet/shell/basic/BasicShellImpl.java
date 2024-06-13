@@ -6,25 +6,31 @@
  */
 package com.khubla.telnet.shell.basic;
 
-import java.io.IOException;
-
 import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.CommandOrientedShellImpl;
 import com.khubla.telnet.shell.command.TelnetCommandRegistry;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.IOException;
 
 public class BasicShellImpl extends CommandOrientedShellImpl {
    /**
+    * bye message
+    */
+   @Getter
+   @Setter
+   private String byeMessge = "bye";
+   /**
     * hello message
     */
+   @Getter
+   @Setter
    private String helloMessge = "khubla.com Telnet server";
 
    public BasicShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry, AuthenticationHandler authenticationHandler) {
       super(nvt, telnetCommandRegistry, authenticationHandler);
-   }
-
-   public String getHelloMessge() {
-      return helloMessge;
    }
 
    @Override
@@ -33,11 +39,7 @@ public class BasicShellImpl extends CommandOrientedShellImpl {
    }
 
    @Override
-   protected void onDisconnect() {
-      //
-   }
-
-   public void setHelloMessge(String helloMessge) {
-      this.helloMessge = helloMessge;
+   protected void onDisconnect() throws IOException {
+      getNvt().getNvtStream().writeln(byeMessge);
    }
 }

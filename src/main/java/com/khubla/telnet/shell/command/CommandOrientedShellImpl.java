@@ -6,27 +6,24 @@
  */
 package com.khubla.telnet.shell.command;
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.util.HashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.TelnetException;
 import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.AbstractShellImpl;
+import lombok.Getter;
+import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.HashMap;
 
 public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(CommandOrientedShellImpl.class);
-   /**
-    * prompt
-    */
-   private String prompt = "> ";
    /**
     * commands
     */
@@ -38,7 +35,14 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
     * authentication
     */
+   @Getter
    private final AuthenticationHandler authenticationHandler;
+   /**
+    * prompt
+    */
+   @Getter
+   @Setter
+   private final String prompt = "> ";
 
    public CommandOrientedShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry, AuthenticationHandler authenticationHandler) {
       super(nvt);
@@ -72,16 +76,12 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
       } catch (final Exception e) {
          throw new TelnetException("Exception in commandLoop", e);
       } finally {
-         onDisconnect();
+         try {
+            onDisconnect();
+         } catch (final Exception e) {
+            logger.error("Exception in commandLoop", e);
+         }
       }
-   }
-
-   public AuthenticationHandler getAuthenticationHandler() {
-      return authenticationHandler;
-   }
-
-   public String getPrompt() {
-      return prompt;
    }
 
    /**
@@ -100,7 +100,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
 
    protected abstract void onConnect() throws IOException;
 
-   protected abstract void onDisconnect();
+   protected abstract void onDisconnect() throws IOException;
 
    @Override
    public void runShell() {
@@ -130,9 +130,5 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
       } catch (final Exception e) {
          logger.error(e.getMessage(), e);
       }
-   }
-
-   public void setPrompt(String prompt) {
-      this.prompt = prompt;
    }
 }

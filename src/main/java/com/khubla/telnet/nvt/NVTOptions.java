@@ -29,7 +29,7 @@ public class NVTOptions {
     */
    private boolean clientcancharset = false;
    /**
-    * binary
+    * binary (default is ASCII not binary,RFC 856)
     */
    private boolean binaryMode = false;
    /**

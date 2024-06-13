@@ -6,21 +6,17 @@
  */
 package com.khubla.telnet.terminal;
 
+import lombok.Getter;
+
 public class TerminalType {
+   @Getter
    private final String name;
+   @Getter
    private final String size;
 
    public TerminalType(String name, String size) {
       super();
       this.name = name;
       this.size = size;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public String getSize() {
-      return size;
    }
 }

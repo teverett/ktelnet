@@ -6,20 +6,16 @@
  */
 package com.khubla.telnet.nvt.stream;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.spy.NVTSpy;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.spy.NVTSpy;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class NVTStreamImpl implements NVTStream {
    /**
@@ -44,13 +40,13 @@ public class NVTStreamImpl implements NVTStream {
    public static final int KEY_ESC = 27;
    public static final int KEY_DEL = 127;
    /**
+    * EOL
+    */
+   public final static String EOL = "\r\n";
+   /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(NVTStreamImpl.class);
-   /**
-    * EOL
-    */
-   public final static String EOL = new String("\r\n");
    /**
     * in stream
     */
@@ -60,8 +56,18 @@ public class NVTStreamImpl implements NVTStream {
     */
    private final DataOutputStream dataOutputStream;
    /**
+    * IAC processor
+    */
+   private final IACProcessor iacProcessor;
+   /**
+    * charset
+    */
+   private final Charset charsetUTF8 = StandardCharsets.UTF_8;
+   /**
     * autoflush
     */
+   @Getter
+   @Setter
    private boolean autoflush = true;
    /**
     * nvt spy
@@ -70,15 +76,9 @@ public class NVTStreamImpl implements NVTStream {
    /**
     * echo
     */
+   @Getter
+   @Setter
    private boolean echo = true;
-   /**
-    * IAC processor
-    */
-   private final IACProcessor iacProcessor;
-   /**
-    * charset
-    */
-   private final Charset charsetUTF8 = Charset.forName("UTF-8");
 
    public NVTStreamImpl(InputStream inputStream, OutputStream outputStream, IACProcessor iacProcessor) {
       super();
@@ -131,27 +131,15 @@ public class NVTStreamImpl implements NVTStream {
 
    /*
     * (non-Javadoc)
-    * @see com.khubla.telnet.nvt.stream.NVTStream#isAutoflush()
+    * @see com.khubla.telnet.nvt.stream.NVTStream#setNvtSpy(com.khubla.telnet.nvt.spy.NVTSpy)
     */
    @Override
-   public boolean isAutoflush() {
-      return autoflush;
-   }
-
-   /*
-    * (non-Javadoc)
-    * @see com.khubla.telnet.nvt.stream.NVTStream#isEcho()
-    */
-   @Override
-   public boolean isEcho() {
-      return echo;
+   public void setNvtSpy(NVTSpy nvtSpy) {
+      this.nvtSpy = nvtSpy;
    }
 
    private boolean isPrintable(int c) {
-      if ((c >= 0x20) && (c <= 0xfd)) {
-         return true;
-      }
-      return false;
+      return (c >= 0x20) && (c <= 0xfd);
    }
 
    /*
@@ -170,7 +158,7 @@ public class NVTStreamImpl implements NVTStream {
                write(c);
             }
          }
-            return c;
+         return c;
       }
    }
 
@@ -238,17 +226,17 @@ public class NVTStreamImpl implements NVTStream {
             /*
              * backspace and delete keys
              */
-            String str = baos.toString(charsetUTF8.name());
-            if (str.length() > 0) { 
-	           baos = new ByteArrayOutputStream();
-	           str = str.substring(0, str.length() - 1);
-	           if (str.length() > 0) {
-	              baos.write(str.getBytes(), 0, str.length());
-	           }
-	           // echo the BS/DEL back
-	           if (isEcho()) {
-	              write(b);
-	           }
+            String str = baos.toString(charsetUTF8);
+            if (str.length() > 0) {
+               baos = new ByteArrayOutputStream();
+               str = str.substring(0, str.length() - 1);
+               if (str.length() > 0) {
+                  baos.write(str.getBytes(), 0, str.length());
+               }
+               // echo the BS/DEL back
+               if (isEcho()) {
+                  write(b);
+               }
             }
          } else if (b == KEY_ESC) {
             logger.info("ESC pressed");
@@ -260,7 +248,7 @@ public class NVTStreamImpl implements NVTStream {
             }
          }
       }
-      return baos.toString(charsetUTF8.name()).trim();
+      return baos.toString(charsetUTF8).trim();
    }
 
    /*
@@ -288,7 +276,7 @@ public class NVTStreamImpl implements NVTStream {
          baos.write(b);
          b = readRawByte();
       }
-      return baos.toString(charsetUTF8.name()).trim();
+      return baos.toString(charsetUTF8).trim();
    }
 
    /*
@@ -302,33 +290,6 @@ public class NVTStreamImpl implements NVTStream {
          nvtSpy.readshort(c);
       }
       return c;
-   }
-
-   /*
-    * (non-Javadoc)
-    * @see com.khubla.telnet.nvt.stream.NVTStream#setAutoflush(boolean)
-    */
-   @Override
-   public void setAutoflush(boolean autoflush) {
-      this.autoflush = autoflush;
-   }
-
-   /*
-    * (non-Javadoc)
-    * @see com.khubla.telnet.nvt.stream.NVTStream#setEcho(boolean)
-    */
-   @Override
-   public void setEcho(boolean echo) {
-      this.echo = echo;
-   }
-
-   /*
-    * (non-Javadoc)
-    * @see com.khubla.telnet.nvt.stream.NVTStream#setNvtSpy(com.khubla.telnet.nvt.spy.NVTSpy)
-    */
-   @Override
-   public void setNvtSpy(NVTSpy nvtSpy) {
-      this.nvtSpy = nvtSpy;
    }
 
    /*
