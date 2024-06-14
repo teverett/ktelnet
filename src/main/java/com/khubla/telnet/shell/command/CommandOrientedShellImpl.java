@@ -42,7 +42,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
     */
    @Getter
    @Setter
-   private final String prompt = "> ";
+   private String prompt = "> ";
 
    public CommandOrientedShellImpl(NVT nvt, TelnetCommandRegistry telnetCommandRegistry, AuthenticationHandler authenticationHandler) {
       super(nvt);
