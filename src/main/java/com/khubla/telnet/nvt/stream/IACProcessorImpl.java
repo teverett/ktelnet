@@ -2,10 +2,7 @@ package com.khubla.telnet.nvt.stream;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
-import com.khubla.telnet.nvt.iac.IACHandler;
-import com.khubla.telnet.nvt.iac.IPIACHandlerImpl;
-import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
+import com.khubla.telnet.nvt.iac.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +35,13 @@ public class IACProcessorImpl implements IACProcessor {
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_SB, new CommandIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_NOP, new NOPIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_IP, new IPIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_BREAK, new BRKIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_AYT, new AYTIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_GA, new GAIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_EC, new ECIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_EL, new ELIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_AO, new AOIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_DATAMARK, new DatamarkIACHandlerImpl());
    }
 
    @Override
