@@ -12,14 +12,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class NOPIACHandlerImpl implements IACHandler {
+public class IPIACHandlerImpl implements IACHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NOPIACHandlerImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(IPIACHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd, int option) throws IOException {
-      logger.info("Received NOP");
+      logger.info("Received IP");
+      // logout
    }
 }

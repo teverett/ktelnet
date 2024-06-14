@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt;
 
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import com.khubla.telnet.nvt.iac.IPIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
@@ -66,6 +67,8 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_DONT, new CommandIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_SB, new CommandIACHandlerImpl());
       iacHandlers.put(IACCommandHandler.IAC_COMMAND_NOP, new NOPIACHandlerImpl());
+      iacHandlers.put(IACCommandHandler.IAC_COMMAND_IP, new IPIACHandlerImpl());
+
       /*
        * send config
        */
