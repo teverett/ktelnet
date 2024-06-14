@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,19 +38,19 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO status");
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT status");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL status");
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT status");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB status");
             readSubnegotiation(nvt);
             break;
@@ -67,5 +68,10 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "STATUS";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

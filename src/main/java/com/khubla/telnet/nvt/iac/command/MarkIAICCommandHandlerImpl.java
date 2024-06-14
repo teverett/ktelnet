@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,21 +25,21 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO mark");
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_MARK);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IAC_CODE_MARK);
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT mark");
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IAC_CODE_MARK);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_WONT, IAC_CODE_MARK);
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL mark");
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT mark");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB mark");
             break;
          default:
@@ -55,5 +56,10 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "MARK";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

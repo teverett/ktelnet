@@ -6,39 +6,39 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   // RFC 1073
+   public static final int IAC_CODE_WINSIZE = 31;
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
-   // RFC 1073
-   public static final int  IAC_CODE_WINSIZE = 31;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO winsize");
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT winsize");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             // great, please do send it along
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IAC_CODE_WINSIZE);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_DO, IAC_CODE_WINSIZE);
             logger.info("Received IAC WILL winsize");
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT winsize");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB winsize");
             final byte[] sn = readSubnegotiation(nvt);
             final short x = readShort(sn, 0);
@@ -61,5 +61,10 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "WINSIZE";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

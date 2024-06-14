@@ -6,14 +6,15 @@
  */
 package com.khubla.telnet.nvt.iac.command;
 
+import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
-
-import com.khubla.telnet.nvt.IACCommandHandler;
-import com.khubla.telnet.nvt.NVT;
 
 public abstract class AbstractIACCommandHandler implements IACCommandHandler {
    protected short readShort(byte[] array, int idx) {
@@ -33,9 +34,9 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
       boolean cont = true;
       while (cont) {
          final int b = nvt.getNvtStream().readRawByte();
-         if (b == IACCommandHandler.IAC_IAC) {
+         if (b == IACProcessor.IAC_IAC) {
             final int b2 = nvt.getNvtStream().readRawByte();
-            if (b2 == IACCommandHandler.IAC_COMMAND_SE) {
+            if (b2 == IACProcessor.IAC_COMMAND_SE) {
                cont = false;
             } else {
                baos.write(b);

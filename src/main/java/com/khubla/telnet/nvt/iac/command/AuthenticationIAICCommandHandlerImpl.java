@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,32 +40,32 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    public static final int MODIFIER_AUTH_HOW_MASK = 2;
    public static final int MODIFIER_AUTH_HOW_ONE_WAY = 0;
    public static final int MODIFIER_AUTH_HOW_MUTUAL = 2;
+   // RFC 1416, RFC 2941
+   public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(AuthenticationIAICCommandHandlerImpl.class);
-   // RFC 1416, RFC 2941
-   public static final int  IAC_CODE_AUTHENTICATION = 37;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO auth");
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, IAC_CODE_AUTHENTICATION);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_WONT, IAC_CODE_AUTHENTICATION);
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT auth");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL auth");
             // request auth
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SB, IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER, IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SE);
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT auth");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB auth");
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == NAME) {
@@ -87,5 +88,10 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    @Override
    public String getDescription() {
       return "AUTHENTICATION";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

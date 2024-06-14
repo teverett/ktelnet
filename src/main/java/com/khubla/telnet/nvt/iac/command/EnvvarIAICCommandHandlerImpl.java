@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,21 +35,21 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO envvar");
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT envvar");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL envvar");
             // we don't do envvars
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, IAC_CODE_ENVVAR);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_DONT, IAC_CODE_ENVVAR);
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT envvar");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB envvar");
             break;
          default:
@@ -65,5 +66,10 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "ENVVAR";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

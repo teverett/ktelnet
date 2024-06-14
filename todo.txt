@@ -4,3 +4,7 @@ handle other standard IACs
 gnu telnet EOL
 LDAP auth
 gnu telnet refuses SG
+
+extend the IACCommand classes to be able to negotiate.
+
+send a GA for gnu telnet

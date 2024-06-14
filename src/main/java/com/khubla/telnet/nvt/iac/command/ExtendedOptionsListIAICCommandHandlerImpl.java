@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,20 +30,20 @@ public class ExtendedOptionsListIAICCommandHandlerImpl extends AbstractIACComman
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO extendedoptionslist");
             sendOptions(nvt);
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT extendedoptionslist");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL extendedoptionslist");
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT extendedoptionslist");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB extendedoptionslist");
             break;
          default:
@@ -61,8 +62,13 @@ public class ExtendedOptionsListIAICCommandHandlerImpl extends AbstractIACComman
       return "EXTENDEDOOPTIONSLIST";
    }
 
+   @Override
+   public boolean negotiate() {
+      return false;
+   }
+
    private void sendOption(NVT nvt, int option) throws IOException {
-      nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_EXTENDED_OPTIONS_LIST, IAC_CODE_EXTENDED_OPTIONS_LIST, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+      nvt.getNvtStream().writeBytes(IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SB, IAC_CODE_EXTENDED_OPTIONS_LIST, IAC_CODE_EXTENDED_OPTIONS_LIST, IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SE);
    }
 
    private void sendOptions(NVT nvt) throws IOException {

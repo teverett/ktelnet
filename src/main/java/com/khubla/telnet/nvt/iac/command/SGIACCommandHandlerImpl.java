@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,22 +25,22 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO SG");
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT SG");
             // we always suppress go-ahead!
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL SG");
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT SG");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB SG");
             break;
          default:
@@ -56,5 +57,10 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "SUPPRESSGOAHEAD";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }

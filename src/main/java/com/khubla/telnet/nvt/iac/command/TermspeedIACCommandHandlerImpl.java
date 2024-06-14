@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.stream.IACProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,23 +30,23 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IACProcessor.IAC_COMMAND_DO:
             logger.info("Received IAC DO Termspeed");
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IACProcessor.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT Termspeed");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IACProcessor.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termspeed");
             // great, we like it
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IAC_CODE_TERMSPEED);
+            nvt.sendIACCommand(IACProcessor.IAC_COMMAND_DO, IAC_CODE_TERMSPEED);
             // request it
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_TERMSPEED, SEND, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SB, IAC_CODE_TERMSPEED, SEND, IACProcessor.IAC_IAC, IACProcessor.IAC_COMMAND_SE);
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IACProcessor.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT Termspeed");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IACProcessor.IAC_COMMAND_SB:
             logger.info("Received IAC SB Termspeed");
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == IS) {
@@ -70,5 +71,10 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public String getDescription() {
       return "TERMSPEED";
+   }
+
+   @Override
+   public boolean negotiate() {
+      return false;
    }
 }
