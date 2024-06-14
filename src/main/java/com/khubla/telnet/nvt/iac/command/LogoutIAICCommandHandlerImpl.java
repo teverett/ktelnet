@@ -19,12 +19,12 @@ import java.io.IOException;
  * @author tom
  */
 public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   // RFC 727
+   public static final int IAC_CODE_LOGOUT = 18;
    /**
     * logger
     */
    private static final Logger logger = LoggerFactory.getLogger(LogoutIAICCommandHandlerImpl.class);
-   // RFC 727
-   public static final int  IAC_CODE_LOGOUT = 18;
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
@@ -37,9 +37,11 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IACCommandHandler.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL logout");
+            nvt.getNvtOptions().setLogout(true);
             break;
          case IACCommandHandler.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT logout");
+            nvt.getNvtOptions().setLogout(false);
             break;
          case IACCommandHandler.IAC_COMMAND_SB:
             logger.info("Received IAC SB logout");

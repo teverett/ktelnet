@@ -6,6 +6,7 @@
 A Java library which implements an embeddable Telnet server. The server is fully multithreaded and supports numerous Telnet RFC's.
 
 ## License
+
 kTelnet is licensed under the BSD terms
 
 ## Maven Coordinates
@@ -50,6 +51,7 @@ A simple example using the default Telnet implementation:
 
 ## Implemented RFC's
 
+* [RFC 727](https://datatracker.ietf.org/doc/html/rfc727) - Logout
 * [RFC 856](https://datatracker.ietf.org/doc/html/rfc856) - Binary
 * [RFC 857](https://datatracker.ietf.org/doc/html/rfc857) - Echo
 * [RFC 858](https://datatracker.ietf.org/doc/html/rfc858) - Suppress Go Ahead
@@ -63,12 +65,13 @@ A simple example using the default Telnet implementation:
 Telnet options are enumerated [here](https://www.iana.org/assignments/telnet-options/telnet-options.xhtml)
 
 ## Login
-Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor.  A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
+
+Login is implemented by passing an implementation of `AuthenticationHandler` to the shell constructor. A simple properties file based implementation `PropertiesFileAuthenticationHandlerImpl` is provided.
 
 ## Custom shells
 
-Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`.  A very simple shell which implements the "quit" command is provided: `BasicShellImpl`
+Custom shells can be implemented by extending the classes `ShellFactory`, `BasicTelnetCommandRegistryImpl` and `AbstractCommand`. A very simple shell which implements the "quit" command is provided: `BasicShellImpl`
 
 ## Logging
 
-kTelnet supports logging at the byte level via `NVTSpy`.  A console implementation `ConsoleNVTSpyImpl` and a log file implementation `LoggingNVTSpyImpl` are provided.
+kTelnet supports logging at the byte level via `NVTSpy`. A console implementation `ConsoleNVTSpyImpl` and a log file implementation `LoggingNVTSpyImpl` are provided.

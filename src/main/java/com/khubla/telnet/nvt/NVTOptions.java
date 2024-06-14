@@ -56,6 +56,11 @@ public class NVTOptions {
     * term speed
     */
    private String termSpeed;
+   /**
+    * logout (if true then the client will send IP to logout)
+    */
+   // RFC 727, default is false
+   private boolean logout = false;
 
    public void show() {
       System.out.println("NVT Options:");
@@ -69,5 +74,6 @@ public class NVTOptions {
       System.out.println("termY: " + termY);
       System.out.println("termtype: " + termtype);
       System.out.println("termSpeed: " + termSpeed);
+      System.out.println("logout: " + logout);
    }
 }
