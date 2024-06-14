@@ -7,14 +7,11 @@
 package com.khubla.telnet.nvt;
 
 import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
-import com.khubla.telnet.nvt.iac.IACHandler;
-import com.khubla.telnet.nvt.iac.IPIACHandlerImpl;
-import com.khubla.telnet.nvt.iac.NOPIACHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
-import com.khubla.telnet.nvt.stream.IACProcessor;
+import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
 import lombok.Getter;
@@ -25,9 +22,8 @@ import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
 
-public class NVT implements Flushable, Closeable, IACProcessor {
+public class NVT implements Flushable, Closeable {
    /**
     * logger
     */
@@ -36,10 +32,6 @@ public class NVT implements Flushable, Closeable, IACProcessor {
     * socket
     */
    private final Socket socket;
-   /**
-    * IAC handlers
-    */
-   private final HashMap<Integer, IACHandler> iacHandlers = new HashMap<Integer, IACHandler>();
    /**
     * options
     */
@@ -57,18 +49,7 @@ public class NVT implements Flushable, Closeable, IACProcessor {
       /*
        * stream
        */
-      nvtStream = new NVTStreamImpl(socket.getInputStream(), socket.getOutputStream(), this);
-      /*
-       * IACs
-       */
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_WILL, new CommandIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_WONT, new CommandIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_DO, new CommandIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_DONT, new CommandIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_SB, new CommandIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_NOP, new NOPIACHandlerImpl());
-      iacHandlers.put(IACCommandHandler.IAC_COMMAND_IP, new IPIACHandlerImpl());
-
+      nvtStream = new NVTStreamImpl(socket.getInputStream(), socket.getOutputStream(), new IACProcessorImpl(this));
       /*
        * send config
        */
@@ -87,18 +68,6 @@ public class NVT implements Flushable, Closeable, IACProcessor {
    @Override
    public void flush() throws IOException {
       nvtStream.flush();
-   }
-
-   @Override
-   public void processIAC() throws IOException {
-      final int cmd = nvtStream.readRawByte();
-      final int option = nvtStream.readRawByte();
-      final IACHandler iacHandler = iacHandlers.get(cmd);
-      if (null != iacHandler) {
-         iacHandler.process(this, cmd, option);
-      } else {
-         logger.info("No handler for AIC command:" + cmd + " option:" + option);
-      }
    }
 
    private void sendConfigParameters() throws IOException {

@@ -79,6 +79,9 @@ public class NVTStreamImpl implements NVTStream {
    @Getter
    @Setter
    private boolean echo = true;
+   @Getter
+   @Setter
+   private boolean ipRequested = false;
 
    public NVTStreamImpl(InputStream inputStream, OutputStream outputStream, IACProcessor iacProcessor) {
       super();
@@ -170,7 +173,7 @@ public class NVTStreamImpl implements NVTStream {
    public String readln() throws IOException {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;
-      while (cont) {
+      while (cont && !ipRequested) {
          final int b = readByte();
          if (b == KEY_LF) {
             /*

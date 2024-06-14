@@ -56,4 +56,8 @@ public interface NVTStream extends Closeable, Flushable {
    void writeln(String str) throws IOException;
 
    void showOptions();
+
+   boolean isIpRequested();
+
+   void setIpRequested(boolean ipRequested);
 }

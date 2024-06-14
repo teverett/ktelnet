@@ -53,7 +53,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    private void commandLoop() throws TelnetException {
       try {
          boolean go = true;
-         while (go) {
+         while (go && !getNvt().getNvtStream().isIpRequested()) {
             getNvt().getNvtStream().write(prompt);
             final String inputLine = getNvt().getNvtStream().readln();
             if ((null != inputLine) && (inputLine.length() > 0)) {

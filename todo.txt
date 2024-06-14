@@ -1,0 +1,6 @@
+config file
+handle IP
+handle other standard IACs
+gnu telnet EOL
+LDAP auth
+gnu telnet refuses SG
