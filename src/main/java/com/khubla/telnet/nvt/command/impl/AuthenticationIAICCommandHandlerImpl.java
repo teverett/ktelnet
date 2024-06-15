@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.command.impl;
 
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,22 +50,22 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO auth");
-            nvt.sendIACCommand(IAC_COMMAND_WONT, IAC_CODE_AUTHENTICATION);
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_AUTHENTICATION);
             break;
-         case IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT auth");
             break;
-         case IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL auth");
             // request auth
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SB, IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER, IAC_IAC, IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC,IAC.IAC_COMMAND_SB, IAC_CODE_AUTHENTICATION, AUTHTYPE_KERBEROS_V4 | MODIFIER_AUTH_CLIENT_TO_SERVER, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
-         case IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT auth");
             break;
-         case IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB auth");
             final byte[] sn = readSubnegotiation(nvt);
             if (sn[0] == NAME) {

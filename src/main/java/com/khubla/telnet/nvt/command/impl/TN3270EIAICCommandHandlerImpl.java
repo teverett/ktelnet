@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.command.impl;
 
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,25 +63,25 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO 3270E");
             break;
-         case IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT 3270E");
             break;
-         case IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL 3270E");
             nvt.getNvtOptions().setTn3270(true);
             /*
              * ask for devicetype
              */
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SB, IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IAC_IAC, IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_TN3270E, SEND, DEVICE_TYPE, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
-         case IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270E");
             nvt.getNvtOptions().setTn3270(false);
             break;
-         case IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB 3270E");
             final byte[] sn = readSubnegotiation(nvt);
             final int s = sn[0];
@@ -129,14 +130,14 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SB, IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_TN3270E);
             nvt.getNvtStream().writeBytes(DEVICE_TYPE);
             nvt.getNvtStream().writeBytes(IS);
             nvt.getNvtStream().write(deviceTypeName);
             nvt.getNvtStream().writeBytes(CONNECT);
             nvt.getNvtStream().write(deviceTypeName);
             // SE
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
          case REJECT:
             logger.info("Client has send DEVICETYPE REJECT.  This was not expected.");
@@ -166,14 +167,14 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
              * ok!
              */
             // SB
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SB, IAC_CODE_TN3270E);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_TN3270E);
             nvt.getNvtStream().writeBytes(FUNCTIONS);
             nvt.getNvtStream().writeBytes(IS);
             for (final Integer i : tn3270Functions) {
                nvt.getNvtStream().writeBytes(i.intValue());
             }
             // SE
-            nvt.getNvtStream().writeBytes(IAC_IAC, IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
          default:
             logger.info("Received Unknown 3270E FUNCTIONS Command:" + funcoption);

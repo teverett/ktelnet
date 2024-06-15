@@ -12,6 +12,7 @@ import com.khubla.telnet.nvt.command.impl.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.command.impl.SGIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.impl.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
+import com.khubla.telnet.nvt.stream.IAC;
 import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
@@ -80,11 +81,11 @@ public class NVT implements Flushable, Closeable {
       /*
        * i can talk binary
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
+      sendIACCommand(IAC.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
       /*
        * no go-aheads pls
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
+      sendIACCommand(IAC.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
       /*
        * tell me your status
        */
@@ -92,7 +93,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * echo
        */
-      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
+      sendIACCommand(IAC.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
        * ask to linemode
        */
@@ -144,7 +145,7 @@ public class NVT implements Flushable, Closeable {
       IACCommandHandler iacCommandHandler = cmdHandler.getIACCommandHandler(option);
       if (null != iacCommandHandler) {
          logger.info("Sent IAC command: " + commandToString(command) + " option: " + iacCommandHandler.getDescription());
-         nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
+         nvtStream.writeBytes(IAC.IAC_IAC, command, option);
          flush();
       } else {
          throw new IOException("Unknown option: " + option);
@@ -157,17 +158,17 @@ public class NVT implements Flushable, Closeable {
 
    private String commandToString(int command) {
       switch (command) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             return "do";
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             return "dont";
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             return "sb";
-         case IACCommandHandler.IAC_COMMAND_NOP:
+         case IAC.IAC_COMMAND_NOP:
             return "nop";
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             return "will";
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             return "wont";
          default:
             return "<unknown>";

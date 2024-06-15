@@ -6,9 +6,9 @@
  */
 package com.khubla.telnet.nvt.command.impl;
 
-import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,29 +43,29 @@ public class NewEnvironIAICCommandHandlerImpl extends AbstractIACCommandHandler 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO newenviron");
             /*
              * ok i will
              */
             // nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_NEW_ENVIRON);
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT newenviron");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL newenviron");
             /*
              * great, send it along
              */
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, VAR, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, VALUE, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
-            nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, USERVAR, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, VAR, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, VALUE, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, SEND, USERVAR, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT newenviron");
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB newenviron");
             final byte[] sn = readSubnegotiation(nvt);
             final int s = sn[0];
@@ -106,19 +106,18 @@ public class NewEnvironIAICCommandHandlerImpl extends AbstractIACCommandHandler 
          switch (type) {
             case VAR:
                // nothing
-               nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+               nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
                break;
             case VALUE:
                // nothing
-               nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+               nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
                break;
             case ESC:
                // nothing
-               nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
-               break;
+               nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             case USERVAR:
                // nothing
-               nvt.getNvtStream().writeBytes(IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IACCommandHandler.IAC_IAC, IACCommandHandler.IAC_COMMAND_SE);
+               nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_NEW_ENVIRON, IS, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
                break;
             default:
                logger.info("Received Unknown newenviron type:" + type);

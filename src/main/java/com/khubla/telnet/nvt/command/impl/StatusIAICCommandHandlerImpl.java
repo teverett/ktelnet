@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.command.impl;
 
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,19 +38,19 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO status");
             break;
-         case IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT status");
             break;
-         case IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL status");
             break;
-         case IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT status");
             break;
-         case IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB status");
             readSubnegotiation(nvt);
             break;

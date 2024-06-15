@@ -9,6 +9,7 @@ package com.khubla.telnet.nvt.command.impl;
 import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,21 +31,21 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IACCommandHandler.IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO logout");
             break;
-         case IACCommandHandler.IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT logout");
             break;
-         case IACCommandHandler.IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL logout");
             nvt.getNvtOptions().setLogout(true);
             break;
-         case IACCommandHandler.IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT logout");
             nvt.getNvtOptions().setLogout(false);
             break;
-         case IACCommandHandler.IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB logout");
             break;
          default:

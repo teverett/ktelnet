@@ -6,10 +6,11 @@
  */
 package com.khubla.telnet.nvt.iac.impl;
 
-import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
+import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.command.impl.*;
 import com.khubla.telnet.nvt.iac.IACHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,10 +81,10 @@ public class CommandIACHandlerImpl implements IACHandler {
          /*
           * send a "nope"
           */
-         if (cmd == IACCommandHandler.IAC_COMMAND_DO) {
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_WONT, option);
-         } else if (cmd == IACCommandHandler.IAC_COMMAND_WILL) {
-            nvt.sendIACCommand(IACCommandHandler.IAC_COMMAND_DONT, option);
+         if (cmd == IAC.IAC_COMMAND_DO) {
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, option);
+         } else if (cmd == IAC.IAC_COMMAND_WILL) {
+            nvt.sendIACCommand(IAC.IAC_COMMAND_DONT, option);
          } else {
             logger.info("Unexpected IAC command:" + cmd + " option: " + option);
          }

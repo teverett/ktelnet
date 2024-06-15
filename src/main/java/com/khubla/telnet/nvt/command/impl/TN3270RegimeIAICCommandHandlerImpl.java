@@ -8,6 +8,7 @@ package com.khubla.telnet.nvt.command.impl;
 
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
+import com.khubla.telnet.nvt.stream.IAC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,21 +25,21 @@ public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandle
    @Override
    public void process(NVT nvt, int cmd) throws IOException {
       switch (cmd) {
-         case IAC_COMMAND_DO:
+         case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO 3270-regime");
             break;
-         case IAC_COMMAND_DONT:
+         case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT 3270-regime");
             break;
-         case IAC_COMMAND_WILL:
+         case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL 3270-regime");
             // we don't do 3270 Regime
-            nvt.sendIACCommand(IAC_COMMAND_DONT, IAC_CODE_3270_REGIME);
+            nvt.sendIACCommand(IAC.IAC_COMMAND_DONT, IAC_CODE_3270_REGIME);
             break;
-         case IAC_COMMAND_WONT:
+         case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT 3270-regime");
             break;
-         case IAC_COMMAND_SB:
+         case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB 3270-regime");
             break;
          default:

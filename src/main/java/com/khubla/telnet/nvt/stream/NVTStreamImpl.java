@@ -6,7 +6,6 @@
  */
 package com.khubla.telnet.nvt.stream;
 
-import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 import lombok.Getter;
 import lombok.Setter;
@@ -152,7 +151,7 @@ public class NVTStreamImpl implements NVTStream {
    @Override
    public int readByte() throws IOException {
       final int c = readRawByte();
-      if (c == IACCommandHandler.IAC_IAC) {
+      if (c == IAC.IAC_IAC) {
          iacProcessor.processIAC();
          return readByte();
       } else {
