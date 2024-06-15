@@ -6,7 +6,7 @@
  */
 package com.khubla.telnet.nvt.stream;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 import lombok.Getter;
 import lombok.Setter;

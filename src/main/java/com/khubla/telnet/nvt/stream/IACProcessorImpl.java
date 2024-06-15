@@ -1,8 +1,9 @@
 package com.khubla.telnet.nvt.stream;
 
-import com.khubla.telnet.nvt.IACCommandHandler;
+import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import com.khubla.telnet.nvt.iac.*;
+import com.khubla.telnet.nvt.iac.IACHandler;
+import com.khubla.telnet.nvt.iac.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

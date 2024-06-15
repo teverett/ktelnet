@@ -6,10 +6,11 @@
  */
 package com.khubla.telnet.nvt;
 
-import com.khubla.telnet.nvt.iac.CommandIACHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.command.IACCommandHandler;
+import com.khubla.telnet.nvt.command.impl.BinaryIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.command.impl.EchoIAICCommandHandlerImpl;
+import com.khubla.telnet.nvt.command.impl.SGIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.iac.impl.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
