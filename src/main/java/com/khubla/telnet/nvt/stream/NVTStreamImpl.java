@@ -152,7 +152,7 @@ public class NVTStreamImpl implements NVTStream {
    @Override
    public int readByte() throws IOException {
       final int c = readRawByte();
-      if (c == IACProcessor.IAC_IAC) {
+      if (c == IACCommandHandler.IAC_IAC) {
          iacProcessor.processIAC();
          return readByte();
       } else {

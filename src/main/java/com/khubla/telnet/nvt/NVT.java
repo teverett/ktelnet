@@ -11,7 +11,6 @@ import com.khubla.telnet.nvt.iac.command.BinaryIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.EchoIAICCommandHandlerImpl;
 import com.khubla.telnet.nvt.iac.command.SGIACCommandHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
-import com.khubla.telnet.nvt.stream.IACProcessor;
 import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
@@ -75,68 +74,68 @@ public class NVT implements Flushable, Closeable {
       /*
        * lets exchange options
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
       /*
        * i can talk binary
        */
-      sendIACCommand(IACProcessor.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
       /*
        * no go-aheads pls
        */
-      sendIACCommand(IACProcessor.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
       /*
        * tell me your status
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_STATUS);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_STATUS);
       /*
        * echo
        */
-      sendIACCommand(IACProcessor.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
+      sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
        * ask to linemode
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
       /*
        * i accept environment variables
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
       /*
        * tell me your terminal type
        */
-      //    sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
+      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
       /*
        * EOR
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
       /*
        * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
       /*
        * tell me your termspeed type
        */
-      //   sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
+      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
       /*
        * tell me your winsize
        */
-      //   sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
+      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
       /*
        * i am able to receive 3270E information
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
       /*
        * i would like to talk about charsets
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
       /*
        * i like to talk in extended ASCII
        */
-      // sendIACCommand(IACProcessor.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
       /*
        * lets talk about the environment
        */
-      //    sendIACCommand(IACProcessor.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {
@@ -144,7 +143,7 @@ public class NVT implements Flushable, Closeable {
       IACCommandHandler iacCommandHandler = cmdHandler.getIACCommandHandler(option);
       if (null != iacCommandHandler) {
          logger.info("Sent IAC command: " + commandToString(command) + " option: " + iacCommandHandler.getDescription());
-         nvtStream.writeBytes(IACProcessor.IAC_IAC, command, option);
+         nvtStream.writeBytes(IACCommandHandler.IAC_IAC, command, option);
          flush();
       } else {
          throw new IOException("Unknown option: " + option);
@@ -157,17 +156,17 @@ public class NVT implements Flushable, Closeable {
 
    private String commandToString(int command) {
       switch (command) {
-         case IACProcessor.IAC_COMMAND_DO:
+         case IACCommandHandler.IAC_COMMAND_DO:
             return "do";
-         case IACProcessor.IAC_COMMAND_DONT:
+         case IACCommandHandler.IAC_COMMAND_DONT:
             return "dont";
-         case IACProcessor.IAC_COMMAND_SB:
+         case IACCommandHandler.IAC_COMMAND_SB:
             return "sb";
-         case IACProcessor.IAC_COMMAND_NOP:
+         case IACCommandHandler.IAC_COMMAND_NOP:
             return "nop";
-         case IACProcessor.IAC_COMMAND_WILL:
+         case IACCommandHandler.IAC_COMMAND_WILL:
             return "will";
-         case IACProcessor.IAC_COMMAND_WONT:
+         case IACCommandHandler.IAC_COMMAND_WONT:
             return "wont";
          default:
             return "<unknown>";
