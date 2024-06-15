@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(LogoutIAICCommandHandlerImpl.class);
+   private static final Logger logger = LogManager.getLogger(LogoutIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

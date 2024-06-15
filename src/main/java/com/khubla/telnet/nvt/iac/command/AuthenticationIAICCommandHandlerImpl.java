@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -39,12 +39,12 @@ public class AuthenticationIAICCommandHandlerImpl extends AbstractIACCommandHand
    public static final int MODIFIER_AUTH_HOW_MASK = 2;
    public static final int MODIFIER_AUTH_HOW_ONE_WAY = 0;
    public static final int MODIFIER_AUTH_HOW_MUTUAL = 2;
+   // RFC 1416, RFC 2941
+   public static final int IAC_CODE_AUTHENTICATION = 37;
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(AuthenticationIAICCommandHandlerImpl.class);
-   // RFC 1416, RFC 2941
-   public static final int  IAC_CODE_AUTHENTICATION = 37;
+   private static final Logger logger = LogManager.getLogger(AuthenticationIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

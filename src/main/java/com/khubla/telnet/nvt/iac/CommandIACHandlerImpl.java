@@ -9,8 +9,8 @@ package com.khubla.telnet.nvt.iac;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.command.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class CommandIACHandlerImpl implements IACHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(CommandIACHandlerImpl.class);
+   private static final Logger logger = LogManager.getLogger(CommandIACHandlerImpl.class);
    /**
     * IAC Command Handlers
     */

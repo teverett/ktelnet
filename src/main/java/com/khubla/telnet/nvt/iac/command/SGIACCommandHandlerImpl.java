@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(SGIACCommandHandlerImpl.class);
+   private static final Logger logger = LogManager.getLogger(SGIACCommandHandlerImpl.class);
    // RFC 858
    public static final int  IAC_CODE_SUPPRESS_GOAHEAD = 3;
 

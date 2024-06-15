@@ -6,16 +6,15 @@
  */
 package com.khubla.telnet.shell;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.NVT;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractShellImpl implements Shell {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(AbstractShellImpl.class);
+   private static final Logger logger = LogManager.getLogger(AbstractShellImpl.class);
    /**
     * nvt
     */

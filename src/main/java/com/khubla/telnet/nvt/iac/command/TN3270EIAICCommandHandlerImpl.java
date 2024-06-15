@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -55,7 +55,7 @@ public class TN3270EIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(TN3270EIAICCommandHandlerImpl.class);
+   private static final Logger logger = LogManager.getLogger(TN3270EIAICCommandHandlerImpl.class);
    // RFC 2355, RFC 1647
    public static final int  IAC_CODE_TN3270E = 40;
 

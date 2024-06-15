@@ -8,18 +8,18 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class TN3270RegimeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   // RFC 1041
+   public static final int IAC_CODE_3270_REGIME = 29;
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(TN3270RegimeIAICCommandHandlerImpl.class);
-   // RFC 1041
-   public static final int  IAC_CODE_3270_REGIME = 29;
+   private static final Logger logger = LogManager.getLogger(TN3270RegimeIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

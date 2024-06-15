@@ -12,8 +12,8 @@ import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.AbstractShellImpl;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -23,7 +23,7 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(CommandOrientedShellImpl.class);
+   private static final Logger logger = LogManager.getLogger(CommandOrientedShellImpl.class);
    /**
     * commands
     */

@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(MarkIAICCommandHandlerImpl.class);
+   private static final Logger logger = LogManager.getLogger(MarkIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

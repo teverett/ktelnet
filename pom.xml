@@ -38,7 +38,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-cli.version>1.8.0</commons-cli.version>
         <testng.version>7.10.2</testng.version>
-        <logback.version>1.5.6</logback.version>
         <target.jvm>21</target.jvm>
         <required-maven-version>3.3.1</required-maven-version>
     </properties>
@@ -49,9 +48,9 @@
             <version>${commons-cli.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

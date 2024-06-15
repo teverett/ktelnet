@@ -15,8 +15,8 @@ import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Closeable;
 import java.io.Flushable;
@@ -27,7 +27,7 @@ public class NVT implements Flushable, Closeable {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NVT.class);
+   private static final Logger logger = LogManager.getLogger(NVT.class);
    /**
     * socket
     */

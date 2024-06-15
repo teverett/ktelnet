@@ -8,18 +8,18 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
+   // RFC 1073
+   public static final int IAC_CODE_WINSIZE = 31;
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(WinsizeIAICCommandHandlerImpl.class);
-   // RFC 1073
-   public static final int  IAC_CODE_WINSIZE = 31;
+   private static final Logger logger = LogManager.getLogger(WinsizeIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

@@ -3,8 +3,8 @@ package com.khubla.telnet.nvt.stream;
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.iac.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ public class IACProcessorImpl implements IACProcessor {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(IACProcessorImpl.class);
+   private static final Logger logger = LogManager.getLogger(IACProcessorImpl.class);
    /**
     * IAC handlers
     */

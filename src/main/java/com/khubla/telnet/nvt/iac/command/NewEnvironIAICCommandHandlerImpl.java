@@ -8,8 +8,8 @@ package com.khubla.telnet.nvt.iac.command;
 
 import com.khubla.telnet.nvt.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -32,12 +32,12 @@ public class NewEnvironIAICCommandHandlerImpl extends AbstractIACCommandHandler 
    public static final int VALUE = 1;
    public static final int ESC = 2;
    public static final int USERVAR = 3;
+   // RFC 1572
+   public static final int IAC_CODE_NEW_ENVIRON = 39;
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(NewEnvironIAICCommandHandlerImpl.class);
-   // RFC 1572
-   public static final int  IAC_CODE_NEW_ENVIRON = 39;
+   private static final Logger logger = LogManager.getLogger(NewEnvironIAICCommandHandlerImpl.class);
 
    @Override
    public void process(NVT nvt, int cmd) throws IOException {

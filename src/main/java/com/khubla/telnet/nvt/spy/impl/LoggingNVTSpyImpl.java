@@ -6,16 +6,15 @@
  */
 package com.khubla.telnet.nvt.spy.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.khubla.telnet.nvt.spy.NVTSpy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoggingNVTSpyImpl implements NVTSpy {
    /**
     * logger
     */
-   private static final Logger logger = LoggerFactory.getLogger(LoggingNVTSpyImpl.class);
+   private static final Logger logger = LogManager.getLogger(LoggingNVTSpyImpl.class);
 
    @Override
    public void readbyte(int b) {
