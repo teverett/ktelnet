@@ -6,20 +6,22 @@
  */
 package com.khubla.telnet;
 
-import org.testng.*;
-import org.testng.annotations.*;
+import com.khubla.telnet.nvt.tn3270.devicetype.DeviceType;
+import com.khubla.telnet.nvt.tn3270.devicetype.DeviceTypeRegistry;
+import org.junit.jupiter.api.Test;
 
-import com.khubla.telnet.nvt.tn3270.devicetype.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestDeviceRegistry {
-	@Test
-	public void test1() {
-		try {
-			final DeviceType dt = DeviceTypeRegistry.getInstance().getDevice("IBM-3278-3");
-			Assert.assertNotNull(dt);
-		} catch (final Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
+   @Test
+   public void test1() {
+      try {
+         final DeviceType dt = DeviceTypeRegistry.getInstance().getDevice("IBM-3278-3");
+         assertNotNull(dt);
+      } catch (final Exception e) {
+         e.printStackTrace();
+         fail();
+      }
+   }
 }

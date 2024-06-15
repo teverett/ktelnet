@@ -6,21 +6,22 @@
  */
 package com.khubla.telnet;
 
-import org.testng.*;
-import org.testng.annotations.*;
+import com.khubla.telnet.auth.AuthenticationHandler;
+import com.khubla.telnet.auth.impl.PropertiesFileAuthenticationHandlerImpl;
+import org.junit.jupiter.api.Test;
 
-import com.khubla.telnet.auth.*;
-import com.khubla.telnet.auth.impl.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestPropfileAuthenticator {
-	@Test
-	public void test1() {
-		try {
-			final AuthenticationHandler authenticationHandler = new PropertiesFileAuthenticationHandlerImpl(TestPropfileAuthenticator.class.getResourceAsStream("/users.properties"));
-			Assert.assertTrue(authenticationHandler.login("tom", "tge", null));
-		} catch (final Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
+   @Test
+   public void test1() {
+      try {
+         final AuthenticationHandler authenticationHandler = new PropertiesFileAuthenticationHandlerImpl(TestPropfileAuthenticator.class.getResourceAsStream("/users.properties"));
+         assertTrue(authenticationHandler.login("tom", "tge", null));
+      } catch (final Exception e) {
+         e.printStackTrace();
+         fail();
+      }
+   }
 }

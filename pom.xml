@@ -37,8 +37,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-cli.version>1.8.0</commons-cli.version>
-        <testng.version>7.10.2</testng.version>
+        <junit.version>5.10.2</junit.version>
+        <log4j.version>2.23.1</log4j.version>
         <target.jvm>21</target.jvm>
+        <lombok.version>1.18.32</lombok.version>
+        <commons-net.version>3.11.1</commons-net.version>
         <required-maven-version>3.3.1</required-maven-version>
     </properties>
     <dependencies>
@@ -50,24 +53,24 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.23.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.11.1</version>
+            <version>${commons-net.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
