@@ -24,6 +24,7 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Set;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -50,6 +51,12 @@ public class NVT implements Flushable, Closeable {
    @Getter
    @Setter
    private HashMap<String, String> environment;
+   /**
+    * RFC 1184 local chars
+    */
+   @Getter
+   @Setter
+   private Set<LineModeIAICCommandHandlerImpl.SLCOption> slcOptions;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -62,12 +69,6 @@ public class NVT implements Flushable, Closeable {
        * send config
        */
       sendConfigParameters();
-      /*
-       * send GA
-       */
-      if (!nvtOptions.isSuppressGoAhead()) {
-         // sendIACCommand(IACIAC.IAC_COMMAND_GA);
-      }
    }
 
    @Override
@@ -102,9 +103,9 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IAC.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
-       * i don't line line mode
+       * we like line mode and GNU telnet does too
        */
-      sendIACCommand(IAC.IAC_COMMAND_DONT, LineModeIAICCommandHandlerImpl.IAC_CODE_LINEMODE);
+      sendIACCommand(IAC.IAC_COMMAND_DO, LineModeIAICCommandHandlerImpl.IAC_CODE_LINEMODE);
       /*
        * tell me your terminal type
        */

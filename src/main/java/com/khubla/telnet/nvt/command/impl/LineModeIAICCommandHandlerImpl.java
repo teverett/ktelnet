@@ -100,17 +100,21 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO linemode");
-            // we don't do linemode
-            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_LINEMODE);
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WILL, IAC_CODE_LINEMODE);
+            nvt.getNvtOptions().setLineMode(true);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT linemode");
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_LINEMODE);
+            nvt.getNvtOptions().setLineMode(false);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL linemode");
+            nvt.getNvtOptions().setLineMode(true);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT linemode");
+            nvt.getNvtOptions().setLineMode(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB linemode");
@@ -124,7 +128,7 @@ public class LineModeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
                   processFORWARDMASK(nvt, sn);
                   break;
                case SLC:
-                  processSLC(nvt, sn);
+                  nvt.setSlcOptions(processSLC(nvt, sn));
                   break;
                case _EOF:
                   processEOF(nvt, sn);
