@@ -1,8 +1,10 @@
 package com.khubla.telnet.nvt;
 
+import com.khubla.telnet.nvt.stream.NVTStream;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.util.Set;
 
 @Getter
@@ -65,28 +67,34 @@ public class NVTOptions {
    /**
     * suppress go-ahead
     */
-   // RFC 858, default is false
+   // RFC 858, default is false. this the CLIENT status.  we never send GA
    private boolean suppressGoAhead = false;
    /**
     * dont like linemode
     */
    //  RFC 1184 default is false
    private boolean lineMode = false;
+   /**
+    * extended options
+    */
+   // RFC 861. default is faliae
+   private boolean extendedOptions = false;
 
-   public void show() {
-      System.out.println("NVT Options:");
-      System.out.println("EOR: " + eor);
-      System.out.println("suppressGoAhead: " + suppressGoAhead);
-      System.out.println("lineMode: " + lineMode);
-      System.out.println("clientcanextendedascii: " + clientcanextendedascii);
-      System.out.println("clientcancharset: " + clientcancharset);
-      System.out.println("binaryMode: " + binaryMode);
-      System.out.println("tn3270: " + tn3270);
-      System.out.println("tn3270Device: " + tn3270Device);
-      System.out.println("termX: " + termX);
-      System.out.println("termY: " + termY);
-      System.out.println("termtype: " + termtype);
-      System.out.println("termSpeed: " + termSpeed);
-      System.out.println("logout: " + logout);
+   public void show(NVTStream nvtStream) throws IOException {
+      nvtStream.writeln("EOR: " + eor);
+      nvtStream.writeln("suppressGoAhead: " + suppressGoAhead);
+      nvtStream.writeln("lineMode: " + lineMode);
+      nvtStream.writeln("clientcanextendedascii: " + clientcanextendedascii);
+      nvtStream.writeln("clientcancharset: " + clientcancharset);
+      nvtStream.writeln("binaryMode: " + binaryMode);
+      nvtStream.writeln("tn3270: " + tn3270);
+      nvtStream.writeln("tn3270Device: " + tn3270Device);
+      nvtStream.writeln("termX: " + termX);
+      nvtStream.writeln("termY: " + termY);
+      nvtStream.writeln("termtype: " + termtype);
+      nvtStream.writeln("termSpeed: " + termSpeed);
+      nvtStream.writeln("logout: " + logout);
+      nvtStream.writeln("echo: " + nvtStream.isEcho());
+      nvtStream.writeln("extendedOptions: " + extendedOptions);
    }
 }

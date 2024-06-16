@@ -28,18 +28,19 @@ public class SGIACCommandHandlerImpl extends AbstractIACCommandHandler {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO SG");
             nvt.sendIACCommand(IAC.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
-            nvt.getNvtOptions().setSuppressGoAhead(true);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT SG");
-            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_SUPPRESS_GOAHEAD);
-            nvt.getNvtOptions().setSuppressGoAhead(false);
+            // we always suppres GA
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WILL, IAC_CODE_SUPPRESS_GOAHEAD);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL SG");
+            nvt.getNvtOptions().setSuppressGoAhead(true);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT SG");
+            nvt.getNvtOptions().setSuppressGoAhead(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB SG");

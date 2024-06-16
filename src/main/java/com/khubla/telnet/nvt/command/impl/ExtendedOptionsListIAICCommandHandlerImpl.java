@@ -39,9 +39,11 @@ public class ExtendedOptionsListIAICCommandHandlerImpl extends AbstractIACComman
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL extendedoptionslist");
+            nvt.getNvtOptions().setExtendedOptions(true);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT extendedoptionslist");
+            nvt.getNvtOptions().setExtendedOptions(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB extendedoptionslist");
