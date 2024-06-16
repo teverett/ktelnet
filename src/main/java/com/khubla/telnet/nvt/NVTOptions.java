@@ -61,10 +61,16 @@ public class NVTOptions {
     */
    // RFC 727, default is false
    private boolean logout = false;
+   /**
+    * suppress go-ahead
+    */
+   // RFC 858, default is false
+   private boolean suppressGoAhead = false;
 
    public void show() {
       System.out.println("NVT Options:");
       System.out.println("EOR: " + eor);
+      System.out.println("suppressGoAhead: " + suppressGoAhead);
       System.out.println("clientcanextendedascii: " + clientcanextendedascii);
       System.out.println("clientcancharset: " + clientcancharset);
       System.out.println("binaryMode: " + binaryMode);

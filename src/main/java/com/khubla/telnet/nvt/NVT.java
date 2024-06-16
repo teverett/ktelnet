@@ -56,6 +56,12 @@ public class NVT implements Flushable, Closeable {
        * send config
        */
       sendConfigParameters();
+      /*
+       * send GA
+       */
+      if (!nvtOptions.isSuppressGoAhead()) {
+         // sendIACCommand(IACIAC.IAC_COMMAND_GA);
+      }
    }
 
    @Override
