@@ -52,7 +52,7 @@ public class StatusIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB status");
-            readSubnegotiation(nvt);
+            byte[] b = readSubnegotiation(nvt);
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);

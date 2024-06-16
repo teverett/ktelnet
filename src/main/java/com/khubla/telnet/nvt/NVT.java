@@ -7,9 +7,7 @@
 package com.khubla.telnet.nvt;
 
 import com.khubla.telnet.nvt.command.IACCommandHandler;
-import com.khubla.telnet.nvt.command.impl.BinaryIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.command.impl.EchoIAICCommandHandlerImpl;
-import com.khubla.telnet.nvt.command.impl.SGIACCommandHandlerImpl;
+import com.khubla.telnet.nvt.command.impl.*;
 import com.khubla.telnet.nvt.iac.impl.CommandIACHandlerImpl;
 import com.khubla.telnet.nvt.spy.NVTSpy;
 import com.khubla.telnet.nvt.stream.IAC;
@@ -80,54 +78,46 @@ public class NVT implements Flushable, Closeable {
 
    private void sendConfigParameters() throws IOException {
       /*
-       * lets exchange options
+       * let's exchange options
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
       /*
-       * i can talk binary
+       * i don't talk binary
        */
-      sendIACCommand(IAC.IAC_COMMAND_DO, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
+      sendIACCommand(IAC.IAC_COMMAND_DONT, BinaryIAICCommandHandlerImpl.IAC_CODE_BINARY);
       /*
        * no go-aheads pls
        */
       sendIACCommand(IAC.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
       /*
-       * tell me your status
-       */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_STATUS);
-      /*
        * echo
        */
       sendIACCommand(IAC.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
-       * ask to linemode
+       * i don't line line mode
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_LINEMODE);
+      sendIACCommand(IAC.IAC_COMMAND_DONT, LineModeIAICCommandHandlerImpl.IAC_CODE_LINEMODE);
+      /*
+       * tell me your terminal type
+       */
+      sendIACCommand(IAC.IAC_COMMAND_DO, TermtypeIACCommandHandlerImpl.IAC_CODE_TERMTYPE);
+      /*
+       * EOR
+       */
+      sendIACCommand(IAC.IAC_COMMAND_DONT, EORIAICCommandHandlerImpl.IAC_CODE_EOR);
+      /*
+       * tell me your termspeed type
+       */
+      sendIACCommand(IAC.IAC_COMMAND_DO, TermspeedIACCommandHandlerImpl.IAC_CODE_TERMSPEED);
+      /*
+       * tell me your winsize
+       */
+      sendIACCommand(IAC.IAC_COMMAND_DO, WinsizeIAICCommandHandlerImpl.IAC_CODE_WINSIZE);
       /*
        * i accept environment variables
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
-      /*
-       * tell me your terminal type
-       */
-      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMTYPE);
-      /*
-       * EOR
-       */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EOR);
-      /*
-       * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
-       */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
-      /*
-       * tell me your termspeed type
-       */
-      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TERMSPEED);
-      /*
-       * tell me your winsize
-       */
-      //   sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_WINSIZE);
       /*
        * i am able to receive 3270E information
        */
@@ -144,6 +134,15 @@ public class NVT implements Flushable, Closeable {
        * lets talk about the environment
        */
       //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      /*
+       * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
+      /*
+       * tell me your status
+       */
+      // we can send this but no telnet clients i am testing with will do it....
+      // sendIACCommand(IAC.IAC_COMMAND_DO, StatusIAICCommandHandlerImpl.IAC_CODE_STATUS);
    }
 
    public void sendIACCommand(int command, int option) throws IOException {

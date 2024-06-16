@@ -40,7 +40,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       addIACCommandHandler(new StatusIAICCommandHandlerImpl());
       addIACCommandHandler(new WinsizeIAICCommandHandlerImpl());
       // addIACCommandHandler( new RemoteFlowControlIAICCommandHandlerImpl());
-      // addIACCommandHandler(new LineModeIAICCommandHandlerImpl());
+      addIACCommandHandler(new LineModeIAICCommandHandlerImpl());
       addIACCommandHandler(new AuthenticationIAICCommandHandlerImpl());
       addIACCommandHandler(new BinaryIAICCommandHandlerImpl());
       addIACCommandHandler(new EORIAICCommandHandlerImpl());

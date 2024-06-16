@@ -19,6 +19,7 @@ public class NVTOptions {
    /**
     * eor
     */
+   //  RFC 885 default is false
    private boolean eor = false;
    /**
     * extended ascii
@@ -66,11 +67,17 @@ public class NVTOptions {
     */
    // RFC 858, default is false
    private boolean suppressGoAhead = false;
+   /**
+    * dont like linemode
+    */
+   //  RFC 1184 default is false
+   private boolean lineMode = false;
 
    public void show() {
       System.out.println("NVT Options:");
       System.out.println("EOR: " + eor);
       System.out.println("suppressGoAhead: " + suppressGoAhead);
+      System.out.println("lineMode: " + lineMode);
       System.out.println("clientcanextendedascii: " + clientcanextendedascii);
       System.out.println("clientcancharset: " + clientcancharset);
       System.out.println("binaryMode: " + binaryMode);
