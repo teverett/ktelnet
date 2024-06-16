@@ -79,6 +79,11 @@ public class NVTOptions {
     */
    // RFC 861. default is faliae
    private boolean extendedOptions = false;
+   /**
+    * env vars (client can send env vars)
+    */
+   // RFC 1408 default is false
+   private boolean envvars = false;
 
    public void show(NVTStream nvtStream) throws IOException {
       nvtStream.writeln("EOR: " + eor);
@@ -96,5 +101,6 @@ public class NVTOptions {
       nvtStream.writeln("logout: " + logout);
       nvtStream.writeln("echo: " + nvtStream.isEcho());
       nvtStream.writeln("extendedOptions: " + extendedOptions);
+      nvtStream.writeln("envvars: " + envvars);
    }
 }

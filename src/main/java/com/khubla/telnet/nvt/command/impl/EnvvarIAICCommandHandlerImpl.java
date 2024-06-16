@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
    /**
@@ -37,25 +38,76 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO envvar");
+            // we don't do envvars
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_ENVVAR);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT envvar");
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL envvar");
-            // we don't do envvars
-            nvt.sendIACCommand(IAC.IAC_COMMAND_DONT, IAC_CODE_ENVVAR);
+            nvt.getNvtOptions().setEnvvars(true);
+            nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_ENVVAR, SEND, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT envvar");
+            nvt.getNvtOptions().setEnvvars(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB envvar");
+            final byte[] sn = readSubnegotiation(nvt);
+            switch (sn[0]) {
+               case IS:
+                  final byte[] vars = readBytes(sn, 1, sn.length);
+                  nvt.setEnvironment(parseVarString(vars));
+                  break;
+               default:
+                  logger.info("Invalid ENV code: " + sn[0]);
+            }
             break;
          default:
             logger.info("Received Unknown IAC Command:" + cmd);
             break;
       }
+   }
+
+   private HashMap<String, String> parseVarString(byte[] vars) {
+      final HashMap<String, String> ret = new HashMap<>();
+      String ss = new String(vars);
+      int idx = 0;
+      while (idx < vars.length) {
+         // get the type
+         byte type = vars[idx];
+         // get the name
+         String name = readNullTerminatedString(vars, idx + 1);
+         idx += name.length() + 1;
+         // read the value
+         String value = readValue(vars, idx + 1);
+         idx += value.length() + 1;
+         ret.put(name, value);
+      }
+      return ret;
+   }
+
+   private String readNullTerminatedString(byte[] buffer, int startIdx) {
+      StringBuilder stringBuilder = new StringBuilder();
+      int idx = startIdx;
+      while (buffer[idx] != 0) {
+         stringBuilder.append((char) buffer[idx]);
+         idx = idx + 1;
+      }
+      return stringBuilder.toString();
+   }
+
+   // terminated by a type, or end of data
+   private String readValue(byte[] buffer, int startIdx) {
+      StringBuilder stringBuilder = new StringBuilder();
+      int idx = startIdx;
+      while ((idx < buffer.length) && (buffer[idx] > USERVAR)) {
+         stringBuilder.append((char) buffer[idx]);
+         idx = idx + 1;
+      }
+      return stringBuilder.toString();
    }
 
    @Override

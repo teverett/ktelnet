@@ -28,6 +28,10 @@ public abstract class AbstractIACCommandHandler implements IACCommandHandler {
       return new String(Arrays.copyOfRange(array, idx, len));
    }
 
+   protected byte[] readBytes(byte[] array, int idx, int len) {
+      return Arrays.copyOfRange(array, idx, len);
+   }
+
    protected byte[] readSubnegotiation(NVT nvt) throws IOException {
       final ByteArrayOutputStream baos = new ByteArrayOutputStream();
       boolean cont = true;

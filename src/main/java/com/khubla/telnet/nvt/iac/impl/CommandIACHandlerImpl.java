@@ -45,7 +45,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       addIACCommandHandler(new BinaryIAICCommandHandlerImpl());
       addIACCommandHandler(new EORIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_3270_REGIME, new TN3270RegimeIAICCommandHandlerImpl());
-      // iacCommandHandlers.put(IACHandler.IAC_CODE_ENVVAR, new EnvvarIAICCommandHandlerImpl());
+      addIACCommandHandler(new EnvvarIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_NAOCRD, new NAOCRDIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_NAOHTS, new NAHTSIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_NAOHTD, new NAOHTDIAICCommandHandlerImpl());
@@ -58,7 +58,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       // iacCommandHandlers.put(IACHandler.IAC_CODE_CHARSET, new CharsetIAICCommandHandlerImpl());
       // acCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_ASCII, new ExtendedASCIIIAICCommandHandlerImpl());
       addIACCommandHandler(new NewEnvironIAICCommandHandlerImpl());
-      // addIACCommandHandler(new EncryptIAICCommandHandlerImpl());
+      addIACCommandHandler(new EncryptIAICCommandHandlerImpl());
       addIACCommandHandler(new ExtendedOptionsListIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_LOGOUT, new LogoutIAICCommandHandlerImpl());
    }

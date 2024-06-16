@@ -6,6 +6,7 @@
  */
 package com.khubla.telnet.shell.basic;
 
+import com.khubla.telnet.shell.basic.command.EnvCommand;
 import com.khubla.telnet.shell.basic.command.OptionsCommand;
 import com.khubla.telnet.shell.basic.command.QuitCommand;
 import com.khubla.telnet.shell.command.AbstractTelnetCommandRegistry;
@@ -14,5 +15,6 @@ public class BasicTelnetCommandRegistryImpl extends AbstractTelnetCommandRegistr
    public BasicTelnetCommandRegistryImpl() {
       addCommand(new QuitCommand());
       addCommand(new OptionsCommand());
+      addCommand(new EnvCommand());
    }
 }

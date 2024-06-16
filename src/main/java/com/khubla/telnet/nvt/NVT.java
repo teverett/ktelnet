@@ -15,6 +15,7 @@ import com.khubla.telnet.nvt.stream.IACProcessorImpl;
 import com.khubla.telnet.nvt.stream.NVTStream;
 import com.khubla.telnet.nvt.stream.NVTStreamImpl;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,7 @@ import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class NVT implements Flushable, Closeable {
    /**
@@ -42,6 +44,12 @@ public class NVT implements Flushable, Closeable {
     */
    @Getter
    private final NVTStream nvtStream;
+   /**
+    * environment
+    */
+   @Getter
+   @Setter
+   private HashMap<String, String> environment;
 
    public NVT(Socket socket) throws IOException {
       super();
@@ -116,11 +124,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * i accept environment variables
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_ENVVAR);
-      /*
-       * i am able to receive 3270E information
-       */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
+      sendIACCommand(IAC.IAC_COMMAND_DO, EnvvarIAICCommandHandlerImpl.IAC_CODE_ENVVAR);
       /*
        * i would like to talk about charsets
        */
@@ -133,6 +137,10 @@ public class NVT implements Flushable, Closeable {
        * lets talk about the environment
        */
       //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      /*
+       * i am able to receive 3270E information
+       */
+      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
       /*
        * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
        */
@@ -181,5 +189,13 @@ public class NVT implements Flushable, Closeable {
 
    public String getClientAddress() {
       return socket.getInetAddress().toString();
+   }
+
+   public void showEnv() throws IOException {
+      if (null != environment) {
+         for (String key : environment.keySet()) {
+            nvtStream.writeln(key + " : " + environment.get(key));
+         }
+      }
    }
 }
