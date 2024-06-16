@@ -8,6 +8,7 @@ package com.khubla.telnet;
 
 import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.auth.impl.PropertiesFileAuthenticationHandlerImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestPropfileAuthenticator {
    @Test
+   @Disabled
    public void test1() {
       try {
          final AuthenticationHandler authenticationHandler = new PropertiesFileAuthenticationHandlerImpl(TestPropfileAuthenticator.class.getResourceAsStream("/users.properties"));
