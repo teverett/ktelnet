@@ -59,7 +59,7 @@ public class CommandIACHandlerImpl implements IACHandler {
       // acCommandHandlers.put(IACHandler.IAC_CODE_EXTENDED_ASCII, new ExtendedASCIIIAICCommandHandlerImpl());
       addIACCommandHandler(new NewEnvironIAICCommandHandlerImpl());
       // addIACCommandHandler(new EncryptIAICCommandHandlerImpl());
-      // addIACCommandHandler( new ExtendedOptionsListIAICCommandHandlerImpl());
+      addIACCommandHandler(new ExtendedOptionsListIAICCommandHandlerImpl());
       // iacCommandHandlers.put(IACHandler.IAC_CODE_LOGOUT, new LogoutIAICCommandHandlerImpl());
    }
 

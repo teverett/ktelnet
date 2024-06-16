@@ -80,8 +80,7 @@ public class NVT implements Flushable, Closeable {
       /*
        * let's exchange options
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_EXTENDED_OPTIONS_LIST);
+      sendIACCommand(IAC.IAC_COMMAND_DO, ExtendedOptionsListIAICCommandHandlerImpl.IAC_CODE_EXTENDED_OPTIONS_LIST);
       /*
        * i don't talk binary
        */
