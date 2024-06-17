@@ -73,18 +73,21 @@ public class EnvvarIAICCommandHandlerImpl extends AbstractIACCommandHandler {
 
    private HashMap<String, String> parseVarString(byte[] vars) {
       final HashMap<String, String> ret = new HashMap<>();
-      String ss = new String(vars);
       int idx = 0;
       while (idx < vars.length) {
          // get the type
          byte type = vars[idx];
-         // get the name
-         String name = readNullTerminatedString(vars, idx + 1);
-         idx += name.length() + 1;
-         // read the value
-         String value = readValue(vars, idx + 1);
-         idx += value.length() + 1;
-         ret.put(name, value);
+         if ((type >= VAR) && (type <= USERVAR)) {
+            // get the name
+            String name = readNullTerminatedString(vars, idx + 1);
+            idx += name.length() + 1;
+            // read the value
+            String value = readValue(vars, idx + 1);
+            idx += value.length() + 1;
+            ret.put(name, value);
+         } else {
+            logger.info("Unknown env var tyoe:" + type);
+         }
       }
       return ret;
    }

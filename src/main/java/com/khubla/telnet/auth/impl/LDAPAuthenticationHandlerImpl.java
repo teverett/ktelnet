@@ -60,8 +60,6 @@ public class LDAPAuthenticationHandlerImpl implements AuthenticationHandler {
       searchControls.setReturningAttributes(attrIDs);
       searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
       NamingEnumeration<SearchResult> searchResults = dirContext.search(ldapsearchou, filter, searchControls);
-      String commonName = null;
-      String distinguishedName = null;
       if (searchResults.hasMore()) {
          UserData userData = new UserData();
          SearchResult result = searchResults.next();
