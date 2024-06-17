@@ -9,6 +9,7 @@ package com.khubla.telnet.auth.impl;
 import com.khubla.telnet.auth.AuthenticationHandler;
 import com.khubla.telnet.config.Config;
 import com.khubla.telnet.nvt.NVT;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,17 +29,13 @@ public class LDAPAuthenticationHandlerImpl implements AuthenticationHandler {
    @Override
    public boolean login(String username, String password, HashMap<String, Object> sessionParameters) {
       try {
-         Config config = Config.getInstance();
-         String server = config.getProperty("ldapserver");
-         String binddn = config.getProperty("ldapbinddn");
-         String bindpw = config.getProperty("ldapbindpw");
-         String ldapsearchou = config.getProperty("ldapsearchou");
-         DirContext adminContext = buildContext(server, binddn, bindpw);
-         UserData userData = search(adminContext, ldapsearchou, username);
+         LDAPParameters ldapParameters = new LDAPParameters();
+         DirContext adminContext = buildContext(ldapParameters.server, ldapParameters.binddn, ldapParameters.bindpw);
+         UserData userData = search(adminContext, ldapParameters.ldapsearchou, username);
          try {
             if (null != userData) {
                // authenticate user
-               DirContext userContext = buildContext(server, userData.dn, password);
+               DirContext userContext = buildContext(ldapParameters.server, userData.dn, password);
                if (null != userContext) {
                   userContext.close();
                   return true;
@@ -84,6 +81,22 @@ public class LDAPAuthenticationHandlerImpl implements AuthenticationHandler {
       environment.put(Context.SECURITY_PRINCIPAL, binddn);
       environment.put(Context.SECURITY_CREDENTIALS, bindpw);
       return new InitialDirContext(environment);
+   }
+
+   @Getter
+   public static class LDAPParameters {
+      private final String server;
+      private final String binddn;
+      private final String bindpw;
+      private final String ldapsearchou;
+
+      public LDAPParameters() {
+         Config config = Config.getInstance();
+         server = config.getProperty("ldapserver");
+         binddn = config.getProperty("ldapbinddn");
+         bindpw = config.getProperty("ldapbindpw");
+         ldapsearchou = config.getProperty("ldapsearchou");
+      }
    }
 
    private static class UserData {
