@@ -81,10 +81,6 @@ public class NVTStreamImpl implements NVTStream {
    @Getter
    @Setter
    private boolean ipRequested = false;
-   // for GNU telnet
-   @Getter
-   @Setter
-   private boolean LFisCR = true;
 
    public NVTStreamImpl(InputStream inputStream, OutputStream outputStream, IACProcessor iacProcessor) {
       super();
@@ -178,7 +174,7 @@ public class NVTStreamImpl implements NVTStream {
       boolean cont = true;
       while (cont && !ipRequested) {
          final int b = readByte();
-         if (!LFisCR && (b == KEY_LF)) {
+         if (b == KEY_LF) {
             /*
              * bare LF is a LF
              */
@@ -190,7 +186,7 @@ public class NVTStreamImpl implements NVTStream {
              * ignore
              */
             logger.info("Unexpected NULL");
-         } else if ((b == KEY_CR) || (LFisCR && (b == KEY_LF))) {
+         } else if (b == KEY_CR) {
             /*
              * if it's followed by LF, then it means CRLF. Eat the LF
              */
