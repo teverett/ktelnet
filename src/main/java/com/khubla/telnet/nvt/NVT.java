@@ -99,7 +99,7 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IAC.IAC_COMMAND_DO, SGIACCommandHandlerImpl.IAC_CODE_SUPPRESS_GOAHEAD);
       /*
-       * echo
+       * i can echo
        */
       sendIACCommand(IAC.IAC_COMMAND_WILL, EchoIAICCommandHandlerImpl.IAC_CODE_ECHO);
       /*
@@ -111,11 +111,11 @@ public class NVT implements Flushable, Closeable {
        */
       sendIACCommand(IAC.IAC_COMMAND_DO, TermtypeIACCommandHandlerImpl.IAC_CODE_TERMTYPE);
       /*
-       * EOR
+       * dont send EOR's
        */
       sendIACCommand(IAC.IAC_COMMAND_DONT, EORIAICCommandHandlerImpl.IAC_CODE_EOR);
       /*
-       * tell me your termspeed type
+       * tell me your termspeed
        */
       sendIACCommand(IAC.IAC_COMMAND_DO, TermspeedIACCommandHandlerImpl.IAC_CODE_TERMSPEED);
       /*
@@ -129,23 +129,19 @@ public class NVT implements Flushable, Closeable {
       /*
        * i would like to talk about charsets
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_CHARSET);
+      // sendIACCommand(IAC.IAC_COMMAND_WILL, CharsetIAICCommandHandlerImpl.IAC_CODE_CHARSET);
       /*
        * i like to talk in extended ASCII
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_WILL, IACHandler.IAC_CODE_EXTENDED_ASCII);
-      /*
-       * lets talk about the environment
-       */
-      //    sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_NEW_ENVIRON);
+      //  sendIACCommand(IAC.IAC_COMMAND_WILL, ExtendedASCIIIAICCommandHandlerImpl.IAC_CODE_EXTENDED_ASCII);
       /*
        * i am able to receive 3270E information
        */
       // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_TN3270E);
       /*
-       * query 3270. we must have negotiated termtype, EOR, and and binary before we can ask for 3270 regime
+       * query 3270. we must have negotiated termtype, EOR, and binary before we can ask for 3270 regime
        */
-      // sendIACCommand(IACCommandHandler.IAC_COMMAND_DO, IACHandler.IAC_CODE_3270_REGIME);
+      //  sendIACCommand(IAC.IAC_COMMAND_DO, TN3270RegimeIAICCommandHandlerImpl.IAC_CODE_3270_REGIME);
       /*
        * tell me your status
        */

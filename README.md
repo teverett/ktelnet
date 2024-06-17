@@ -24,6 +24,7 @@ kTelnet is licensed under the BSD terms
 * [Putty](https://www.putty.org/)
 * [TerraTerm](https://teratermproject.github.io/index-en.html)
 * [Mocha Telnet](https://www.mochasoft.dk/)
+* [Windows Telnet](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/telnet)
 
 ## Using kTelnet
 

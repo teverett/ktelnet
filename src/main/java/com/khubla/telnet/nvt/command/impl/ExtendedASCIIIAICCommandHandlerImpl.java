@@ -35,9 +35,11 @@ public class ExtendedASCIIIAICCommandHandlerImpl extends AbstractIACCommandHandl
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL extended ascii");
+            nvt.getNvtOptions().setClientcanextendedascii(true);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT extended ascii");
+            nvt.getNvtOptions().setClientcanextendedascii(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB extended ascii");

@@ -27,17 +27,22 @@ public class MarkIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO mark");
-            nvt.sendIACCommand(IAC.IAC_COMMAND_WILL, IAC_CODE_MARK);
+            // i dont mark
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_MARK);
+            nvt.getNvtOptions().setTimingMark(false);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT mark");
             nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_MARK);
+            nvt.getNvtOptions().setTimingMark(false);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL mark");
+            nvt.getNvtOptions().setTimingMark(true);
             break;
          case IAC.IAC_COMMAND_WONT:
             logger.info("Received IAC WONT mark");
+            nvt.getNvtOptions().setTimingMark(false);
             break;
          case IAC.IAC_COMMAND_SB:
             logger.info("Received IAC SB mark");

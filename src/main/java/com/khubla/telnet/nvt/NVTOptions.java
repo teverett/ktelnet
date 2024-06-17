@@ -84,6 +84,11 @@ public class NVTOptions {
     */
    // RFC 1408 default is false
    private boolean envvars = false;
+   /*
+    * timing mark
+    */
+   // RFC 869.  default is false
+   private boolean timingMark = false;
 
    public void show(NVTStream nvtStream) throws IOException {
       nvtStream.writeln("EOR: " + eor);
@@ -102,5 +107,6 @@ public class NVTOptions {
       nvtStream.writeln("echo: " + nvtStream.isEcho());
       nvtStream.writeln("extendedOptions: " + extendedOptions);
       nvtStream.writeln("envvars: " + envvars);
+      nvtStream.writeln("timingMark: " + timingMark);
    }
 }

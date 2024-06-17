@@ -32,14 +32,15 @@ public class TermtypeIACCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO Termtype");
+            // I dont want to talk about it
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_TERMTYPE);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT Termtype");
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_TERMTYPE);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termtype");
-            // great, we like it
-            nvt.sendIACCommand(IAC.IAC_COMMAND_DO, IAC_CODE_TERMTYPE);
             // request it
             nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_TERMTYPE, SEND, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;

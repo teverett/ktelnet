@@ -32,14 +32,15 @@ public class TermspeedIACCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO Termspeed");
+            // no
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_TERMSPEED);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT Termspeed");
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_TERMSPEED);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL Termspeed");
-            // great, we like it
-            nvt.sendIACCommand(IAC.IAC_COMMAND_DO, IAC_CODE_TERMSPEED);
             // request it
             nvt.getNvtStream().writeBytes(IAC.IAC_IAC, IAC.IAC_COMMAND_SB, IAC_CODE_TERMSPEED, SEND, IAC.IAC_IAC, IAC.IAC_COMMAND_SE);
             break;
