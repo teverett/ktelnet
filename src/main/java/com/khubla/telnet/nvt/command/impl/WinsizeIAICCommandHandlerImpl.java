@@ -32,8 +32,6 @@ public class WinsizeIAICCommandHandlerImpl extends AbstractIACCommandHandler {
             logger.info("Received IAC DONT winsize");
             break;
          case IAC.IAC_COMMAND_WILL:
-            // great, please do send it along
-            nvt.sendIACCommand(IAC.IAC_COMMAND_DO, IAC_CODE_WINSIZE);
             logger.info("Received IAC WILL winsize");
             break;
          case IAC.IAC_COMMAND_WONT:
