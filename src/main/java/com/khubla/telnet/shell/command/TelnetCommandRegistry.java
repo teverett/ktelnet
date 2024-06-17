@@ -8,8 +8,12 @@ package com.khubla.telnet.shell.command;
 
 import com.khubla.telnet.TelnetException;
 
+import java.util.Set;
+
 public interface TelnetCommandRegistry {
    void addCommand(TelnetCommand telnetCommand) throws TelnetException;
 
    TelnetCommand getCommand(String line) throws TelnetException;
+
+   Set<String> commandList();
 }

@@ -6,14 +6,14 @@
  */
 package com.khubla.telnet.shell.basic.command;
 
-import java.util.HashMap;
-
 import com.khubla.telnet.TelnetException;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.shell.command.AbstractCommand;
 
+import java.util.HashMap;
+
 public class QuitCommand extends AbstractCommand {
-   private final static String names[] = { "quit" };
+   private final static String[] names = { "quit" };
 
    @Override
    public boolean execute(NVT nvt, String line, HashMap<String, Object> sessionParameters) throws TelnetException {
@@ -26,5 +26,10 @@ public class QuitCommand extends AbstractCommand {
    @Override
    public String[] getNames() {
       return names;
+   }
+
+   @Override
+   public String getDescription() {
+      return "quit current session";
    }
 }

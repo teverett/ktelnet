@@ -32,4 +32,9 @@ public class OptionsCommand extends AbstractCommand {
    public String[] getNames() {
       return names;
    }
+
+   @Override
+   public String getDescription() {
+      return "show negotiated protocol options";
+   }
 }

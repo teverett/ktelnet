@@ -20,10 +20,10 @@ kTelnet is licensed under the BSD terms
 
 ## Tested with
 
-* GNU Telnet
-* Putty
-* TerraTerm
-* Mocha Telnet
+* [GNU Telnet](https://www.gnu.org/software/inetutils/)
+* [Putty](https://www.putty.org/)
+* [TerraTerm](https://teratermproject.github.io/index-en.html)
+* [Mocha Telnet](https://www.mochasoft.dk/)
 
 ## Using kTelnet
 

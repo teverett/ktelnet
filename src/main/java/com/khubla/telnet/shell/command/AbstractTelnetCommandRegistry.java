@@ -7,6 +7,7 @@
 package com.khubla.telnet.shell.command;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public abstract class AbstractTelnetCommandRegistry implements TelnetCommandRegistry {
    /**
@@ -29,5 +30,9 @@ public abstract class AbstractTelnetCommandRegistry implements TelnetCommandRegi
          return commands.get(parts[0]);
       }
       return null;
+   }
+
+   public Set<String> commandList() {
+      return this.commands.keySet();
    }
 }

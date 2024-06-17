@@ -60,14 +60,25 @@ public abstract class CommandOrientedShellImpl extends AbstractShellImpl {
                /*
                 * get command
                 */
-               final TelnetCommand telnetCommand = telnetCommandRegistry.getCommand(inputLine);
-               if (null != telnetCommand) {
-                  /*
-                   * process
-                   */
-                  go = telnetCommand.execute(getNvt(), inputLine, sesssionParameters);
+               if ((inputLine.equalsIgnoreCase("help")) || (inputLine.equalsIgnoreCase("?"))) {
+                  // help command
+                  for (String commandName : telnetCommandRegistry.commandList()) {
+                     TelnetCommand telnetCommand = telnetCommandRegistry.getCommand(commandName);
+                     for (String n : telnetCommand.getNames()) {
+                        getNvt().getNvtStream().writeln(n + ": " + telnetCommand.getDescription());
+                     }
+                  }
                } else {
-                  getNvt().getNvtStream().writeln("Unknown: " + inputLine);
+                  // other commands
+                  final TelnetCommand telnetCommand = telnetCommandRegistry.getCommand(inputLine);
+                  if (null != telnetCommand) {
+                     /*
+                      * process
+                      */
+                     go = telnetCommand.execute(getNvt(), inputLine, sesssionParameters);
+                  } else {
+                     getNvt().getNvtStream().writeln("Unknown: " + inputLine);
+                  }
                }
             }
          }

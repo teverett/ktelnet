@@ -32,4 +32,9 @@ public class EnvCommand extends AbstractCommand {
    public String[] getNames() {
       return names;
    }
+
+   @Override
+   public String getDescription() {
+      return "show current environment variables";
+   }
 }
