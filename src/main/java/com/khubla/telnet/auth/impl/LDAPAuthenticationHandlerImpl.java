@@ -32,8 +32,9 @@ public class LDAPAuthenticationHandlerImpl implements AuthenticationHandler {
          String server = config.getProperty("ldapserver");
          String binddn = config.getProperty("ldapbinddn");
          String bindpw = config.getProperty("ldapbindpw");
+         String ldapsearchou = config.getProperty("ldapsearchou");
          DirContext adminContext = buildContext(server, binddn, bindpw);
-         UserData userData = search(adminContext, username);
+         UserData userData = search(adminContext, ldapsearchou, username);
          try {
             if (null != userData) {
                // authenticate user
@@ -55,13 +56,13 @@ public class LDAPAuthenticationHandlerImpl implements AuthenticationHandler {
       }
    }
 
-   private UserData search(DirContext dirContext, String username) throws NamingException {
+   private UserData search(DirContext dirContext, String ldapsearchou, String username) throws NamingException {
       String filter = "(&(objectClass=person)(uid=" + username + "))";
       String[] attrIDs = { "cn" };
       SearchControls searchControls = new SearchControls();
       searchControls.setReturningAttributes(attrIDs);
       searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-      NamingEnumeration<SearchResult> searchResults = dirContext.search("dc=khubla,dc=com", filter, searchControls);
+      NamingEnumeration<SearchResult> searchResults = dirContext.search(ldapsearchou, filter, searchControls);
       String commonName = null;
       String distinguishedName = null;
       if (searchResults.hasMore()) {
