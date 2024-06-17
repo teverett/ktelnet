@@ -6,7 +6,6 @@
  */
 package com.khubla.telnet.nvt.command.impl;
 
-import com.khubla.telnet.nvt.command.IACCommandHandler;
 import com.khubla.telnet.nvt.NVT;
 import com.khubla.telnet.nvt.command.AbstractIACCommandHandler;
 import com.khubla.telnet.nvt.stream.IAC;
@@ -33,9 +32,13 @@ public class LogoutIAICCommandHandlerImpl extends AbstractIACCommandHandler {
       switch (cmd) {
          case IAC.IAC_COMMAND_DO:
             logger.info("Received IAC DO logout");
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WILL, IAC_CODE_LOGOUT);
+            nvt.getNvtOptions().setLogout(true);
             break;
          case IAC.IAC_COMMAND_DONT:
             logger.info("Received IAC DONT logout");
+            nvt.sendIACCommand(IAC.IAC_COMMAND_WONT, IAC_CODE_LOGOUT);
+            nvt.getNvtOptions().setLogout(false);
             break;
          case IAC.IAC_COMMAND_WILL:
             logger.info("Received IAC WILL logout");

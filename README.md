@@ -18,6 +18,13 @@ kTelnet is licensed under the BSD terms
 <version></version>
 ```
 
+## Tested with
+
+* GNU Telnet
+* Putty
+* TerraTerm
+* Mocha Telnet
+
 ## Using kTelnet
 
 A simple example using the default Telnet implementation:
