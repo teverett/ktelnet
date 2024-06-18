@@ -13,20 +13,14 @@ public class TerminalTypeRegistry {
     * singleton
     */
    private static TerminalTypeRegistry instance = null;
-
-   public static TerminalTypeRegistry getInstance() {
-      if (null == instance) {
-         instance = new TerminalTypeRegistry();
-      }
-      return instance;
-   }
-
    /**
     * device types
     */
    private final HashMap<String, TerminalType> deviceTypes = new HashMap<String, TerminalType>();
 
    private TerminalTypeRegistry() {
+      add(new TerminalType("vt52", null));
+      add(new TerminalType("ANSI", null));
       add(new TerminalType("vt100", null));
       add(new TerminalType("vt102", null));
       add(new TerminalType("vt220", null));
@@ -34,6 +28,13 @@ public class TerminalTypeRegistry {
       add(new TerminalType("vt420", null));
       add(new TerminalType("vt520", null));
       add(new TerminalType("xterm", null));
+   }
+
+   public static TerminalTypeRegistry getInstance() {
+      if (null == instance) {
+         instance = new TerminalTypeRegistry();
+      }
+      return instance;
    }
 
    private void add(TerminalType deviceType) {
