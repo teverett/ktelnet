@@ -40,7 +40,7 @@
         <junit.version>5.10.2</junit.version>
         <log4j.version>2.23.1</log4j.version>
         <target.jvm>21</target.jvm>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.34</lombok.version>
         <commons-net.version>3.11.1</commons-net.version>
         <required-maven-version>3.3.1</required-maven-version>
     </properties>
