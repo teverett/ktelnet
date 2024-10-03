@@ -37,7 +37,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-cli.version>1.8.0</commons-cli.version>
-        <junit.version>5.10.3</junit.version>
+        <junit.version>5.11.0</junit.version>
         <log4j.version>2.23.1</log4j.version>
         <target.jvm>21</target.jvm>
         <lombok.version>1.18.34</lombok.version>
