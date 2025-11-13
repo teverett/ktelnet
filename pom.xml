@@ -36,7 +36,7 @@
     </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <commons-cli.version>1.10.0</commons-cli.version>
+        <commons-cli.version>1.11.0</commons-cli.version>
         <junit.version>5.11.4</junit.version>
         <log4j.version>2.25.1</log4j.version>
         <target.jvm>21</target.jvm>
