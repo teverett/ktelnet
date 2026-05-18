@@ -93,6 +93,13 @@
                 <configuration>
                     <source>${target.jvm}</source>
                     <target>${target.jvm}</target>
+                    <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
